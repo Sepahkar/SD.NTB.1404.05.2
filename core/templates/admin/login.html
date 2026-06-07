@@ -1,0 +1,121 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block title %}{% if form.errors %}{% translate "Error:" %} {% endif %}ورود | {{ site_title|default:"آموزشیار" }}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="{% static 'amoozeshyar/admin-login.css' %}">
+{{ form.media }}
+{% endblock %}
+
+{% block bodyclass %}{{ block.super }} login ay-login-page{% endblock %}
+{% block usertools %}{% endblock %}
+{% block nav-breadcrumbs %}{% endblock %}
+{% block nav-sidebar %}{% endblock %}
+{% block content_title %}{% endblock %}
+{% block messages %}{% endblock %}
+
+{% block header %}
+<header class="ay-login-topbar">
+  <button type="button" class="ay-theme-toggle" data-ay-theme-toggle>
+    <span class="ay-theme-toggle__icon" aria-hidden="true">☀</span>
+    <span class="ay-theme-toggle__text">تم روشن</span>
+  </button>
+</header>
+{% endblock %}
+
+{% block content %}
+<div class="ay-login-shell">
+  <div class="ay-login-bg" aria-hidden="true">
+    <span class="ay-login-orb ay-login-orb--1"></span>
+    <span class="ay-login-orb ay-login-orb--2"></span>
+    <span class="ay-login-orb ay-login-orb--3"></span>
+  </div>
+
+  <div class="ay-login-grid">
+    <aside class="ay-login-brand">
+      <div class="ay-login-brand__icon" aria-hidden="true"></div>
+      <h1 class="ay-login-brand__title">{{ site_header|default:"پنل مدیریت آموزشیار" }}</h1>
+      <p class="ay-login-brand__tagline">مدیریت یکپارچهٔ داده‌ها، دروس، کلاس‌ها و کاربران</p>
+      <ul class="ay-login-features">
+        <li>تم دارک و روشن</li>
+        <li>رابط فارسی و RTL</li>
+        <li>دسترسی امن با حساب کاربری</li>
+      </ul>
+    </aside>
+
+    <section class="ay-login-card" id="content-main">
+      <div class="ay-login-card__head">
+        <h2>ورود به پنل</h2>
+        <p>نام کاربری و گذرواژهٔ خود را وارد کنید</p>
+      </div>
+
+      {% if form.errors and not form.non_field_errors %}
+      <div class="ay-login-alert ay-login-alert--error" role="alert">
+        {% if form.errors.items|length == 1 %}
+          لطفاً خطای زیر را اصلاح کنید.
+        {% else %}
+          لطفاً خطاهای زیر را اصلاح کنید.
+        {% endif %}
+      </div>
+      {% endif %}
+
+      {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+        <div class="ay-login-alert ay-login-alert--error" role="alert">{{ error }}</div>
+        {% endfor %}
+      {% endif %}
+
+      {% if user.is_authenticated %}
+      <div class="ay-login-alert ay-login-alert--warn" role="alert">
+        {% blocktranslate trimmed %}
+        You are authenticated as {{ username }}, but are not authorized to access this page. Would you like to login to a different account?
+        {% endblocktranslate %}
+      </div>
+      {% endif %}
+
+      <form action="{{ app_path }}" method="post" id="login-form" class="ay-login-form">
+        {% csrf_token %}
+
+        <div class="ay-login-field{% if form.username.errors %} ay-login-field--error{% endif %}">
+          <label for="{{ form.username.id_for_label }}">نام کاربری</label>
+          <div class="ay-login-input-wrap">
+            <span class="ay-login-input-icon" aria-hidden="true">👤</span>
+            {{ form.username }}
+          </div>
+          {% if form.username.errors %}
+            {% for error in form.username.errors %}
+            <span class="ay-login-field-error">{{ error }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <div class="ay-login-field{% if form.password.errors %} ay-login-field--error{% endif %}">
+          <label for="{{ form.password.id_for_label }}">گذرواژه</label>
+          <div class="ay-login-input-wrap">
+            <span class="ay-login-input-icon" aria-hidden="true">🔒</span>
+            {{ form.password }}
+          </div>
+          {% if form.password.errors %}
+            {% for error in form.password.errors %}
+            <span class="ay-login-field-error">{{ error }}</span>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <input type="hidden" name="next" value="{{ next }}">
+
+        <button type="submit" class="ay-login-submit">
+          <span>ورود به پنل</span>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </form>
+
+      <p class="ay-login-foot">سیستم مدیریت آموزشیار · نسخه توسعه</p>
+    </section>
+  </div>
+</div>
+{% endblock %}

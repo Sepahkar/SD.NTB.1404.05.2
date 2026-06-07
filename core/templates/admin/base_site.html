@@ -1,0 +1,22 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block extrastyle %}
+{{ block.super }}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+<link rel="stylesheet" href="{% static 'amoozeshyar/admin.css' %}">
+{% endblock %}
+
+{% block branding %}
+<div id="site-name">
+  <a href="{% url 'admin:index' %}">{{ site_header|default:_('Django administration') }}</a>
+</div>
+{% endblock %}
+
+{% block nav-global %}
+<button type="button" class="ay-theme-toggle" data-ay-theme-toggle>
+  <span class="ay-theme-toggle__icon" aria-hidden="true">☀</span>
+  <span class="ay-theme-toggle__text">تم روشن</span>
+</button>
+<a href="{% url 'setup-theme-guide' %}" class="ay-doc-link">راهنمای نصب و تم</a>
+{% endblock %}

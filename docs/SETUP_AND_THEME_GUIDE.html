@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>راه‌اندازی لوکال و راهنمای تم پنل ادمین — آموزشیار</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+  <style>
+    :root {
+      --bg: #060a10;
+      --card: #121a27;
+      --text: #e7ecf3;
+      --muted: #94a3b8;
+      --accent: #2dd4bf;
+      --accent2: #38bdf8;
+      --border: rgba(148, 163, 184, 0.18);
+      --code: #0c111b;
+      --warn: #fbbf24;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Vazirmatn", "Segoe UI", Tahoma, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.85;
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+    }
+    .wrap { max-width: 980px; margin: 0 auto; }
+    h1 { font-size: 1.95rem; color: var(--accent); margin-top: 0; }
+    h2 { color: var(--accent); margin-top: 2.4rem; border-bottom: 1px solid var(--border); padding-bottom: 0.35rem; }
+    h3 { color: #6ee7b7; margin-top: 1.4rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.2rem 1.4rem;
+      margin: 1rem 0;
+      overflow: hidden;
+    }
+    pre, code {
+      font-family: Consolas, "Cascadia Code", monospace;
+      direction: ltr;
+      text-align: left;
+    }
+    pre {
+      background: var(--code);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem;
+      overflow-x: auto;
+      font-size: 0.86rem;
+    }
+    code {
+      background: var(--code);
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      color: #99f6e4;
+      font-size: 0.88em;
+    }
+    a { color: #67e8f9; }
+    table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.92rem; border-radius: 12px; overflow: hidden; border: 1px solid var(--border); }
+    th, td { border-bottom: 1px solid var(--border); padding: 0.65rem 0.8rem; text-align: right; }
+    th { background: var(--code); color: var(--accent); }
+    tr:last-child td { border-bottom: none; }
+    .note { border-right: 4px solid var(--accent2); padding: 0.75rem 1rem; background: rgba(56,189,248,0.08); border-radius: 0 10px 10px 0; margin: 1rem 0; }
+    .warn { border-right: 4px solid var(--warn); padding: 0.75rem 1rem; background: rgba(251,191,36,0.08); border-radius: 0 10px 10px 0; margin: 1rem 0; }
+    .path { direction: ltr; display: inline-block; color: #fcd34d; background: var(--code); padding: 2px 8px; border-radius: 6px; font-size: 0.85rem; }
+    ul { padding-right: 1.4rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>راه‌اندازی لوکال و راهنمای تم پنل ادمین</h1>
+    <p style="color: var(--muted);">پروژه AmoozeshyarV03 · Django 6 · اپ core · تم دارک/روشن</p>
+
+    <div class="note">
+      <strong>آدرس این سند:</strong>
+      <a href="http://127.0.0.1:8000/docs/setup-theme/">http://127.0.0.1:8000/docs/setup-theme/</a>
+      — فایل: <span class="path">docs/SETUP_AND_THEME_GUIDE.html</span>
+    </div>
+
+    <nav class="card">
+      <strong>فهرست</strong>
+      <ol>
+        <li><a href="#install">نصب و راه‌اندازی لوکال</a></li>
+        <li><a href="#run">اجرای پروژه</a></li>
+        <li><a href="#theme-files">فایل‌های تم</a></li>
+        <li><a href="#customize">تغییر ظاهر (رنگ، گوشه، دکمه تم)</a></li>
+        <li><a href="#border-fix">رفع border تیز پشت radius</a></li>
+        <li><a href="#checklist">چک‌لیست بعد از تغییر</a></li>
+        <li><a href="#trouble">عیب‌یابی</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="install">۱. نصب و راه‌اندازی لوکال</h2>
+
+    <h3>پیش‌نیاز</h3>
+    <ul>
+      <li>Python 3.11 یا بالاتر</li>
+      <li>ترمینال PowerShell یا CMD</li>
+    </ul>
+
+    <h3>گام ۱ — رفتن به پوشه پروژه</h3>
+    <pre>cd C:\AmoozeshyarV03</pre>
+
+    <h3>گام ۲ — محیط مجازی</h3>
+    <pre>python -m venv .venv
+.\.venv\Scripts\Activate.ps1</pre>
+    <p>اگر PowerShell اجازه نداد (یک‌بار):</p>
+    <pre>Set-ExecutionPolicy -Scope CurrentUser RemoteSigned</pre>
+
+    <h3>گام ۳ — نصب وابستگی‌ها</h3>
+    <pre>pip install -r requirements.txt</pre>
+
+    <h3>گام ۴ — دیتابیس</h3>
+    <pre>python manage.py makemigrations core
+python manage.py migrate</pre>
+
+    <h3>گام ۵ — کاربر ادمین</h3>
+    <pre>python manage.py createsuperuser</pre>
+
+    <h2 id="run">۲. اجرای پروژه</h2>
+    <pre>python manage.py runserver</pre>
+    <table>
+      <thead><tr><th>آدرس</th><th>کاربرد</th></tr></thead>
+      <tbody>
+        <tr><td><a href="http://127.0.0.1:8000/admin/">/admin/</a></td><td>پنل مدیریت با تم سفارشی</td></tr>
+        <tr><td><a href="http://127.0.0.1:8000/docs/setup-theme/">/docs/setup-theme/</a></td><td>همین راهنما</td></tr>
+        <tr><td><a href="http://127.0.0.1:8000/docs/">/docs/</a></td><td>راهنمای قبلی پروژه</td></tr>
+      </tbody>
+    </table>
+
+    <div class="warn">
+      در <span class="path">config/settings.py</span> اپ <code>core</code> باید
+      <strong>قبل از</strong> <code>django.contrib.admin</code> در
+      <code>INSTALLED_APPS</code> باشد؛ وگرنه تم اعمال نمی‌شود.
+    </div>
+
+    <h2 id="theme-files">۳. فایل‌های تم — کجا چیست؟</h2>
+    <pre>AmoozeshyarV03/
+├── config/
+│   ├── settings.py          ← core قبل از admin
+│   └── urls.py              ← عنوان فارسی پنل
+├── core/
+│   ├── static/amoozeshyar/
+│   │   ├── admin.css          ← ★ استایل اصلی
+│   │   ├── admin-login.css    ← ★ صفحه ورود
+│   │   └── admin-theme.js     ← ★ سوییچ تم روشن/تیره
+│   └── templates/admin/
+│       ├── base.html          ← لود JS تم در head
+│       ├── base_site.html     ← CSS + دکمه تم + راهنما
+│       ├── index.html         ← داشبورد
+│       └── login.html         ← ورود + دکمه تم
+└── docs/
+    └── SETUP_AND_THEME_GUIDE.html</pre>
+
+    <table>
+      <thead><tr><th>فایل</th><th>تغییر چه چیزی</th></tr></thead>
+      <tbody>
+        <tr><td><code>admin.css</code></td><td>رنگ، فونت، کارت‌ها، جدول، دکمه‌ها، تم تیره/روشن</td></tr>
+        <tr><td><code>admin-theme.js</code></td><td>ذخیره تم در localStorage، دکمه «تم روشن/تیره»</td></tr>
+        <tr><td><code>base_site.html</code></td><td>لینک CSS و دکمه در هدر</td></tr>
+        <tr><td><code>urls.py</code></td><td>متن «پنل مدیریت آموزشیار» در هدر</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="customize">۴. تغییر ظاهر</h2>
+
+    <h3>۴.۱ — رنگ تم تیره</h3>
+    <p>فایل <span class="path">core/static/amoozeshyar/admin.css</span> → بلوک <code>html[data-theme="dark"]</code></p>
+    <pre>html[data-theme="dark"] {
+  --ay-primary: #5eead4;
+  --ay-bg: #05080f;
+  --ay-surface: #101827;
+  /* ... */
+}</pre>
+
+    <h3>۴.۲ — رنگ تم روشن</h3>
+    <p>همان فایل → بلوک <code>html[data-theme="light"]</code></p>
+
+    <h3>۴.۳ — گوشه‌های گردتر</h3>
+    <pre>:root {
+  --ay-r-sm: 10px;
+  --ay-r: 14px;
+  --ay-r-lg: 18px;
+  --ay-r-xl: 24px;
+}</pre>
+
+    <h3>۴.۴ — تم پیش‌فرض</h3>
+    <p><span class="path">admin-theme.js</span> → خط <code>const DEFAULT = 'dark';</code> را به <code>'light'</code> تغییر دهید.</p>
+
+    <h3>۴.۵ — متن دکمه تم و هدر</h3>
+    <ul>
+      <li>دکمه: <span class="path">base_site.html</span> و <span class="path">login.html</span></li>
+      <li>برچسب دکمه در JS: <code>admin-theme.js</code> تابع <code>applyTheme</code></li>
+      <li>عنوان سایت: <span class="path">config/urls.py</span> → <code>admin.site.site_header</code></li>
+      <li>پیام خوش‌آمد: <span class="path">templates/admin/index.html</span></li>
+    </ul>
+
+    <h3>۴.۶ — افزودن مدل جدید در ادمین</h3>
+    <p>فقط در <span class="path">core/admin.py</span> ثبت کنید؛ ظاهر خودکار از CSS مشترک می‌آید. نیازی به CSS جدا per-model نیست.</p>
+
+    <h2 id="border-fix">۵. رفع border تیز پشت گوشه گرد</h2>
+    <p>
+      مشکل از <strong>دو لایه border</strong> است: کادر بیرونی گرد + کادر مربع داخلی Django.
+      در <code>admin.css</code> این‌طور حل شده:
+    </p>
+    <ul>
+      <li>کارت‌ها به‌جای <code>border</code> از <code>box-shadow: 0 0 0 1px ...</code> استفاده می‌کنند (دنبال‌کنندهٔ radius)</li>
+      <li>داخل <code>#changelist</code> و <code>fieldset</code> borderهای اضافی حذف شده‌اند</li>
+      <li>بخش پایانی فایل: <strong>«رفع border مربع داخل عناصر گرد»</strong></li>
+    </ul>
+    <p>اگر جایی هنوز تیز بود، در همان بخش پایانی CSS سلکتور همان المنت را اضافه کنید:</p>
+    <pre>/* مثال */
+.my-problem-box {
+  border: none !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}</pre>
+
+    <h2 id="checklist">۶. چک‌لیست بعد از تغییر CSS/JS</h2>
+    <ol>
+      <li>ذخیره فایل</li>
+      <li>ری‌استارت <code>runserver</code></li>
+      <li>رفرش سخت مرورگر: <strong>Ctrl+F5</strong></li>
+      <li>در صورت تم قدیمی: پاک کردن <code>ay-admin-theme</code> از Local Storage</li>
+    </ol>
+
+    <h2 id="trouble">۷. عیب‌یابی</h2>
+    <table>
+      <thead><tr><th>مشکل</th><th>راه‌حل</th></tr></thead>
+      <tbody>
+        <tr><td>تم اعمال نمی‌شود</td><td><code>core</code> قبل از <code>admin</code> در INSTALLED_APPS</td></tr>
+        <tr><td>CSS لود نمی‌شود</td><td>باز کردن <code>/static/amoozeshyar/admin.css</code> در مرورگر</td></tr>
+        <tr><td>گوشه تیز</td><td>بخش «رفع border مربع» در انتهای admin.css</td></tr>
+        <tr><td>دکمه تم کار نمی‌کند</td><td>وجود <code>data-ay-theme-toggle</code> و لود admin-theme.js در base.html</td></tr>
+        <tr><td>ModuleNotFoundError: django</td><td>فعال کردن venv و <code>pip install -r requirements.txt</code></td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 2rem; color: var(--muted); font-size: 0.9rem;">
+      آخرین به‌روزرسانی: راه‌اندازی لوکال + تم ادمین آموزشیار
+    </p>
+  </div>
+</body>
+</html>

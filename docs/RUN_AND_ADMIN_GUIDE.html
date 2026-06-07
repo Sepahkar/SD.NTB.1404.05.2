@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>راهنمای اجرای پروژه آموزشیار و پنل ادمین</title>
+  <style>
+    :root {
+      --bg: #0f1419;
+      --card: #1a2332;
+      --text: #e7ecf3;
+      --muted: #9aa8bc;
+      --accent: #3b82f6;
+      --accent2: #22c55e;
+      --border: #2d3a4f;
+      --code-bg: #0d1117;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: "Segoe UI", Tahoma, "Vazirmatn", sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.75;
+      margin: 0;
+      padding: 2rem 1rem 4rem;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; }
+    h1 {
+      font-size: 1.85rem;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.5rem;
+      margin-top: 0;
+    }
+    h2 {
+      color: var(--accent);
+      margin-top: 2.5rem;
+      font-size: 1.35rem;
+    }
+    h3 { color: var(--accent2); font-size: 1.1rem; margin-top: 1.5rem; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin: 1rem 0;
+    }
+    pre, code {
+      font-family: Consolas, "Cascadia Code", monospace;
+      direction: ltr;
+      text-align: left;
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+      overflow-x: auto;
+      font-size: 0.9rem;
+      margin: 0.75rem 0;
+    }
+    code { background: var(--code-bg); padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.88em; }
+    a { color: #60a5fa; }
+    ul, ol { padding-right: 1.5rem; }
+    li { margin: 0.35rem 0; }
+    .note {
+      border-right: 4px solid var(--accent);
+      padding: 0.75rem 1rem;
+      background: rgba(59, 130, 246, 0.08);
+      border-radius: 0 8px 8px 0;
+      margin: 1rem 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      font-size: 0.95rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 0.6rem 0.75rem;
+      text-align: right;
+    }
+    th { background: var(--code-bg); color: var(--accent); }
+    .toc a { text-decoration: none; }
+    .toc a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>راهنمای اجرای پروژه آموزشیار</h1>
+    <p class="muted" style="color: var(--muted);">
+      Django 6 · اپلیکیشن <code>core</code> · دیتابیس SQLite · پنل ادمین برای جدول <strong>مقادیر ثابت (ConstValue)</strong>
+    </p>
+
+    <nav class="card toc">
+      <strong>فهرست</strong>
+      <ol>
+        <li><a href="#structure">ساختار پروژه</a></li>
+        <li><a href="#run">اجرای پروژه (گام‌به‌گام)</a></li>
+        <li><a href="#const-admin">پنل ادمین ConstValue</a></li>
+        <li><a href="#new-admin">ساخت پنل ادمین برای جداول دیگر</a></li>
+        <li><a href="#tips">نکات و عیب‌یابی</a></li>
+      </ol>
+    </nav>
+
+    <h2 id="structure">۱. ساختار پروژه</h2>
+    <div class="card">
+      <pre>amoozeshyar/
+├── config/           # تنظیمات Django (settings, urls)
+├── core/             # مدل‌ها، migrations، admin
+│   ├── models.py     # تمام جداول دیتابیس
+│   ├── admin.py      # ثبت پنل ادمین (فعلاً ConstValue)
+│   └── migrations/
+├── docs/             # این راهنما
+├── manage.py
+├── db.sqlite3        # بعد از migrate ساخته می‌شود
+└── venv/             # محیط مجازی پایتون</pre>
+    </div>
+
+    <h2 id="run">۲. اجرای پروژه (گام‌به‌گام)</h2>
+
+    <h3>پیش‌نیاز</h3>
+    <ul>
+      <li>Python 3.11 یا بالاتر</li>
+      <li>محیط مجازی <code>venv</code> (از قبل در پروژه وجود دارد)</li>
+    </ul>
+
+    <h3>فعال‌سازی محیط مجازی</h3>
+    <p><strong>ویندوز (PowerShell):</strong></p>
+    <pre>cd c:\amoozeshyar
+.\venv\Scripts\Activate.ps1</pre>
+    <p><strong>ویندوز (CMD):</strong></p>
+    <pre>cd c:\amoozeshyar
+venv\Scripts\activate.bat</pre>
+    <p><strong>لینوکس / macOS:</strong></p>
+    <pre>cd /path/to/amoozeshyar
+source venv/bin/activate</pre>
+
+    <h3>نصب وابستگی‌ها (در صورت نیاز)</h3>
+    <pre>pip install django</pre>
+
+    <h3>ساخت دیتابیس</h3>
+    <p>مدل‌ها در اپ <code>core</code> تعریف شده‌اند. برای ایجاد جداول:</p>
+    <pre>python manage.py makemigrations core
+python manage.py migrate</pre>
+    <p>فایل <code>db.sqlite3</code> در ریشه پروژه ایجاد می‌شود.</p>
+
+    <h3>ساخت کاربر ادمین</h3>
+    <pre>python manage.py createsuperuser</pre>
+    <p>نام کاربری، ایمیل و رمز عبور را وارد کنید.</p>
+
+    <h3>اجرای سرور توسعه</h3>
+    <pre>python manage.py runserver</pre>
+    <table>
+      <thead>
+        <tr><th>آدرس</th><th>توضیح</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="http://127.0.0.1:8000/admin/">http://127.0.0.1:8000/admin/</a></td><td>پنل مدیریت Django</td></tr>
+        <tr><td><a href="http://127.0.0.1:8000/docs/">http://127.0.0.1:8000/docs/</a></td><td>همین راهنما (در مرورگر)</td></tr>
+      </tbody>
+    </table>
+
+    <div class="note">
+      <strong>تغییر مدل‌ها:</strong> هر بار که <code>core/models.py</code> را ویرایش کردید، دوباره
+      <code>makemigrations</code> و <code>migrate</code> را اجرا کنید.
+    </div>
+
+    <h2 id="const-admin">۳. پنل ادمین ConstValue (مقادیر ثابت)</h2>
+    <p>جدول <code>const_values</code> در مدل <code>ConstValue</code> تعریف شده و در
+      <code>core/admin.py</code> با امکانات زیر ثبت شده است:</p>
+
+    <table>
+      <thead>
+        <tr><th>قابلیت</th><th>شرح</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>جستجو</td><td>عنوان، کد، نام، مقدار، عنوان مقدار ثابت، والد و فرزندان؛ جستجوی عددی با شناسه (id)</td></tr>
+        <tr><td>فیلتر وضعیت</td><td>فعال / غیرفعال</td></tr>
+        <tr><td>فیلتر سلسله‌مراتب</td><td>ریشه، زیرمجموعه، دارای فرزند، برگ</td></tr>
+        <tr><td>فیلتر والد</td><td>لیست والدهایی که فرزند دارند</td></tr>
+        <tr><td>فیلتر فیلدهای خالی</td><td>نام، مقدار، عنوان و …</td></tr>
+        <tr><td>نمایش لیست</td><td>سلسله‌مراتب بصری، لینک والد، تعداد فرزندان</td></tr>
+        <tr><td>عملیات گروهی</td><td>فعال‌سازی / غیرفعال‌سازی دسته‌ای</td></tr>
+        <tr><td>فرم</td><td>گروه‌بندی فیلدها + autocomplete برای انتخاب والد</td></tr>
+      </tbody>
+    </table>
+
+    <p>مسیر در ادمین: <strong>Core → مقادیر ثابت</strong></p>
+
+    <h2 id="new-admin">۴. ساخت پنل ادمین برای جداول دیگر</h2>
+    <p>برای هر مدل در <code>core/models.py</code> می‌توانید همان الگوی ConstValue را تکرار کنید.</p>
+
+    <h3>گام ۱ — import مدل</h3>
+    <p>در <code>core/admin.py</code>:</p>
+    <pre>from .models import ConstValue, Person, Student  # مدل‌های مورد نیاز</pre>
+
+    <h3>گام ۲ — ثبت ساده (حداقل)</h3>
+    <pre>@admin.register(Person)
+class PersonAdmin(admin.ModelAdmin):
+    list_display = ("id", "username", "national_code", "full_name", "is_active")
+    list_filter = ("is_active", "gender", "is_foreign")
+    search_fields = ("username", "national_code", "first_name", "last_name", "full_name")
+    list_per_page = 50</pre>
+
+    <h3>گام ۳ — فیلتر سفارشی (اختیاری)</h3>
+    <p>برای شرط‌های خاص (مثل ConstValue) از <code>admin.SimpleListFilter</code> استفاده کنید:</p>
+    <pre>class ActiveStudentsFilter(admin.SimpleListFilter):
+    title = "وضعیت"
+    parameter_name = "active"
+
+    def lookups(self, request, model_admin):
+        return [("yes", "فعال"), ("no", "غیرفعال")]
+
+    def queryset(self, request, queryset):
+        if self.value() == "yes":
+            return queryset.filter(is_active=True)
+        if self.value() == "no":
+            return queryset.filter(is_active=False)
+        return queryset</pre>
+
+    <h3>گام ۴ — روابط ForeignKey</h3>
+    <ul>
+      <li><code>autocomplete_fields = ("parent", "person")</code> — انتخاب سریع با جستجو</li>
+      <li><code>raw_id_fields = ("person",)</code> — پنجره انتخاب با id</li>
+      <li><code>list_select_related = ("person",)</code> — کاهش کوئری در لیست</li>
+      <li><code>list_filter = ("person", admin.RelatedOnlyFieldListFilter)</code> — فقط مقادیر مرتبط</li>
+    </ul>
+
+    <h3>گام ۵ — اینلاین برای جداول وابسته</h3>
+    <p>مثلاً شماره تلفن زیر Person:</p>
+    <pre>class PhoneNumberInline(admin.TabularInline):
+    model = PhoneNumber
+    extra = 1
+
+@admin.register(Person)
+class PersonAdmin(admin.ModelAdmin):
+    inlines = [PhoneNumberInline]</pre>
+
+    <h3>گام ۶ — ستون محاسباتی در لیست</h3>
+    <pre>@admin.display(description="نام نمایشی")
+def display_name(self, obj):
+    return obj.full_name or obj.username</pre>
+
+    <h3>چک‌لیست برای هر مدل جدید</h3>
+    <ol>
+      <li>مدل در <code>core/models.py</code> با <code>verbose_name</code> فارسی</li>
+      <li>کلاس <code>ModelAdmin</code> در <code>core/admin.py</code></li>
+      <li><code>list_display</code> — ستون‌های مهم</li>
+      <li><code>search_fields</code> — فیلدهای متنی قابل جستجو</li>
+      <li><code>list_filter</code> — بولین، choice، تاریخ، FK</li>
+      <li>در صورت FK زیاد: <code>autocomplete_fields</code> + <code>search_fields</code> روی مدل والد</li>
+      <li>اجرای <code>migrate</code> در صورت تغییر مدل</li>
+      <li>تست در <code>/admin/</code></li>
+    </ol>
+
+    <h3>نمونه ثبت چند مدل</h3>
+    <pre>from django.contrib import admin
+from .models import ConstValue, Person, Student
+
+# ConstValue قبلاً ثبت شده
+
+@admin.register(Person)
+class PersonAdmin(admin.ModelAdmin):
+    search_fields = ("username", "national_code", "first_name", "last_name")
+    list_filter = ("is_active", "gender")
+    list_display = ("username", "national_code", "full_name", "is_active")
+
+@admin.register(Student)
+class StudentAdmin(admin.ModelAdmin):
+    autocomplete_fields = ("person", "tendency", "advisor_teacher")
+    search_fields = ("person__username", "student_number")
+    list_display = ("id", "person", "student_number", "is_active")</pre>
+
+    <div class="note">
+      برای <code>autocomplete_fields</code> روی مدل والد (مثلاً Person) حتماً
+      <code>search_fields</code> در PersonAdmin تعریف کنید؛ در غیر این صورت autocomplete کار نمی‌کند.
+    </div>
+
+    <h2 id="tips">۵. نکات و عیب‌یابی</h2>
+    <table>
+      <thead>
+        <tr><th>مشکل</th><th>راه‌حل</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><code>No module named 'core'</code></td><td><code>core</code> باید در <code>INSTALLED_APPS</code> داخل <code>config/settings.py</code> باشد</td></tr>
+        <tr><td>جدول در ادمین نیست</td><td>مدل را در <code>core/admin.py</code> با <code>@admin.register</code> ثبت کنید</td></tr>
+        <tr><td><code>OperationalError: no such table</code></td><td><code>python manage.py migrate</code></td></tr>
+        <tr><td>تغییر مدل اعمال نشد</td><td><code>makemigrations</code> سپس <code>migrate</code></td></tr>
+        <tr><td>صفحه ادمین انگلیسی است</td><td><code>LANGUAGE_CODE = 'fa'</code> در settings (فعال است)</td></tr>
+      </tbody>
+    </table>
+
+    <p style="margin-top: 2rem; color: var(--muted); font-size: 0.9rem;">
+      آخرین به‌روزرسانی: مستندات پروژه آموزشیار — اپ core، مدل ConstValue و Django Admin.
+    </p>
+  </div>
+</body>
+</html>

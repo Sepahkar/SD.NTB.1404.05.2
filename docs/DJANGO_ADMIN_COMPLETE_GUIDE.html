@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl" data-bs-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>راهنمای جامع Django Admin — مستند آموزشی توسعه‌دهندگان</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --doc-sidebar-w: 280px;
+      --doc-accent: #0d9488;
+      --doc-accent-soft: rgba(13, 148, 136, 0.12);
+      --doc-card-shadow: 0 4px 24px rgba(15, 23, 42, 0.06);
+      --doc-radius: 14px;
+    }
+    [data-bs-theme="dark"] {
+      --doc-card-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+      --doc-accent-soft: rgba(45, 212, 191, 0.12);
+    }
+    body {
+      font-family: "Vazirmatn", Tahoma, sans-serif;
+      line-height: 1.85;
+      background: var(--bs-body-bg);
+    }
+    .doc-topbar {
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--bs-border-color);
+      z-index: 1030;
+    }
+    .doc-layout { display: flex; min-height: calc(100vh - 56px); }
+    .doc-sidebar {
+      width: var(--doc-sidebar-w);
+      flex-shrink: 0;
+      position: sticky;
+      top: 56px;
+      height: calc(100vh - 56px);
+      overflow-y: auto;
+      border-left: 1px solid var(--bs-border-color);
+      background: var(--bs-tertiary-bg);
+      padding: 1rem 0.75rem 2rem;
+    }
+    .doc-sidebar .nav-link {
+      font-size: 0.82rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 8px;
+      color: var(--bs-body-color);
+    }
+    .doc-sidebar .nav-link:hover { background: var(--doc-accent-soft); }
+    .doc-sidebar .nav-link.active {
+      background: var(--doc-accent);
+      color: #fff;
+      font-weight: 600;
+    }
+    .doc-sidebar .nav-section {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--bs-secondary-color);
+      padding: 0.75rem 0.75rem 0.25rem;
+      margin-top: 0.5rem;
+    }
+    .doc-main {
+      flex: 1;
+      min-width: 0;
+      padding: 2rem 2.5rem 4rem;
+      max-width: 920px;
+    }
+    .doc-hero {
+      background: linear-gradient(135deg, #0f766e, #0d9488 50%, #0369a1);
+      color: #fff;
+      border-radius: var(--doc-radius);
+      padding: 2.5rem 2rem;
+      margin-bottom: 2rem;
+    }
+    .doc-hero h1 { font-weight: 800; font-size: 1.85rem; }
+    .doc-card {
+      background: var(--bs-body-bg);
+      border: 1px solid var(--bs-border-color);
+      border-radius: var(--doc-radius);
+      box-shadow: var(--doc-card-shadow);
+      padding: 1.5rem 1.75rem;
+      margin-bottom: 1.5rem;
+    }
+    .doc-card h2 {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: var(--doc-accent);
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--doc-accent-soft);
+    }
+    .doc-card h3 { font-size: 1.1rem; font-weight: 700; margin-top: 1.25rem; }
+    .doc-card h4 { font-size: 0.98rem; font-weight: 700; margin-top: 1rem; color: var(--bs-secondary-color); }
+    .callout {
+      border-radius: 10px;
+      padding: 1rem 1.15rem;
+      margin: 1rem 0;
+      border-right: 4px solid;
+    }
+    .callout-tip { background: rgba(13, 148, 136, 0.1); border-color: #0d9488; }
+    .callout-info { background: rgba(59, 130, 246, 0.1); border-color: #3b82f6; }
+    .callout-warn { background: rgba(245, 158, 11, 0.12); border-color: #f59e0b; }
+    .callout-danger { background: rgba(239, 68, 68, 0.1); border-color: #ef4444; }
+    .callout strong { display: block; margin-bottom: 0.35rem; }
+    .code-wrap {
+      position: relative;
+      margin: 1rem 0;
+      border-radius: 10px;
+      overflow: hidden;
+      border: 1px solid var(--bs-border-color);
+    }
+    .code-wrap pre { margin: 0 !important; border-radius: 0 !important; direction: ltr; text-align: left; }
+    .code-wrap .btn-copy {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      z-index: 2;
+      font-size: 0.75rem;
+      padding: 0.2rem 0.5rem;
+    }
+    table.doc-table { font-size: 0.9rem; }
+    table.doc-table th { background: var(--bs-tertiary-bg); }
+    .compare-yes { color: #059669; font-weight: 700; }
+    .compare-no { color: #dc2626; }
+    .cheat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 0.75rem;
+    }
+    .cheat-item {
+      background: var(--bs-tertiary-bg);
+      border-radius: 10px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+    }
+    .cheat-item code { font-size: 0.8rem; }
+    .flow-diagram {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: var(--bs-tertiary-bg);
+      border-radius: 10px;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+    }
+    .flow-diagram span {
+      background: var(--bs-body-bg);
+      border: 1px solid var(--bs-border-color);
+      padding: 0.4rem 0.75rem;
+      border-radius: 8px;
+    }
+    .flow-arrow { color: var(--doc-accent); font-weight: bold; }
+    details.doc-collapse {
+      border: 1px solid var(--bs-border-color);
+      border-radius: 10px;
+      margin: 0.75rem 0;
+      overflow: hidden;
+    }
+    details.doc-collapse summary {
+      padding: 0.75rem 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      background: var(--bs-tertiary-bg);
+    }
+    details.doc-collapse .doc-collapse-body { padding: 1rem 1.15rem; }
+    .search-highlight { background: #fef08a; color: #000; padding: 0 2px; border-radius: 2px; }
+    [data-bs-theme="dark"] .search-highlight { background: #854d0e; color: #fef9c3; }
+    @media (max-width: 992px) {
+      .doc-layout { flex-direction: column; }
+      .doc-sidebar {
+        width: 100%;
+        position: relative;
+        top: 0;
+        height: auto;
+        max-height: 220px;
+        border-left: none;
+        border-bottom: 1px solid var(--bs-border-color);
+      }
+      .doc-main { padding: 1.25rem 1rem 3rem; }
+    }
+    @media print {
+      .doc-sidebar, .doc-topbar, .no-print { display: none !important; }
+      .doc-main { max-width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand doc-topbar sticky-top bg-body">
+  <div class="container-fluid px-3">
+    <span class="navbar-brand fw-bold text-teal" style="color: var(--doc-accent);">Django Admin</span>
+    <div class="d-flex gap-2 align-items-center flex-grow-1 justify-content-end no-print">
+      <input type="search" id="docSearch" class="form-control form-control-sm" style="max-width: 220px;" placeholder="جستجو در مستند…">
+      <button type="button" class="btn btn-sm btn-outline-secondary" id="themeToggle" title="تم تیره/روشن">🌓</button>
+    </div>
+  </div>
+</nav>
+
+<div class="doc-layout">
+  <aside class="doc-sidebar no-print">
+    <div class="doc-section">فهرست</div>
+    <nav class="nav flex-column" id="docNav">
+      <a class="nav-link" href="#intro">مقدمه</a>
+      <a class="nav-link" href="#register">ثبت مدل‌ها</a>
+      <a class="nav-link" href="#fundamentals">مبانی ModelAdmin</a>
+      <a class="nav-link" href="#search">جستجو</a>
+      <a class="nav-link" href="#filters">فیلتر</a>
+      <a class="nav-link" href="#forms">فرم</a>
+      <a class="nav-link" href="#inlines">اینلاین‌ها</a>
+      <a class="nav-link" href="#actions">اکشن‌ها</a>
+      <a class="nav-link" href="#query">بهینه‌سازی کوئری</a>
+      <a class="nav-link" href="#permissions">دسترسی‌ها</a>
+      <a class="nav-link" href="#customize">سفارشی‌سازی</a>
+      <a class="nav-link" href="#scaling">مقیاس‌پذیری</a>
+      <a class="nav-link" href="#best">بهترین روش‌ها</a>
+      <a class="nav-link" href="#cheatsheet">خلاصه سریع</a>
+    </nav>
+  </aside>
+
+  <main class="doc-main">
+
+    <header class="doc-hero">
+      <p class="mb-2 opacity-75">مستند آموزشی · نسخه ۱.۰</p>
+      <h1>راهنمای جامع Django Admin</h1>
+      <p class="mb-0 opacity-90">از ثبت مدل تا مقیاس میلیونی — با تمرکز بر درک عمیق، عملکرد و اشتباهات رایج</p>
+    </header>
+
+    <!-- INTRO -->
+    <article class="doc-card doc-section" id="intro" data-search="مقدمه django admin پنل مدیریت">
+      <h2>مقدمه‌ای بر Django Admin</h2>
+
+      <h3>Django Admin چیست؟</h3>
+      <p>
+        <strong>Django Admin</strong> یک رابط مدیریتی خودکار (Auto-generated CRUD UI) است که روی مدل‌های ORM شما ساخته می‌شود.
+        با چند خط کد در <code>admin.py</code>، لیست، جستجو، فیلتر، فرم ایجاد/ویرایش و حذف برای هر مدل در اختیار تیم داخلی قرار می‌گیرد.
+      </p>
+
+      <div class="flow-diagram">
+        <span>مدل (models.py)</span>
+        <span class="flow-arrow">←</span>
+        <span>ModelAdmin (admin.py)</span>
+        <span class="flow-arrow">←</span>
+        <span>AdminSite</span>
+        <span class="flow-arrow">←</span>
+        <span>URL /admin/</span>
+        <span class="flow-arrow">←</span>
+        <span>کاربر staff</span>
+      </div>
+
+      <h3>درون‌کار چگونه عمل می‌کند؟</h3>
+      <ol>
+        <li><strong>ثبت مدل:</strong> <code>admin.site.register(Model, ModelAdmin)</code> مدل را به <code>AdminSite</code> پیش‌فرض وصل می‌کند.</li>
+        <li><strong>مسیریابی:</strong> <code>django.contrib.admin</code> برای هر مدل ثبت‌شده URLهای changelist، add، change و delete می‌سازد.</li>
+        <li><strong>ModelAdmin به‌عنوان کنترلر:</strong> کلاس <code>ModelAdmin</code> رفتار لیست، فرم، فیلتر، جستجو و دسترسی را تعریف می‌کند.</li>
+        <li><strong>فرم‌ها:</strong> Django از <code>ModelForm</code> بر اساس فیلدهای مدل فرم می‌سازد؛ شما با <code>fieldsets</code> و … آن را شکل می‌دهید.</li>
+        <li><strong>قالب‌ها:</strong> قالب‌های آماده در <code>django/contrib/admin/templates</code> رندر می‌شوند و قابل override هستند.</li>
+      </ol>
+
+      <h3>مزایا و محدودیت‌ها</h3>
+      <table class="table table-bordered doc-table">
+        <thead><tr><th>مزایا</th><th>محدودیت‌ها</th></tr></thead>
+        <tbody>
+          <tr><td>سرعت توسعه بالا برای CRUD داخلی</td><td>UI محدود به الگوی Django</td></tr>
+          <tr><td>یکپارچه با ORM و احراز هویت</td><td>سفارشی‌سازی سنگین UI زمان‌بر است</td></tr>
+          <tr><td>جستجو، فیلتر، دسترسی از پیش تعریف‌شده</td><td>برای کاربر نهایی (مشتری) معمولاً مناسب نیست</td></tr>
+          <tr><td>اینلاین برای روابط یک‌به‌چند</td><td>بدون بهینه‌سازی، با داده زیاد کند می‌شود</td></tr>
+        </tbody>
+      </table>
+
+      <h3>چه زمانی Admin؟ چه زمانی پنل سفارشی؟</h3>
+      <table class="table table-striped doc-table">
+        <thead><tr><th>سناریو</th><th>پیشنهاد</th></tr></thead>
+        <tbody>
+          <tr><td>تیم داخلی، اپراتور، پشتیبانی، محتوا</td><td class="compare-yes">Django Admin</td></tr>
+          <tr><td>مدیریت داده با حجم متوسط و نیاز سریع</td><td class="compare-yes">Django Admin</td></tr>
+          <tr><td>محصول SaaS با UX اختصاصی برای مشتری</td><td class="compare-no">پنل سفارشی (React/Vue + API)</td></tr>
+          <tr><td>گردش کار پیچیده چندمرحله‌ای (Workflow)</td><td class="compare-no">اغلب پنل سفارشی</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-warn">
+        <strong>هشدار</strong>
+        Admin را هرگز به‌عنوان «پنل کاربر نهایی» در معرض اینترنت بدون سخت‌گیری امنیتی، rate limit و audit log قرار ندهید.
+      </div>
+    </article>
+
+    <!-- REGISTER -->
+    <article class="doc-card doc-section" id="register" data-search="register ثبت مدل ModelAdmin">
+      <h2>ثبت مدل‌ها (Registering Models)</h2>
+
+      <h3>admin.site.register</h3>
+      <p>ساده‌ترین روش اتصال مدل به پنل:</p>
+      <div class="code-wrap">
+        <button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+        <pre><code class="language-python">from django.contrib import admin
+from .models import Article
+
+admin.site.register(Article)</code></pre>
+      </div>
+      <p>در این حالت Django از <code>ModelAdmin</code> پیش‌فرض استفاده می‌کند — برای مدل‌های واقعی کافی نیست.</p>
+
+      <h3>استفاده از ModelAdmin</h3>
+      <div class="code-wrap">
+        <button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+        <pre><code class="language-python">@admin.register(Article)
+class ArticleAdmin(admin.ModelAdmin):
+    list_display = ("title", "status", "created_at")
+    search_fields = ("title", "body")
+    list_filter = ("status",)</code></pre>
+      </div>
+
+      <div class="callout callout-tip">
+        <strong>نکته</strong>
+        دکوراتور <code>@admin.register</code> خواناتر است؛ معادل آن <code>admin.site.register(Article, ArticleAdmin)</code> در انتهای فایل است.
+      </div>
+
+      <h3>بهترین روش‌ها</h3>
+      <ul>
+        <li>هر اپ یک فایل <code>admin.py</code>؛ مدل‌های مرتبط را گروه‌بندی کنید.</li>
+        <li>همیشه کلاس <code>ModelAdmin</code> اختصاصی با <code>list_display</code> و <code>search_fields</code> بنویسید.</li>
+        <li>برای اپ بزرگ، <code>AdminSite</code> جدا (multi-admin) در نظر بگیرید.</li>
+      </ul>
+    </article>
+
+    <!-- FUNDAMENTALS -->
+    <article class="doc-card doc-section" id="fundamentals" data-search="list_display ordering list_per_page">
+      <h2>مبانی ModelAdmin</h2>
+
+      <details class="doc-collapse" open>
+        <summary>list_display</summary>
+        <div class="doc-collapse-body">
+          <p><strong>هدف:</strong> ستون‌های نمایش داده‌شده در صفحه لیست (changelist).</p>
+          <p><strong>نحو:</strong> تاپل نام فیلدها یا متدهای نمایشی با دکوراتور <code>@admin.display</code>.</p>
+          <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+          <pre><code class="language-python">@admin.display(description="نام کامل", ordering="last_name")
+def full_name(self, obj):
+    return f"{obj.first_name} {obj.last_name}"
+
+class PersonAdmin(admin.ModelAdmin):
+    list_display = ("id", "full_name", "email", "is_active")</code></pre></div>
+          <p><strong>مثال واقعی:</strong> فروشگاه — <code>("sku", "title", "price", "stock", "is_published")</code></p>
+          <div class="callout callout-warn"><strong>اشتباه رایج:</strong> قرار دادن فیلدهای ForeignKey بدون <code>select_related</code> → N+1 query.</div>
+        </div>
+      </details>
+
+      <details class="doc-collapse">
+        <summary>list_display_links</summary>
+        <div class="doc-collapse-body">
+          <p><strong>هدف:</strong> مشخص کردن کدام ستون‌ها لینک به صفحه ویرایش هستند.</p>
+          <p><strong>نحو:</strong> <code>list_display_links = ("id", "title")</code> — باید زیرمجموعه <code>list_display</code> باشد.</p>
+          <p><strong>بهترین روش:</strong> یک یا دو ستون شناسایی (مثلاً عنوان یا کد) را لینک کنید؛ از لینک کردن همه ستون‌ها خودداری کنید.</p>
+        </div>
+      </details>
+
+      <details class="doc-collapse">
+        <summary>list_editable</summary>
+        <div class="doc-collapse-body">
+          <p><strong>هدف:</strong> ویرایش سریع فیلدها مستقیماً از لیست، بدون ورود به فرم change.</p>
+          <p><strong>مثال:</strong> <code>list_editable = ("is_active", "sort_order")</code></p>
+          <div class="callout callout-warn"><strong>محدودیت:</strong> نمی‌توان فیلدی را همزمان در <code>list_display_links</code> و <code>list_editable</code> داشت.</div>
+          <p><strong>چه زمانی استفاده نکنیم:</strong> فیلدهای حساس (قیمت، نقش کاربر) یا فیلدهای با validation پیچیده.</p>
+        </div>
+      </details>
+
+      <details class="doc-collapse">
+        <summary>ordering</summary>
+        <div class="doc-collapse-body">
+          <p><strong>هدف:</strong> ترتیب پیش‌فرض ردیف‌ها در changelist.</p>
+          <p><strong>نحو:</strong> <code>ordering = ("-created_at", "title")</code> — منفی یعنی نزولی.</p>
+          <p>کاربر همچنان می‌تواند با کلیک روی سرستون مرتب‌سازی کند (اگر فیلد در <code>list_display</code> باشد).</p>
+        </div>
+      </details>
+
+      <details class="doc-collapse">
+        <summary>list_per_page</summary>
+        <div class="doc-collapse-body">
+          <p><strong>هدف:</strong> تعداد ردیف در هر صفحه pagination.</p>
+          <p><strong>پیش‌فرض:</strong> 100. برای UX بهتر معمولاً 25–50 مناسب است.</p>
+          <p><strong>عملکرد:</strong> با <code>LIMIT/OFFSET</code> کار می‌کند؛ در صفحات انتهایی جداول بزرگ ممکن است کند شود (راه‌حل: cursor pagination سفارشی یا فیلتر اجباری).</p>
+        </div>
+      </details>
+
+      <details class="doc-collapse">
+        <summary>empty_value_display</summary>
+        <div class="doc-collapse-body">
+          <p><strong>هدف:</strong> متن جایگزین وقتی مقدار فیلد خالی است (None یا رشته خالی).</p>
+          <p><strong>مثال:</strong> <code>empty_value_display = "—"</code> یا <code>"تعریف نشده"</code></p>
+          <p>خوانایی changelist را برای اپراتور بهتر می‌کند.</p>
+        </div>
+      </details>
+    </article>
+
+    <!-- SEARCH - abbreviated structure with full content in collapsibles -->
+    <article class="doc-card doc-section" id="search" data-search="search_fields جستجو icontains">
+      <h2>سیستم جستجو (Search)</h2>
+
+      <h3>search_fields</h3>
+      <p>
+        Django برای هر عبارت جستجو، شرط‌های <strong>OR</strong> با lookup پیش‌فرض <code>icontains</code> می‌سازد:
+        <code>WHERE field1 ILIKE '%term%' OR field2 ILIKE '%term%' ...</code>
+      </p>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">class BookAdmin(admin.ModelAdmin):
+    search_fields = (
+        "title",
+        "isbn",
+        "author__name",      # جستجو در مدل مرتبط
+        "author__email",
+    )</code></pre></div>
+
+      <h3>جستجو در ForeignKey و مدل مرتبط</h3>
+      <p>با syntax <code>related_field__field</code> به جدول join‌شده جستجو می‌کنید. Django JOIN می‌زند — بدون <code>select_related</code> در changelist همچنان برای نمایش هر ردیف ممکن است N+1 داشته باشید.</p>
+
+      <h3>Lookupهای سفارشی در search_fields</h3>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">search_fields = ("title", "slug", "id")  # id دقیق
+# یا
+search_fields = ("email__exact",)</code></pre></div>
+
+      <h3>عملکرد و ایندکس</h3>
+      <table class="table doc-table table-bordered">
+        <thead><tr><th>موضوع</th><th>توصیه</th></tr></thead>
+        <tbody>
+          <tr><td><code>icontains</code> روی ستون بزرگ</td><td>Full Table Scan — از pg_trgm یا Elasticsearch برای جستجوی متنی استفاده کنید</td></tr>
+          <tr><td>جستجو روی <code>id</code></td><td>سریع (PK index)</td></tr>
+          <tr><td>فیلدهای پرجستجو</td><td><code>db_index=True</code> یا ایندکس composite</td></tr>
+          <tr><td>چند JOIN در search_fields</td><td>کوئری سنگین — محدود کردن فیلدها</td></tr>
+        </tbody>
+      </table>
+
+      <h3>نحوه ساخت کوئری جستجو در Django (داخلی)</h3>
+      <p>
+        در <code>ModelAdmin.get_search_results(request, queryset, search_term)</code>، Django برای هر کلمه در عبارت جستجو
+        یک <code>Q</code> object می‌سازد: تمام فیلدهای <code>search_fields</code> با OR ترکیب می‌شوند؛
+        چند کلمه با AND بین آن‌ها. پیش‌فرض lookup: <code>icontains</code> (در PostgreSQL معادل ILIKE).
+      </p>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">def get_search_results(self, request, queryset, search_term):
+    queryset, use_distinct = super().get_search_results(
+        request, queryset, search_term
+    )
+    # مثال: محدود کردن جستجو به وضعیت فعال
+    if search_term:
+        queryset = queryset.filter(is_archived=False)
+    return queryset, use_distinct</code></pre></div>
+      <p>اگر جستجو روی M2M یا reverse FK باشد، <code>use_distinct=True</code> برمی‌گردد تا ردیف تکراری حذف شود.</p>
+
+      <div class="callout callout-danger">
+        <strong>اشتباه رایج</strong>
+        جستجو روی <code>TextField</code> بدون محدودیت در جدول میلیونی — timeout قطعی است.
+      </div>
+    </article>
+
+    <!-- FILTERS -->
+    <article class="doc-card doc-section" id="filters" data-search="list_filter SimpleListFilter فیلتر">
+      <h2>سیستم فیلتر (Filtering)</h2>
+
+      <h3>list_filter</h3>
+      <p>فیلترهای سایدبار changelist. انواع:</p>
+      <ul>
+        <li><strong>BooleanField:</strong> بله/خیر/همه</li>
+        <li><strong>DateField / DateTimeField:</strong> امروز، ۷ روز گذشته، این ماه، …</li>
+        <li><strong>ForeignKey / Choice:</strong> لیست مقادیر مرتبط</li>
+        <li><strong>RelatedOnlyFieldListFilter:</strong> فقط مقادیری که در داده موجودند</li>
+      </ul>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">list_filter = (
+    "is_active",
+    "created_at",
+    "category",
+    ("author", admin.RelatedOnlyFieldListFilter),
+)</code></pre></div>
+
+      <h3>SimpleListFilter — فیلتر سفارشی</h3>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">class PublishedFilter(admin.SimpleListFilter):
+    title = "وضعیت انتشار"
+    parameter_name = "pub"
+
+    def lookups(self, request, model_admin):
+        return [("yes", "منتشر شده"), ("no", "پیش‌نویس")]
+
+    def queryset(self, request, queryset):
+        if self.value() == "yes":
+            return queryset.filter(published_at__isnull=False)
+        if self.value() == "no":
+            return queryset.filter(published_at__isnull=True)
+        return queryset</code></pre></div>
+
+      <div class="callout callout-info">
+        <strong>عملکرد</strong>
+        هر فیلتر = یک پارامتر GET. ترکیب چند فیلتر می‌تواند ایندکس‌های composite را به چالش بکشد — ایندکس را با الگوی فیلترهای واقعی اپراتور طراحی کنید.
+      </div>
+    </article>
+
+    <!-- FORMS -->
+    <article class="doc-card doc-section" id="forms" data-search="fieldsets autocomplete_fields raw_id">
+      <h2>سفارشی‌سازی فرم</h2>
+
+      <table class="table doc-table table-bordered">
+        <thead>
+          <tr><th>ویژگی</th><th>هدف</th><th>کاربرد</th><th>محدودیت</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>fields</code></td><td>فیلدهای روی فرم</td><td>فرم ساده</td><td>با fieldsets همپوشانی نداشته باشید</td></tr>
+          <tr><td><code>exclude</code></td><td>حذف فیلد از فرم</td><td>مخفی کردن فیلدهای داخلی</td><td>امنیت جایگزین permission نیست</td></tr>
+          <tr><td><code>fieldsets</code></td><td>گروه‌بندی بصری</td><td>فرم‌های طولانی</td><td>—</td></tr>
+          <tr><td><code>readonly_fields</code></td><td>فقط نمایش</td><td>timestamp، محاسبات</td><td>در add معمولاً خالی</td></tr>
+          <tr><td><code>prepopulated_fields</code></td><td>پر کردن خودکار slug</td><td>مقاله، محصول</td><td>فقط از JS سمت کلاینت</td></tr>
+          <tr><td><code>autocomplete_fields</code></td><td>انتخاب FK با جستجو</td><td>جدول بزرگ</td><td>نیاز به search_fields در مدل والد</td></tr>
+          <tr><td><code>raw_id_fields</code></td><td>انتخاب با ID</td><td>FK خیلی زیاد</td><td>UX ضعیف‌تر از autocomplete</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">@admin.register(Product)
+class ProductAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("title",)}
+    autocomplete_fields = ("category", "brand")
+    readonly_fields = ("created_at", "updated_at")
+    fieldsets = (
+        ("اصلی", {"fields": ("title", "slug", "category")}),
+        ("قیمت", {"fields": ("price", "discount")}),
+        ("سیستمی", {"fields": ("created_at",), "classes": ("collapse",)}),
+    )</code></pre></div>
+    </article>
+
+    <!-- INLINES - VERY DETAILED -->
+    <article class="doc-card doc-section" id="inlines" data-search="Inline TabularInline StackedInline اینلاین">
+      <h2>اینلاین‌ها (Inlines) — بخش تفصیلی</h2>
+
+      <h3>اینلاین چیست و چرا وجود دارد؟</h3>
+      <p>
+        وقتی دو مدل رابطه <strong>One-to-Many</strong> یا <strong>Many-to-Many</strong> دارند (مثلاً سفارش → اقلام سفارش)،
+        ویرایش والد و فرزندان در یک صفحه منطقی است. <strong>InlineModelAdmin</strong> فرم‌های فرزند را داخل صفحه والد embed می‌کند.
+      </p>
+      <p>Django از <code>inlineformset_factory</code> استفاده می‌کند — همان منطق Formset با ذخیره اتمی در یک transaction (در صورت پیکربندی).</p>
+
+      <h4>مزایا</h4>
+      <ul>
+        <li>UX یکپارچه برای اپراتور</li>
+        <li>کمتر کلیک — ویرایش سفارش + اقلام همزمان</li>
+        <li>کد کمتر نسبت به viewهای جداگانه</li>
+      </ul>
+      <h4>معایب</h4>
+      <ul>
+        <li>صفحه شلوغ با فرزندان زیاد</li>
+        <li>خطر N+1 و فرم‌های سنگین</li>
+        <li>validation پیچیده بین والد و فرزند</li>
+      </ul>
+
+      <h3>TabularInline</h3>
+      <p><strong>هدف:</strong> نمایش فرزندان در قالب <strong>جدول</strong> (سطر = یک شیء فرزند).</p>
+      <p><strong>کاربرد:</strong> فیلدهای کم تا متوسط، داده ساختاریافته — اقلام فاکتور، تصاویر محصول با چند ستون.</p>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">class OrderItemInline(admin.TabularInline):
+    model = OrderItem
+    extra = 0
+    fields = ("product", "quantity", "unit_price")
+    autocomplete_fields = ("product",)
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    inlines = [OrderItemInline]</code></pre></div>
+
+      <h3>StackedInline</h3>
+      <p><strong>هدف:</strong> هر فرزند در یک <strong>بلوک جدا</strong> با تمام فیلدها — شبیه فرم کوچک.</p>
+      <p><strong>کاربرد:</strong> فیلدهای زیاد، نیاز به فضای عمودی — آدرس، مشخصات فنی، تنظیمات.</p>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">class LessonInline(admin.StackedInline):
+    model = Lesson
+    extra = 1
+    fields = ("title", "video_url", "duration", "is_free")</code></pre></div>
+
+      <h3>مقایسه TabularInline و StackedInline</h3>
+      <table class="table table-bordered doc-table">
+        <thead>
+          <tr><th>معیار</th><th>TabularInline</th><th>StackedInline</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>چیدمان</td><td>جدولی، فشرده</td><td>عمودی، گسترده</td></tr>
+          <tr><td>تعداد فیلد کم</td><td class="compare-yes">عالی</td><td>اضافی</td></tr>
+          <tr><td>تعداد فیلد زیاد</td><td>شلوغ</td><td class="compare-yes">خواناتر</td></tr>
+          <tr><td>ویرایش سریع چند سطر</td><td class="compare-yes">بهتر</td><td>کندتر</td></tr>
+          <tr><td>موبایل / عرض کم</td><td>اسکرول افقی</td><td>معمولاً بهتر</td></tr>
+        </tbody>
+      </table>
+
+      <h3>اعتبارسنجی اینلاین</h3>
+      <details class="doc-collapse" open>
+        <summary>روش‌ها و سناریوهای رایج</summary>
+        <div class="doc-collapse-body">
+          <ul>
+            <li><strong>سطح مدل:</strong> <code>Model.clean()</code> روی والد و فرزند — قبل از save</li>
+            <li><strong>سطح فرم:</strong> <code>InlineModelAdmin.form</code> سفارشی با <code>clean()</code></li>
+            <li><strong>سطح formset:</strong> <code>BaseInlineFormSet.clean()</code> — مثلاً «حداقل یک قلم سفارش»</li>
+            <li><strong>تعداد:</strong> <code>min_num=1</code>, <code>validate_min=True</code></li>
+            <li><strong>حذف:</strong> فرم‌های علامت‌خورده DELETE در formset — validation قبل از حذف نهایی</li>
+          </ul>
+          <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+          <pre><code class="language-python">class OrderItemFormSet(BaseInlineFormSet):
+    def clean(self):
+        super().clean()
+        if any(self.errors):
+            return
+        if not any(form.cleaned_data and not form.cleaned_data.get("DELETE")
+                   for form in self.forms):
+            raise ValidationError("حداقل یک قلم سفارش لازم است.")</code></pre></div>
+        </div>
+      </details>
+
+      <h3>عملکرد اینلاین</h3>
+      <ul>
+        <li><code>get_queryset</code> روی Inline با <code>select_related</code> / <code>prefetch_related</code></li>
+        <li><code>extra = 0</code> برای جلوگیری از فرم خالی اضافی</li>
+        <li>بیش از ~۲۰–۵۰ فرزند: paginate سفارشی یا صفحه جدا</li>
+        <li><code>raw_id_fields</code> / <code>autocomplete_fields</code> برای FK فرزند</li>
+      </ul>
+
+      <h3>مثال‌های دنیای واقعی</h3>
+      <table class="table table-striped doc-table">
+        <thead><tr><th>سناریو</th><th>Inline پیشنهادی</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td>محصول → تصاویر</td><td>TabularInline</td><td>ستون: تصویر، ترتیب، caption</td></tr>
+          <tr><td>دوره → درس‌ها</td><td>StackedInline یا Tabular</td><td>فیلد زیاد → Stacked</td></tr>
+          <tr><td>سفارش → اقلام</td><td>TabularInline</td><td>محصول، تعداد، قیمت</td></tr>
+          <tr><td>پست → نظرات</td><td>Tabular + readonly</td><td>اغلب فقط moderation</td></tr>
+          <tr><td>دسته → زیردسته</td><td>با احتیاط</td><td>سلسله‌مراتب — TreeAdmin بهتر</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+    <!-- ACTIONS -->
+    <article class="doc-card doc-section" id="actions" data-search="actions اکشن bulk export">
+      <h2>اکشن‌های سفارشی (Custom Actions)</h2>
+      <p>
+        اکشن‌ها توابعی هستند که روی <strong>queryset انتخاب‌شده</strong> در changelist اجرا می‌شوند.
+        Django از چک‌باکس‌های کنار هر ردیف و دکمه «اجرا» استفاده می‌کند. مسیر داخلی: <code>ModelAdmin.get_actions</code> → اجرا در <code>changelist_view</code>.
+      </p>
+
+      <h3>اکشن ساده (Bulk Update)</h3>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">@admin.action(description="انتشار موارد انتخاب‌شده")
+def make_published(modeladmin, request, queryset):
+    updated = queryset.update(status="published")
+    modeladmin.message_user(request, f"{updated} مورد منتشر شد.", level=messages.SUCCESS)
+
+class ArticleAdmin(admin.ModelAdmin):
+    actions = [make_published]</code></pre></div>
+      <p><code>queryset.update()</code> یک کوئری SQL است — سریع. برای منطق پیچیده (سیگنال per-object) باید حلقه بزنید.</p>
+
+      <h3>اکشن Export</h3>
+      <p>خروجی CSV/Excel از ردیف‌های انتخاب‌شده. برای داده زیاد از <strong>صفحه میانی</strong> یا task پس‌زمینه (Celery) استفاده کنید تا timeout نگیرید.</p>
+
+      <h3>اکشن با صفحه تأیید (Intermediate)</h3>
+      <p>برای حذف دسته‌ای یا تغییر وضعیت حساس، کاربر را به view جدا هدایت کنید که لیست را نشان دهد و تأیید بگیرد — الگوی رسمی Django در مستندات Admin actions.</p>
+
+      <table class="table doc-table table-bordered">
+        <thead><tr><th>بهترین روش</th><th>توضیح</th></tr></thead>
+        <tbody>
+          <tr><td><code>@admin.action(permissions=["..."])</code></td><td>محدود به کاربران دارای permission</td></tr>
+          <tr><td>غیرفعال کردن اکشن پیش‌فرض حذف</td><td><code>actions = None</code> یا حذف selective</td></tr>
+          <tr><td>لاگ audit</td><td>چه کسی چه bulk action زد</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-warn">
+        <strong>اشتباه رایج</strong>
+        اجرای اکشن بدون محدودیت تعداد — انتخاب «همه» با select_across روی میلیون ردیف سرور را از کار می‌اندازد.
+      </div>
+    </article>
+
+    <!-- QUERY -->
+    <article class="doc-card doc-section" id="query" data-search="get_queryset select_related prefetch annotate">
+      <h2>بهینه‌سازی کوئری (Query Optimization)</h2>
+
+      <h3>get_queryset</h3>
+      <p>
+        نقطه مرکزی کنترل داده در changelist، اکشن‌ها و اینلاین. هر جا queryset برمی‌گردد، فیلترهای کاربر و دسترسی را اعمال کنید.
+      </p>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">def get_queryset(self, request):
+    qs = super().get_queryset(request)
+    if not request.user.is_superuser:
+        qs = qs.filter(organization=request.user.organization)
+  return qs.select_related("author", "category").prefetch_related("tags")</code></pre></div>
+
+      <h3>select_related</h3>
+      <p>برای <strong>ForeignKey</strong> و OneToOne — یک JOIN. در <code>list_display</code> هر بار که <code>obj.author.name</code> می‌خوانید بدون آن = یک query اضافه per row.</p>
+
+      <h3>prefetch_related</h3>
+      <p>برای <strong>ManyToMany</strong> و reverse FK — دو query (اصلی + مرتبط) به‌جای N. برای اینلاین حیاتی است.</p>
+
+      <h3>annotate</h3>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">from django.db.models import Count
+
+def get_queryset(self, request):
+    return super().get_queryset(request).annotate(_order_count=Count("orders"))
+
+@admin.display(description="تعداد سفارش", ordering="_order_count")
+def order_count(self, obj):
+    return obj._order_count</code></pre></div>
+
+      <h3>ایندکس دیتابیس</h3>
+      <p>فیلدهای <code>list_filter</code>، <code>ordering</code> و <code>search_fields</code> پرکاربرد را در مدل با <code>db_index=True</code> یا Meta.indexes علامت بزنید.</p>
+    </article>
+
+    <!-- PERMISSIONS -->
+    <article class="doc-card doc-section" id="permissions" data-search="permission has_change_permission staff">
+      <h2>دسترسی‌ها (Permissions)</h2>
+      <p>
+        Django Admin از سیستم <strong>auth</strong> استفاده می‌کند: <code>is_staff</code> برای ورود به admin،
+        و permissionهای <code>app_label.action_modelname</code> (مثلاً <code>blog.change_article</code>).
+      </p>
+
+      <table class="table table-bordered doc-table">
+        <thead><tr><th>متد</th><th>معنی</th></tr></thead>
+        <tbody>
+          <tr><td><code>has_module_permission</code></td><td>نمایش اپ در index admin</td></tr>
+          <tr><td><code>has_view_permission</code></td><td>مشاهده changelist/change (Django 2.1+)</td></tr>
+          <tr><td><code>has_add_permission</code></td><td>دکمه افزودن</td></tr>
+          <tr><td><code>has_change_permission</code></td><td>ویرایش</td></tr>
+          <tr><td><code>has_delete_permission</code></td><td>حذف</td></tr>
+        </tbody>
+      </table>
+
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">def has_change_permission(self, request, obj=None):
+    if not super().has_change_permission(request, obj):
+        return False
+    if obj is None:
+        return True
+    return obj.owner_id == request.user.id</code></pre></div>
+      <p>با <code>obj=None</code> سطح changelist چک می‌شود؛ با شیء مشخص، سطح رکورد.</p>
+    </article>
+
+    <!-- CUSTOMIZE -->
+    <article class="doc-card doc-section" id="customize" data-search="template branding css dashboard">
+      <h2>سفارشی‌سازی ظاهر Admin</h2>
+
+      <h3>برندینگ AdminSite</h3>
+      <div class="code-wrap"><button type="button" class="btn btn-sm btn-light btn-copy">کپی</button>
+      <pre><code class="language-python">admin.site.site_header = "پنل مدیریت شرکت"
+admin.site.site_title = "مدیریت"
+admin.site.index_title = "خوش آمدید"</code></pre></div>
+
+      <h3>Override قالب‌ها</h3>
+      <p>مسیر: <code>yourapp/templates/admin/</code>. اپ شما باید در <code>INSTALLED_APPS</code> قبل از <code>django.contrib.admin</code> باشد.</p>
+      <ul>
+        <li><code>base_site.html</code> — CSS/JS سراسری</li>
+        <li><code>change_list.html</code> — ساختار changelist</li>
+        <li><code>login.html</code> — صفحه ورود</li>
+      </ul>
+
+      <h3>CSS و JavaScript</h3>
+      <p>فایل static در اپ + بارگذاری در <code>AdminSite.each_context</code> یا قالب base_site. کلاس <code>Media</code> در ModelAdmin برای JS/CSS مخصوص یک مدل.</p>
+
+      <div class="callout callout-info">
+        <strong>داشبورد</strong>
+        برای ویجت سفارشی در صفحه index، <code>AdminSite.index_template</code> یا override <code>admin/index.html</code>.
+      </div>
+    </article>
+
+    <!-- SCALING -->
+    <article class="doc-card doc-section" id="scaling" data-search="مقیاس performance میلیون pagination cache">
+      <h2>مقیاس‌پذیری Django Admin</h2>
+
+      <h3>حدود ۱۰٬۰۰۰ رکورد</h3>
+      <p>Admin پیش‌فرض معمولاً کافی است. pagination + فیلتر + جستجوی ایندکس‌شده.</p>
+
+      <h3>حدود ۱۰۰٬۰۰۰ رکورد</h3>
+      <ul>
+        <li><code>list_per_page = 50</code></li>
+        <li><code>autocomplete_fields</code> برای همه FKهای سنگین</li>
+        <li>محدود کردن <code>list_filter</code> به فیلدهای selective</li>
+        <li><code>show_full_result_count = False</code> — شمارش کل با COUNT(*) گران است</li>
+      </ul>
+
+      <h3>حدود ۱٬۰۰۰٬۰۰۰ رکورد و بیشتر</h3>
+      <p>Admin به‌عنوان UI اصلی browse مناسب نیست مگر با معماری کمکی:</p>
+      <ul>
+        <li>فیلتر اجباری (مثلاً تاریخ یا وضعیت) قبل از نمایش changelist</li>
+        <li>جستجوی full-text خارج از DB (Elasticsearch, PostgreSQL FTS)</li>
+        <li>Override <code>get_search_results</code> برای redirect به موتور جستجو</li>
+        <li>خواندن فقط — ویرایش از مسیرهای محدود</li>
+        <li>Cache نتایج فیلتر پرتکرار (با احتیاط invalidation)</li>
+      </ul>
+
+      <table class="table table-bordered doc-table">
+        <thead><tr><th>تکنیک</th><th>هدف</th></tr></thead>
+        <tbody>
+          <tr><td>Pagination</td><td>محدود کردن ردیف هر درخواست</td></tr>
+          <tr><td>select_related / prefetch</td><td>حذف N+1</td></tr>
+          <tr><td>ایندکس DB</td><td>سرعت فیلتر و مرتب‌سازی</td></tr>
+          <tr><td>defer / only</td><td>ستون‌های سنگین (JSON, Text) را در changelist نیاورید</td></tr>
+          <tr><td>Read replica</td><td>get_queryset برای خواندن از replica</td></tr>
+        </tbody>
+      </table>
+    </article>
+
+    <!-- BEST -->
+    <article class="doc-card doc-section" id="best" data-search="best practices امنیت performance">
+      <h2>بهترین روش‌ها، اشتباهات و امنیت</h2>
+
+      <h3>توصیه‌های حرفه‌ای</h3>
+      <ol>
+        <li>هر مدل: <code>ModelAdmin</code> اختصاصی + <code>__str__</code> معنادار روی مدل</li>
+        <li>همیشه <code>get_queryset</code> بهینه برای changelist</li>
+        <li>از <code>readonly_fields</code> برای داده سیستمی استفاده کنید</li>
+        <li>تست permission برای نقش‌های مختلف (اپراتور، مدیر محتوا)</li>
+        <li>مستندسازی اکشن‌های خطرناک برای تیم ops</li>
+      </ol>
+
+      <h3>اشتباهات رایج</h3>
+      <ul>
+        <li>قرار دادن Admin روی اینترنت عمومی بدون hardening</li>
+        <li><code>list_editable</code> روی قیمت یا موجودی</li>
+        <li>اینلاین بدون limit روی هزاران فرزند</li>
+        <li>فراموش <code>search_fields</code> در مدل والد برای autocomplete</li>
+        <li>استفاده از <code>raw_id</code> وقتی autocomplete کافی است</li>
+      </ul>
+
+      <h3>امنیت</h3>
+      <div class="callout callout-danger">
+        <strong>چک‌لیست امنیت</strong>
+        HTTPS اجباری · <code>DEBUG=False</code> · رمز قوی staff · محدودیت IP/VPN ·
+        به‌روزرسانی Django · لاگ تغییرات · عدم نمایش traceback به کاربر
+      </div>
+    </article>
+
+    <!-- CHEATSHEET -->
+    <article class="doc-card doc-section" id="cheatsheet" data-search="خلاصه cheat sheet">
+      <h2>خلاصه سریع (Cheat Sheet)</h2>
+      <div class="cheat-grid">
+        <div class="cheat-item"><code>list_display</code><br>ستون‌های لیست</div>
+        <div class="cheat-item"><code>search_fields</code><br>جستجوی OR با icontains</div>
+        <div class="cheat-item"><code>list_filter</code><br>فیلتر سایدبار</div>
+        <div class="cheat-item"><code>fieldsets</code><br>گروه فرم</div>
+        <div class="cheat-item"><code>inlines</code><br>فرزند در صفحه والد</div>
+        <div class="cheat-item"><code>autocomplete_fields</code><br>FK بزرگ</div>
+        <div class="cheat-item"><code>get_queryset</code><br>بهینه‌سازی SQL</div>
+        <div class="cheat-item"><code>@admin.action</code><br>عملیات دسته‌ای</div>
+        <div class="cheat-item"><code>has_*_permission</code><br>کنترل دسترسی</div>
+      </div>
+    </article>
+
+    <footer class="text-center text-muted py-4 small">
+      مستند آموزشی Django Admin — برای استفاده داخلی تیم توسعه · ساخته‌شده به‌صورت HTML مستقل
+    </footer>
+
+  </main>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-python.min.js"></script>
+<script>
+(function () {
+  const html = document.documentElement;
+  const themeBtn = document.getElementById("themeToggle");
+  const saved = localStorage.getItem("doc-theme");
+  if (saved) html.setAttribute("data-bs-theme", saved);
+  themeBtn.addEventListener("click", function () {
+    const next = html.getAttribute("data-bs-theme") === "dark" ? "light" : "dark";
+    html.setAttribute("data-bs-theme", next);
+    localStorage.setItem("doc-theme", next);
+  });
+
+  document.querySelectorAll(".btn-copy").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      const code = btn.parentElement.querySelector("code");
+      navigator.clipboard.writeText(code.textContent).then(function () {
+        btn.textContent = "✓";
+        setTimeout(function () { btn.textContent = "کپی"; }, 1500);
+      });
+    });
+  });
+
+  const sections = document.querySelectorAll(".doc-section");
+  const navLinks = document.querySelectorAll("#docNav .nav-link");
+  const observer = new IntersectionObserver(function (entries) {
+    entries.forEach(function (e) {
+      if (e.isIntersecting) {
+        navLinks.forEach(function (l) {
+          l.classList.toggle("active", l.getAttribute("href") === "#" + e.target.id);
+        });
+      }
+    });
+  }, { rootMargin: "-40% 0px -55% 0px", threshold: 0 });
+  sections.forEach(function (s) { observer.observe(s); });
+
+  const searchInput = document.getElementById("docSearch");
+  searchInput.addEventListener("input", function () {
+    const q = this.value.trim().toLowerCase();
+    sections.forEach(function (sec) {
+      const text = (sec.getAttribute("data-search") || "") + " " + sec.textContent.toLowerCase();
+      sec.style.display = !q || text.includes(q) ? "" : "none";
+    });
+  });
+})();
+</script>
+</body>
+</html>
