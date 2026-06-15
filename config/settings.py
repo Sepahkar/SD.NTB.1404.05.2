@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'django_filters',
     'drf_spectacular',
 ]
 
@@ -117,17 +118,87 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Django REST Framework Configuration
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'core.api.authentication.AuthSessionTokenAuthentication',
+        'core.api.authentication.AuthSessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'core.api.permissions.IsAuthenticatedAccount',
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'core.api.pagination.StandardPagination',
+    'PAGE_SIZE': 20,
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+        'rest_framework.filters.SearchFilter',
+        'rest_framework.filters.OrderingFilter',
+    ],
 }
 
 # DRF Spectacular Configuration
 SPECTACULAR_SETTINGS = {
-    'TITLE': 'NTBIAU Panel API',
-    'DESCRIPTION': 'API documentation for the NTBIAU Panel project.',
+    'TITLE': 'آموزشیار — Amoozeshyar API',
+    'DESCRIPTION': (
+        'REST API کامل برای سامانه آموزشیار شامل ۴۱ انتیتی، احراز هویت، '
+        'و APIهای ترکیبی صفحات. مستندات تعاملی از طریق Swagger و ReDoc در دسترس است.'
+    ),
     'VERSION': '1.0.0',
     'SERVE_INCLUDE_SCHEMA': False,
+    'SCHEMA_PATH_PREFIX': r'/api/v[0-9]',
+    'TAGS': [
+        {'name': 'Health', 'description': 'بررسی سلامت و در دسترس بودن سرویس API'},
+        {'name': 'Authentication', 'description': 'ورود، خروج، پروفایل کاربر و بازیابی رمز عبور'},
+        {'name': 'Auth Entities', 'description': 'مدیریت نقش‌ها، حساب‌ها، نشست‌ها و تخصیص نقش (فقط مدیر)'},
+        {'name': 'Lookup', 'description': 'داده‌های مرجع: مقادیر ثابت، دانشکده، گرایش، نیمسال'},
+        {'name': 'Person & Contact', 'description': 'اشخاص و اطلاعات تماس: تلفن، ایمیل، مهارت، آدرس'},
+        {'name': 'Profiles', 'description': 'پروفایل اساتید، دانشجویان، کارمندان و علایق پژوهشی'},
+        {'name': 'Academic', 'description': 'دروس، کلاس‌ها، امتحانات، نمرات، کارنامه، حضور و غیاب'},
+        {'name': 'Finance & Requests', 'description': 'پرداخت‌ها، وام، بورسیه، خوابگاه و درخواست‌های دانشجویی'},
+        {'name': 'Library & Misc', 'description': 'کتابخانه، کارآموزی، رویدادها، اطلاعیه‌ها و برنامه‌های آموزشی'},
+        {'name': 'Composite Pages', 'description': 'APIهای ترکیبی — یک درخواست برای هر صفحه فرانت‌اند'},
+    ],
+    'EXTENSIONS_ROOT': {
+        'x-tagGroups': [
+            {'name': 'عمومی', 'tags': ['Health']},
+            {'name': 'احراز هویت', 'tags': ['Authentication', 'Auth Entities']},
+            {'name': 'داده‌های پایه', 'tags': ['Lookup', 'Person & Contact', 'Profiles']},
+            {'name': 'آموزشی و مالی', 'tags': ['Academic', 'Finance & Requests']},
+            {'name': 'سایر', 'tags': ['Library & Misc', 'Composite Pages']},
+        ],
+    },
+    'APPEND_COMPONENTS': {
+        'securitySchemes': {
+            'TokenAuth': {
+                'type': 'apiKey',
+                'in': 'header',
+                'name': 'Authorization',
+                'description': 'هدر Authorization با فرمت: Token <session_key>',
+            },
+            'SessionAuth': {
+                'type': 'apiKey',
+                'in': 'cookie',
+                'name': 'sessionid',
+                'description': 'نشست Django — پس از login با کوکی sessionid نیز قابل استفاده است.',
+            },
+        },
+    },
+    'SECURITY': [{'TokenAuth': []}, {'SessionAuth': []}],
+    'ENUM_NAME_OVERRIDES': {
+        'ApprovalWorkflowStatusEnum': [
+            ('pending', 'در انتظار'),
+            ('approved', 'تایید شده'),
+            ('rejected', 'رد شده'),
+        ],
+    },
 }
