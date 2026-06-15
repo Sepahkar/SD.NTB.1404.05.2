@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ارسال درخواست | آموزشیار</title>
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+</head>
+<body>
+    <!-- سایدبار (سمت چپ) -->
+    <div class="sidebar">
+        <nav class="menu">
+            <div class="icon-box">
+                <img src="./assets/images/لوگو.png" alt="آموزشیار">
+                <img src="./assets/images/آمورشیار.png">
+            </div>
+            <ul>
+                <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
+                <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
+                <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
+                <li class="active"><a href="/emergency-removal/"><i class="fas fa-file-alt"></i> <span>درخواست و مجوز</span></a></li>
+                <li><a href="/full-transcript/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
+                <li><a href="/grade-objection/"><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a></li>
+                <li><a href="/financial/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
+                <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
+            </ul>
+        </nav>
+        <div class="logout">
+            <a href="/logout/"><i class="fas fa-sign-out-alt"></i> <span>خروج از سیستم</span></a>
+        </div>
+    </div>
+
+    <!-- محتوای اصلی -->
+    <div class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <div class="cancel-icon">
+                    <img src="./assets/images/cancel.png">
+                </div>
+                <div class="notification-icon">
+                    <img src="./assets/images/bell-notification.png">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-details">
+                    <h3 class="student-name">نام دانشجو</h3>
+                    <div class="user-meta">
+                        <p class="student-id">شماره دانشجویی: 123456789</p>
+                    </div>
+                </div>
+                <div class="user-avatar">
+                    <img src="./assets/images/Avatar.png">
+                </div>
+            </div>
+        </header>
+
+        <!-- بخش ارسال درخواست -->
+        <div class="send-request-section">
+
+            <div class="send-request-header">
+                <h2 class="send-request-title">ارسال درخواست</h2>
+                <p class="send-request-subtitle">ثبت و پیگیری درخواست و مجوز</p>
+            </div>
+
+            <a href="#" class="sr-back-link">
+                <i class="fas fa-chevron-left"></i>
+                بازگشت
+            </a>
+
+            <div class="sr-form-card">
+                <h3 class="sr-form-title">ارسال درخواست جدید</h3>
+
+                <div class="sr-form-row">
+                    <label>طبقه بندی درخواست:</label>
+                    <div class="sr-select-wrapper">
+                        <i class="far fa-star sr-star"></i>
+                        <select>
+                            <option value="" disabled selected>انتخاب کنید</option>
+                            <option>آموزشی</option>
+                            <option>مالی</option>
+                            <option>رفاهی</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="sr-form-row">
+                    <label>موضوع درخواست:</label>
+                    <div class="sr-select-wrapper">
+                        <i class="far fa-star sr-star"></i>
+                        <select>
+                            <option value="" disabled selected>انتخاب کنید</option>
+                            <option>مرخصی تحصیلی</option>
+                            <option>حذف ترم</option>
+                            <option>تغییر رشته</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="sr-form-row">
+                    <label>نیمسال درخواست:</label>
+                    <div class="sr-select-wrapper">
+                        <i class="far fa-star sr-star"></i>
+                        <select>
+                            <option value="" disabled selected>انتخاب کنید</option>
+                            <option>نیمسال اول ۱۴۰۳-۱۴۰۴</option>
+                            <option>نیمسال دوم ۱۴۰۳-۱۴۰۴</option>
+                            <option>تابستان ۱۴۰۴</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="sr-form-row">
+                    <label>نیمسال درخواست:</label>
+                    <div class="sr-select-wrapper">
+                        <i class="far fa-star sr-star"></i>
+                        <select>
+                            <option value="" disabled selected>انتخاب کنید</option>
+                            <option>نیمسال اول ۱۴۰۳-۱۴۰۴</option>
+                            <option>نیمسال دوم ۱۴۰۳-۱۴۰۴</option>
+                            <option>تابستان ۱۴۰۴</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="sr-form-row sr-textarea-row">
+                    <label>متن درخواست:</label>
+                    <textarea placeholder="توضیحات درخواست ..."></textarea>
+                </div>
+
+                <button class="sr-btn-primary">ارسال درخواست</button>
+                <button class="sr-btn-cancel">انصراف درخواست</button>
+            </div>
+
+        </div>
+
+    </div>
+
+<script src="/static/amoozeshyar/auth.js"></script>
+<script>initProtectedPage();</script>
+
+</body>
+</html>
