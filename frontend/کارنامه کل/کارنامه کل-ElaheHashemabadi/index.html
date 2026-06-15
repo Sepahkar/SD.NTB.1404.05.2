@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد آموزشیار | سامانه دانشجویی</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+</head>
+<body class="bg-light">
+
+        <!-- سایدبار (سمت چپ) -->
+        <div class="sidebar">
+            <nav class="menu">
+                <div class="icon-box">
+                    <img src="./assets/images/لوگو.png" alt="آموزشیار">
+                    <img src="./assets/images/آمورشیار.png">
+                </div>
+
+                <ul>
+                    <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i><span>داشبورد</span></a></li>
+                    <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i><span>معرفی اساتید</span></a></li>
+                    <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
+                    <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
+                    <li><a href="/course-selection/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
+                    <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
+                    <li class="active"><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کل</span></a></li>
+                    <li><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
+                    <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="logout">
+                <a href="/logout/"><i class="fas fa-sign-out-alt"></i> <span>خروج از سیستم</span></a>
+            </div>
+        </div>
+
+
+        <div class="main-content">
+            <header class="header position-sticky">
+                <!-- سمت چپ هدر: نوتیفیکیشن (خاکستری) -->
+                <div class="header-left">
+                    <div class="cancel-icon">
+                        <img src="./assets/images/cancel.png">
+                    </div>
+                    <div class="notification-icon">
+                        <img src="./assets/images/bell-notification.png">
+                    </div>
+                </div>
+
+                <!-- سمت راست هدر: آواتار + اطلاعات کاربر -->
+                <div class="header-right">
+                    <div class="user-details">
+                        <h3 class="student-name">نام دانشجو</h3>
+                        <div class="user-meta">
+                            <p class="student-id">شماره دانشجویی: 123456789</p>
+                        </div>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="./assets/images/Avatar.png">
+                    </div>
+                </div>
+            </header>
+
+            <article class="">
+                <section class="">
+                    <div class="mt-3">
+                        <div class="pe-4">
+                            <p class="fw-bold fs-5">کارنامه تحصیلی دانشجویی</p>
+                        </div>
+                        <p class="fw-light fs-6 pe-5 ">(مشخصات دانشجویی)</p>
+                        <div>
+                            <div class="d-flex justify-content-around ms-5 me-4 shadow report-box">
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td class="pt-3">تصویر : <img src="./assets/images/Avatar.png"> </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">نام و نام خانوادگی : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">کدملی : 0000000000</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">شماره شناسنامه : 0 </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">تاریخ تولد : 0000/00/00 </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">جنسیت : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">نام پدر : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">وضعیت نظام وظیفه : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">وضعیت جسمانی : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">سهمیه : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">كل تعداد واحد موثر : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">كل تعداد گذرانده شده : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3">معدل کل : 00.00 </td>
+                                    </tr>
+                                    </tbody>
+                            </table>
+
+                                <table>
+                                    <tbody>
+                                    <tr>
+                                        <td class="pt-3">شماره دانشجویی : ................. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">رشته تحصیلی : ................. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">مقطع تحصیلی : ................. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">دانشکده : ................. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">نیمسال پذیرش : ................. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">نوع پذیرش : ................. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">شیوه آموزش : ................. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">مانده سنوات : ................. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">آخرین وضعیت تحصیل: ................. </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">تاریخ شروع تحصیل : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">كل تعداد واحد اخذ شده : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pt-3">كل تعداد رد شده : .................</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="py-3">سنوات(ترم)گذرانده : 0 </td>
+                                    </tr>
+                                    </tbody>
+                            </table>
+                            </div>
+                            <div class="text-center">
+                                <a href="#report-print"
+                                   class="btn btn-outline-primary rounded-4 fs-5 px-5 my-3 " >
+                                چاپ کارنامه
+                                </a>
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </section>
+                <section>
+                    <div class="ms-5 me-4 gap-2 align-items-start mt-3">
+                        <div class="bg-white mx-auto shadow rounded-4 p-4">
+                            <div class="d-flex justify-content-between">
+                                <p class="mx-3 fw-bold text-dark-emphasis">نیمسال تحصیلی شماره1_....</p>
+                            </div>
+
+                            <table class="table table-striped">
+                                    <thead class="table-secondary">
+                                        <tr>
+                                            <td class="text-dark-emphasis pe-4">شماره</td>
+                                            <td class="text-dark-emphasis">کد درس</td>
+                                            <td class="text-dark-emphasis">کد ارائه</td>
+                                            <td class="text-dark-emphasis px-5">نام درس</td>
+                                            <td class="text-dark-emphasis">تعداد واحد</td>
+                                            <td class="text-dark-emphasis">نمره</td>
+                                            <td class="text-dark-emphasis">نوع درس</td>
+                                            <td class="text-dark-emphasis">نوع درس رشته</td>
+                                            <td class="text-dark-emphasis">وضعيت درس دانشجو</td>
+                                            <td class="text-dark-emphasis">وضعيت درس در رشته</td>
+                                            <td class="text-dark-emphasis">وضعيت اخذ درس</td>
+                                            <td class="text-dark-emphasis">وضعيت حذف درس</td>
+                                            <td class="text-dark-emphasis">نمره با ضريب</td>
+                                            <td class="text-dark-emphasis">وضعيت قبولي</td>
+                                            <td class="text-dark-emphasis ps-4">توضیحات</td>
+                                        </tr>
+                                    </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th class="text-dark-emphasis pe-4" scope="row">1</th>
+                                                <td class="">.................</td>
+                                                <td class="">.................</td>
+                                                <td class="">توسعه نرم افزار</td>
+                                                <td class="">3</td>
+                                                <td class="">00.00</td>
+                                                <td class="">نظری-عملی</td>
+                                                <td class="">تخصصی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">_</td>
+                                                <td class="">0</td>
+                                                <td class="">بدون نمره</td>
+                                                <td class=""></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-dark-emphasis pe-4" scope="row">2</th>
+                                                <td class="">.................</td>
+                                                <td class="">.................</td>
+                                                <td class="">آزمون نرم افزار</td>
+                                                <td class="">3</td>
+                                                <td class="">00.00</td>
+                                                <td class="">نظری-عملی</td>
+                                                <td class="">تخصصی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">_</td>
+                                                <td class="">0</td>
+                                                <td class="">بدون نمره</td>
+                                                <td class=""></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-dark-emphasis pe-4" scope="row">3</th>
+                                                <td class="">.................</td>
+                                                <td class="">.................</td>
+                                                <td class="">مهندسی نرم افزار</td>
+                                                <td class="">3</td>
+                                                <td class="">00.00</td>
+                                                <td class="">نظری-عملی</td>
+                                                <td class="">تخصصی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">_</td>
+                                                <td class="">0</td>
+                                                <td class="">بدون نمره</td>
+                                                <td class=""></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-dark-emphasis pe-4" scope="row">4</th>
+                                                <td class="">.................</td>
+                                                <td class="">.................</td>
+                                                <td class="">مهندسی اینترنت</td>
+                                                <td class="">3</td>
+                                                <td class="">00.00</td>
+                                                <td class="">نظری-عملی</td>
+                                                <td class="">تخصصی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">_</td>
+                                                <td class="">0</td>
+                                                <td class="">بدون نمره</td>
+                                                <td class=""></td>
+                                            </tr>
+                                            <tr>
+                                                <th class="text-dark-emphasis pe-4" scope="row">5</th>
+                                                <td class="">.................</td>
+                                                <td class="">.................</td>
+                                                <td class="">بازی سازی</td>
+                                                <td class="">3</td>
+                                                <td class="">00.00</td>
+                                                <td class="">نظری-عملی</td>
+                                                <td class="">تخصصی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">عادی</td>
+                                                <td class="">_</td>
+                                                <td class="">0</td>
+                                                <td class="">بدون نمره</td>
+                                                <td class=""></td>
+                                            </tr>
+
+                                        </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </article>
+        </div>
+
+
+
+
+
+<script src="/static/amoozeshyar/auth.js"></script>
+<script>initProtectedPage();</script>
+
+</body>
+</html>
