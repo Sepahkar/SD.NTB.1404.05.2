@@ -1,144 +1,143 @@
-# ⚡ NTBIAU Panel
+# Amoozeshyar Panel (NTBIAU)
 
-Welcome to the **NTBIAU Panel** project. This repository is built using Django and Django REST Framework (DRF), complete with OpenAPI & Swagger documentation.
+Welcome to the **Amoozeshyar** university management panel. This project is built with Django and exposes a full REST API documented via OpenAPI (Swagger UI and ReDoc).
 
 ---
 
-## 🚀 Getting Started & Setup
-
-Follow these steps to set up and run the project locally on your machine.
+## Getting Started
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/Sepahkar/SD.NTB.1404.05.2.git
 cd SD.NTB.1404.05.2
 ```
 
-### 2. Set Up Virtual Environment
-Ensure you have Python installed, then create and activate the virtual environment:
+### 2. Virtual Environment
+
 ```bash
-# Create virtual environment (if not already present)
 python -m venv .venv
-
-# Activate virtual environment
-# On macOS/Linux:
-source .venv/bin/activate
-# On Windows (cmd):
-.venv\Scripts\activate.bat
-# On Windows (PowerShell):
-.venv\Scripts\Activate.ps1
-```
-
-### 3. Install Dependencies
-```bash
+source .venv/bin/activate   # macOS/Linux
 pip install -r requirements.txt
 ```
 
-### 4. Database Migrations
-Apply the existing database migrations:
+### 3. Database & Server
+
 ```bash
 python manage.py migrate
-```
-
-### 5. Run Development Server
-```bash
+python manage.py seed_api_demo   # optional demo user
 python manage.py runserver
 ```
-The server will start at: `http://127.0.0.1:8000/`
+
+Server: `http://127.0.0.1:8000/`
 
 ---
 
-## 🔐 Administrative Access
+## Administrative Access
 
-The project has a pre-configured admin account to access the Django Administration Panel.
+| Item | Value |
+|------|-------|
+| Admin URL | `http://127.0.0.1:8000/admin/` |
+| Username | `admin` |
+| Password | `root@!123` |
 
-* **Admin URL:** `http://127.0.0.1:8000/admin/`
-* **Username:** `admin`
-* **Password:** `root@!123`
+Demo API user (after `seed_api_demo`):
+
+| Username | Password |
+|----------|----------|
+| `demo_student` | `demo1234` |
 
 ---
 
-## 📄 API Documentation
+## API Documentation
 
-We use `drf-spectacular` to auto-generate OpenAPI 3 schemas and interactive documentations. When the server is running, you can access the following:
+We use **drf-spectacular** to auto-generate OpenAPI 3 schemas. The DRF browsable API is disabled — use Swagger or ReDoc only.
 
 | Path | Description |
-| :--- | :--- |
-| [`/api/schema/`](http://127.0.0.1:8000/api/schema/) | The raw OpenAPI JSON schema endpoint |
-| [`/api/docs/`](http://127.0.0.1:8000/api/docs/) | **Swagger UI** - Interactive UI to explore and test the endpoints |
-| [`/api/redoc/`](http://127.0.0.1:8000/api/redoc/) | **ReDoc UI** - Elegant, three-column layout documentation |
+|------|-------------|
+| [`/api/schema/`](http://127.0.0.1:8000/api/schema/) | Raw OpenAPI JSON schema |
+| [`/api/docs/`](http://127.0.0.1:8000/api/docs/) | **Swagger UI** — interactive explorer |
+| [`/api/redoc/`](http://127.0.0.1:8000/api/redoc/) | **ReDoc** — Persian docs with tag groups |
 
-### Example API Endpoint
-* **Ping / Health Check:** [`http://127.0.0.1:8000/api/ping/`](http://127.0.0.1:8000/api/ping/)
+### Health Check
+
+`GET /api/ping/` — no authentication required.
+
+### Authentication
+
+```http
+POST /api/v1/auth/login/
+Content-Type: application/json
+
+{"username": "demo_student", "password": "demo1234"}
+```
+
+Use the returned `token` in subsequent requests:
+
+```http
+Authorization: Token <session_key>
+```
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/v1/auth/login/` | POST | Login |
+| `/api/v1/auth/logout/` | POST | Logout |
+| `/api/v1/auth/me/` | GET | Current user profile |
+| `/api/v1/auth/password/reset/` | POST | Password reset |
+
+### API Domains (v1)
+
+All CRUD resources are under `/api/v1/` with pagination (20/page), search, ordering, and filters.
+
+| Tag | Resources |
+|-----|-----------|
+| **Authentication** | login, logout, me, password reset |
+| **Auth Entities** | auth-roles, auth-accounts, auth-sessions, auth-account-roles |
+| **Lookup** | const-values, departments, education-branches, tendencies, terms |
+| **Person & Contact** | persons, phone-numbers, email-addresses, person-skills, postal-addresses |
+| **Profiles** | teachers, students, employees, teacher-research-interests |
+| **Academic** | lessons, classes, class-offers, exams, exam-results, attendances, transcripts, … |
+| **Finance & Requests** | student-payments, student-requests, loans, scholarships, dormitory-requests, … |
+| **Library & Misc** | books, library-book-lendings, internships, academic-events, … |
+| **Composite Pages** | `/api/v1/pages/dashboard/`, `grades/`, `financial/`, … (one call per screen) |
 
 ---
 
-## 🛠️ Common & Useful Django Commands
+## API Architecture
 
-Here are the most frequently used commands during development.
+```
+core/api/
+├── authentication.py    # Token + Session auth
+├── permissions.py       # Role-based access (student, admin, …)
+├── pagination.py        # Standard pagination (20/page)
+├── mixins.py            # Student-scoped queryset filtering
+├── urls.py              # All v1 routes
+├── openapi/             # Tag groups, decorators, auth schema extension
+├── serializers/         # 7 serializer modules (41 entities)
+├── views/               # ViewSets + auth + composite page APIs
+└── tests.py             # API smoke tests
+```
 
-### 🖥️ Development Server
-* **Run Server (Default Port 8000):**
-  ```bash
-  python manage.py runserver
-  ```
-* **Run Server on Custom Port / Host:**
-  ```bash
-  python manage.py runserver 0.0.0.0:8080
-  ```
+---
 
-### 🗄️ Database Management & Migrations
-* **Create Migrations:** (Runs after you modify model definitions)
-  ```bash
-  python manage.py makemigrations
-  ```
-* **Create Migrations for specific App:**
-  ```bash
-  python manage.py makemigrations <app_name>
-  ```
-* **Apply Migrations:** (Syncs database state with migrations files)
-  ```bash
-  python manage.py migrate
-  ```
-* **Show Migration Status:**
-  ```bash
-  python manage.py showmigrations
-  ```
-* **Inspect Database Changes SQL:** (Inspects what SQL commands a migration will execute)
-  ```bash
-  python manage.py sqlmigrate <app_name> <migration_number>
-  ```
+## Useful Commands
 
-### 👤 User Management
-* **Create a Superuser:** (Creates a new administrative account)
-  ```bash
-  python manage.py createsuperuser
-  ```
-* **Change Password:**
-  ```bash
-  python manage.py changepassword <username>
-  ```
+```bash
+python manage.py runserver
+python manage.py migrate
+python manage.py seed_api_demo
+python manage.py test core.api
+python manage.py spectacular --file schema.yaml --validate
+python manage.py createsuperuser
+python manage.py check
+```
 
-### 🧪 Testing & Validation
-* **Run Entire Test Suite:**
-  ```bash
-  python manage.py test
-  ```
-* **Run Tests for a Specific App:**
-  ```bash
-  python manage.py test <app_name>
-  ```
-* **Django System Check:** (Validates project structure, settings, and models for any errors)
-  ```bash
-  python manage.py check
-  ```
+---
 
-### 📦 Interactive Shell
-* **Start Python Interactive Shell inside Django:**
-  ```bash
-  python manage.py shell
-  ```
-* **Start Database Interactive CLI:**
-  ```bash
-  python manage.py dbshell
-  ```
+## HTML Guides
+
+| URL | Content |
+|-----|---------|
+| `/docs/` | Run & admin guide |
+| `/docs/setup-theme/` | Setup and theme guide |
+| `/docs/django-admin/` | Django admin complete guide |
