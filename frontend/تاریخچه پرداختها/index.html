@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تاریخچه پرداخت‌ها | سامانه آموزشیار</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="payment-history.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.0.3/Vazirmatn-font-face.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+</head>
+<body>
+    <!-- سایدبار -->
+    <div class="sidebar">
+        <nav class="menu">
+            <div class="icon-box">
+                <img src="./assets/images/لوگو.png" alt="آموزشیار">
+                <img src="./assets/images/آمورشیار.png">
+            </div>
+            <ul>
+                <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
+                <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
+                <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
+                <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
+                <li><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a></li>
+                <li><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
+                <li class="active"><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
+            </ul>
+        </nav>
+        <div class="logout">
+            <a href="/logout/"><i class="fas fa-sign-out-alt"></i> <span>خروج از سیستم</span></a>
+        </div>
+    </div>
+
+    <!-- محتوای اصلی -->
+    <div class="main-content">
+        <header class="header">
+            <div class="header-left">
+                <div class="cancel-icon">
+                    <img src="./assets/images/cancel.png">
+                </div>
+                <div class="notification-icon">
+                    <img src="./assets/images/bell-notification.png">
+                </div>
+            </div>
+            <div class="header-right">
+                <div class="user-details">
+                    <h3 class="student-name"> نام دانشجو </h3>
+                    <div class="user-meta">
+                        <p class="student-id">شماره دانشجویی: 123456789</p>
+                    </div>
+                </div>
+                <div class="user-avatar">
+                    <img src="./assets/images/Avatar.png">
+                </div>
+            </div>
+        </header>
+
+        <!-- صفحه تاریخچه پرداخت‌ها -->
+        <div class="payment-history-page">
+
+            <!-- عنوان صفحه -->
+            <div class="page-heading">
+                <div class="page-heading-icon">
+                    <i class="ti ti-receipt-2"></i>
+                </div>
+                <div>
+                    <h1>تاریخچه پرداخت‌ها</h1>
+                    <p class="page-subtitle">نمایش تاریخچه تمام پرداخت‌های انجام شده</p>
+                </div>
+            </div>
+
+            <!-- 4 کارت آماری -->
+            <div class="stats-cards">
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--blue">
+                        <i class="ti ti-files"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">کل پرداخت‌ها</span>
+                        <span class="stat-unit">تعداد</span>
+                        <span class="stat-number">24</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--purple">
+                        <i class="ti ti-wallet"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">جمع کل پرداخت‌ها</span>
+                        <span class="stat-unit">تومان</span>
+                        <span class="stat-number">42,852,000</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--green">
+                        <i class="ti ti-circle-check"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">پرداخت موفق</span>
+                        <span class="stat-unit">تعداد</span>
+                        <span class="stat-number">22</span>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon stat-icon--red">
+                        <i class="ti ti-circle-x"></i>
+                    </div>
+                    <div class="stat-content">
+                        <span class="stat-label">پرداخت ناموفق</span>
+                        <span class="stat-unit">تعداد</span>
+                        <span class="stat-number">2</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- نوار فیلتر و جستجو -->
+            <div class="filter-search-bar">
+                <div class="search-section">
+                    <i class="ti ti-search"></i>
+                    <input type="text" placeholder="جستجو در پرداخت‌ها..." class="search-input">
+                </div>
+                <div class="filter-section">
+                    <i class="ti ti-adjustments-horizontal"></i>
+                    <span>فیلتر کردن</span>
+                </div>
+            </div>
+
+            <!-- جدول پرداخت‌ها -->
+            <div class="payments-table-container">
+                <div class="table-responsive">
+                    <table class="payments-table">
+                        <thead>
+                            <tr>
+                                <th><i class="ti ti-file-description"></i> عنوان پرداخت</th>
+                                <th><i class="ti ti-coin"></i> مبلغ (تومان)</th>
+                                <th><i class="ti ti-calendar"></i> تاریخ پرداخت</th>
+                                <th><i class="ti ti-activity"></i> وضعیت</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="title-cell">پرداخت شهریه ترم بهار 1403</td>
+                                <td class="amount-cell">12,500,000</td>
+                                <td class="date-cell">1403/02/15</td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-badge--success">
+                                        <i class="ti ti-circle-check"></i> موفق
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-cell">پرداخت شهریه ترم بهار 1403</td>
+                                <td class="amount-cell">8,000,000</td>
+                                <td class="date-cell">1403/03/15</td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-badge--success">
+                                        <i class="ti ti-circle-check"></i> موفق
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-cell">پرداخت شهریه ترم بهار 1403</td>
+                                <td class="amount-cell">8,000,000</td>
+                                <td class="date-cell">1403/04/15</td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-badge--success">
+                                        <i class="ti ti-circle-check"></i> موفق
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-cell">کتاب‌های ترم بهار</td>
+                                <td class="amount-cell">1,200,000</td>
+                                <td class="date-cell">1403/02/20</td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-badge--success">
+                                        <i class="ti ti-circle-check"></i> موفق
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-cell">بیمه دانشجویی</td>
+                                <td class="amount-cell">500,000</td>
+                                <td class="date-cell">1403/05/01</td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-badge--failed">
+                                        <i class="ti ti-circle-x"></i> ناموفق
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-cell">پرداخت شهریه ترم تابستان 1403</td>
+                                <td class="amount-cell">6,000,000</td>
+                                <td class="date-cell">1403/05/15</td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-badge--success">
+                                        <i class="ti ti-circle-check"></i> موفق
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-cell">پرداخت شهریه ترم تابستان 1403</td>
+                                <td class="amount-cell">6,000,000</td>
+                                <td class="date-cell">1403/05/16</td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-badge--success">
+                                        <i class="ti ti-circle-check"></i> موفق
+                                    </span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="title-cell">پرداخت شهریه ترم پاییز 1403</td>
+                                <td class="amount-cell">12,500,000</td>
+                                <td class="date-cell">1403/06/10</td>
+                                <td class="status-cell">
+                                    <span class="status-badge status-badge--pending">
+                                        <i class="ti ti-clock"></i> در انتظار
+                                    </span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="view-more">
+                    <button class="btn-view-more">
+                        <i class="ti ti-chevron-down"></i>
+                        مشاهده بیشتر
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+<script src="/static/amoozeshyar/auth.js"></script>
+<script>initProtectedPage();</script>
+
+</body>
+</html>

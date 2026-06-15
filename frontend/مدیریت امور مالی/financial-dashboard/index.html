@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>داشبورد آموزشیار | سامانه دانشجویی</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+      <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+</head>
+  <body>
+    <!-- سایدبار (سمت چپ) — دست‌نخورده -->
+    <div class="sidebar">
+      <nav class="menu">
+        <div class="icon-box">
+          <img src="./assets/images/لوگو.png" alt="آموزشیار" />
+          <img src="./assets/images/آمورشیار.png" />
+        </div>
+
+        <ul>
+          <li>
+            <a href="/dashboard/"
+              ><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a
+            >
+          </li>
+          <li>
+            <a href="/teachers/"
+              ><i class="fas fa-chalkboard-teacher"></i>
+              <span>معرفی اساتید</span></a
+            >
+          </li>
+          <li>
+            <a href="/course-selection/"
+              ><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a
+            >
+          </li>
+          <li>
+            <a href="/add-drop/"
+              ><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a
+            >
+          </li>
+          <li>
+            <a href="/course-selection/"
+              ><i class="fas fa-search"></i> <span>جستجوی دروس</span></a
+            >
+          </li>
+          <li>
+            <a href="/emergency-removal/"
+              ><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a
+            >
+          </li>
+          <li>
+            <a href="/full-transcript/"
+              ><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a
+            >
+          </li>
+          <li>
+            <a href="/grade-objection/"
+              ><i class="fas fa-comment-dots"></i>
+              <span>اعتراض به نمره</span></a
+            >
+          </li>
+          <li class="active">
+            <a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="logout">
+        <a href="/logout/"
+          ><i class="fas fa-sign-out-alt"></i> <span>خروج از سیستم</span></a
+        >
+      </div>
+    </div>
+
+    <!-- محتوای اصلی -->
+    <div class="main-content">
+      <!-- هدر — دست‌نخورده -->
+      <header class="header">
+        <div class="header-left">
+          <div class="cancel-icon">
+            <img src="./assets/images/cancel.png" />
+          </div>
+          <div class="notification-icon">
+            <img src="./assets/images/bell-notification.png" />
+          </div>
+        </div>
+        <div class="header-right">
+          <div class="user-details">
+            <h3 class="student-name">نام دانشجو</h3>
+            <div class="user-meta">
+              <p class="student-id">شماره دانشجویی: 123456789</p>
+            </div>
+          </div>
+          <div class="user-avatar">
+            <img src="./assets/images/Avatar.png" />
+          </div>
+        </div>
+      </header>
+
+      <!-- عنوان صفحه -->
+      <div class="financial-dashboard">
+        <h3 class="title">امور مالی</h3>
+        <p class="subtitle">مدیریت امور مالی و پرداخت‌ها</p>
+      </div>
+
+      <!-- کارت‌های آمار -->
+      <div class="state">
+        <!-- کل پرداخت‌ها -->
+        <div class="stat-card">
+          <div class="stat-top">
+            <div>
+              <div class="stat-title">کل پرداخت‌ها</div>
+              <div class="title-value">تعداد</div>
+              <div class="stat-value">24</div>
+            </div>
+            <div class="stat-icon blue">
+              <i class="fas fa-receipt"></i>
+            </div>
+          </div>
+        </div>
+
+        <!-- وام فعال -->
+        <div class="stat-card">
+          <div class="stat-top">
+            <div>
+              <div class="stat-title">وام فعال</div>
+              <div class="title-value">مبلغ وام دریافتی</div>
+              <div class="stat-value">8,000,000</div>
+            </div>
+            <div class="stat-icon green">
+              <i class="fas fa-hand-holding-usd"></i>
+            </div>
+          </div>
+          <span class="badge green-badge">فعال</span>
+        </div>
+
+        <!-- اقساط باقی‌مانده -->
+        <div class="stat-card">
+          <div class="stat-top">
+            <div>
+              <div class="stat-title">اقساط باقی‌مانده</div>
+              <div class="title-value">تعداد اقساط تسویه نشده</div>
+              <div class="stat-value">5 قسط</div>
+            </div>
+            <div class="stat-icon orange">
+              <i class="fas fa-calendar-check"></i>
+            </div>
+          </div>
+          <span class="badge orange-badge">نیاز به پرداخت</span>
+        </div>
+
+        <!-- مبلغ بدهی -->
+        <div class="stat-card">
+          <div class="stat-top">
+            <div>
+              <div class="stat-title">مبلغ بدهی</div>
+              <div class="title-value">مجموع بدهی ثبت شده</div>
+              <div class="stat-value">12,500,000</div>
+            </div>
+            <div class="stat-icon red">
+              <i class="fas fa-times-circle"></i>
+            </div>
+          </div>
+          <span class="badge red-badge">پرداخت نشده</span>
+        </div>
+      </div>
+
+      <!-- دسترسی سریع -->
+      <div class="section-title">⚡ دسترسی سریع</div>
+
+      <div class="quick-access">
+        <!-- تاریخچه پرداخت‌ها -->
+        <div class="action-card action-card-blue2">
+          <div class="action-card-icon">
+            <i class="fas fa-history"></i>
+          </div>
+          <h3>تاریخچه پرداخت‌ها</h3>
+          <p>مشاهده تاریخچه تمامی پرداخت‌های انجام شده</p>
+          <button class="action-card-btn btn-blue">
+            ← مشاهده تاریخچه پرداخت‌ها
+          </button>
+        </div>
+
+        <!-- وضعیت وام‌های قبلی -->
+        <div class="action-card action-card-green">
+          <div class="action-card-icon">
+            <i class="fas fa-clipboard-list"></i>
+          </div>
+          <h3>وضعیت وام‌های قبلی</h3>
+          <p>مشاهده وضعیت و جزئیات وام‌های دریافتی گذشته</p>
+          <button class="action-card-btn btn-green">
+            ← مشاهده وام‌های قبلی
+          </button>
+        </div>
+
+        <!-- ثبت درخواست وام -->
+        <div class="action-card action-card-blue">
+          <div class="action-card-icon">
+            <i class="fas fa-file-alt"></i>
+          </div>
+          <h3>ثبت درخواست وام</h3>
+          <p>فرم ثبت درخواست برای دریافت وام جدید را تکمیل و ارسال نمایید</p>
+          <button class="action-card-btn btn-purple">← ثبت درخواست جدید</button>
+        </div>
+      </div>
+
+      <!-- امنیت -->
+      <div class="security">
+        <div class="security-icon">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <div>
+          <h4>اطلاعات شما محفوظ است</h4>
+          <p>
+            تمام اطلاعات مالی و پرداخت‌های شما به صورت امن نگهداری می‌شود و فقط
+            در اختیار شما قرار دارد.
+          </p>
+        </div>
+      </div>
+    </div>
+  
+<script src="/static/amoozeshyar/auth.js"></script>
+<script>initProtectedPage();</script>
+
+</body>
+</html>
