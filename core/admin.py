@@ -15,6 +15,14 @@ from .models import Internship
 from .models import StudentPayments
 from .models import Employee
 from .models import EducationBranch
+from .models import (
+    AcademicAnnouncement,
+    AcademicEvent,
+    Book,
+    LibraryBookLending,
+    LibraryResource,
+    Transcript,
+)
 
 
 
@@ -1435,25 +1443,30 @@ class EmployeeAdmin(admin.ModelAdmin):
 # Student , Nima Movahedi
 # =============================================================================
 
-class StudentClassInline(admin.TabularInline):
-    model = Class
+class StudentTranscriptInline(admin.TabularInline):
+    model = Transcript
     fk_name = "student"
     extra = 0
     show_change_link = True
 
     fields = (
-        "class_group",
-        "final_score",
-        "attendance_count",
-        "is_passed",
-        "register_date",
+        "class_offer",
+        "final_grade",
+        "pass_status",
+        "updated_at",
     )
 
     readonly_fields = (
-        "register_date",
+        "updated_at",
     )
+
+    autocomplete_fields = ("class_offer",)
+
+
 @admin.register(Student)
 class StudentAdmin(admin.ModelAdmin):
+
+    inlines = (StudentTranscriptInline,)
 
     list_display = (
         "student_number",
@@ -1612,5 +1625,375 @@ class StudentAdmin(admin.ModelAdmin):
                 "tendency",
                 "advisor_teacher",
                 "blood_type",
+            )
+        )
+
+
+# =============================================================================
+# Library — Book, lending, reserve
+# =============================================================================
+
+@admin.register(Book)
+class BookAdmin(admin.ModelAdmin):
+    list_display = ("title", "isbn")
+    list_display_links = ("title",)
+    search_fields = ("title", "isbn")
+    search_help_text = "جستجو بر اساس عنوان یا شابک"
+    ordering = ("title",)
+    list_per_page = 50
+    save_on_top = True
+
+
+@admin.register(LibraryBookLending)
+class LibraryBookLendingAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "book",
+        "student",
+        "employee",
+        "status",
+        "loan_date",
+        "due_date",
+        "return_date",
+        "is_returned",
+        "renewal_count",
+        "fine_amount",
+    )
+    list_display_links = ("book",)
+    list_filter = (
+        "status",
+        "is_returned",
+        "employee",
+        "loan_date",
+        "due_date",
+        "return_date",
+    )
+    search_fields = (
+        "book__title",
+        "book__isbn",
+        "student__student_number",
+        "student__person__full_name",
+        "employee__employee_code",
+        "employee__person__full_name",
+        "description",
+        "notes",
+    )
+    search_help_text = "جستجو بر اساس کتاب، دانشجو، کتابدار، توضیحات و یادداشت"
+    autocomplete_fields = ("book", "student", "employee")
+    readonly_fields = ("loan_date",)
+    ordering = ("-loan_date",)
+    date_hierarchy = "loan_date"
+    list_per_page = 50
+    save_on_top = True
+
+    fieldsets = (
+        (
+            "اطلاعات اصلی امانت",
+            {"fields": ("book", "student", "employee", "status")},
+        ),
+        (
+            "وضعیت امانت",
+            {
+                "fields": (
+                    "loan_date",
+                    "due_date",
+                    "return_date",
+                    "is_returned",
+                    "renewal_count",
+                    "fine_amount",
+                )
+            },
+        ),
+        (
+            "توضیحات",
+            {"fields": ("description", "notes")},
+        ),
+    )
+
+    def get_queryset(self, request):
+        return (
+            super()
+            .get_queryset(request)
+            .select_related("book", "student", "student__person", "employee", "employee__person", "status")
+        )
+
+
+@admin.register(LibraryResource)
+class LibraryResourceAdmin(admin.ModelAdmin):
+    list_display = (
+        "person",
+        "resource_name",
+        "reserve_date",
+        "is_returned",
+        "lost_status",
+    )
+    list_display_links = ("resource_name",)
+    list_filter = ("is_returned", "lost_status")
+    search_fields = (
+        "resource_name",
+        "person__username",
+        "person__full_name",
+    )
+    search_help_text = "جستجو بر اساس نام منبع یا کاربر"
+    autocomplete_fields = ("person",)
+    ordering = ("-reserve_date",)
+    list_per_page = 50
+    save_on_top = True
+
+    fieldsets = (
+        (
+            "اطلاعات رزرو",
+            {
+                "fields": (
+                    "person",
+                    "resource_name",
+                    "reserve_date",
+                    "is_returned",
+                    "lost_status",
+                )
+            },
+        ),
+    )
+
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related("person")
+
+
+# =============================================================================
+# Academic Event
+# =============================================================================
+
+@admin.register(AcademicEvent)
+class AcademicEventAdmin(admin.ModelAdmin):
+    list_display = (
+        "id",
+        "title_fa",
+        "event_type",
+        "start_date",
+        "status",
+        "host_department",
+        "is_public",
+    )
+    list_display_links = ("id", "title_fa")
+    list_filter = (
+        "host_department",
+        "start_date",
+        "is_public",
+        "event_type",
+        "status",
+    )
+    search_fields = (
+        "title_fa",
+        "title_en",
+        "status__caption",
+        "event_type__caption",
+        "host_department__department_title",
+        "organizer_person__first_name",
+        "organizer_person__last_name",
+    )
+    search_help_text = "جستجو بر اساس عنوان رویداد، نوع رویداد، دانشکده میزبان، یا برگزارکننده"
+    autocomplete_fields = ("event_type", "organizer_person", "host_department", "status")
+    ordering = ("-start_date", "title_fa")
+    list_per_page = 50
+    save_on_top = True
+
+    fieldsets = (
+        (
+            "اطلاعات اصلی رویداد",
+            {
+                "fields": (
+                    "title_fa",
+                    "title_en",
+                    "event_type",
+                    "description",
+                )
+            },
+        ),
+        (
+            "زمان و مکان",
+            {
+                "fields": (
+                    "start_date",
+                    "end_date",
+                    "location",
+                )
+            },
+        ),
+        (
+            "برگزارکننده و دپارتمان",
+            {
+                "fields": (
+                    "organizer_person",
+                    "host_department",
+                )
+            },
+        ),
+        (
+            "ثبت‌نام و وضعیت",
+            {
+                "fields": (
+                    "registration_required",
+                    "registration_deadline",
+                    "max_attendees",
+                    "status",
+                    "is_public",
+                    "contact_email",
+                )
+            },
+        ),
+    )
+
+    def get_queryset(self, request):
+        return (
+            super()
+            .get_queryset(request)
+            .select_related("event_type", "organizer_person", "host_department", "status")
+        )
+
+
+# =============================================================================
+# Academic Announcement — Amirreza Maghsodi
+# =============================================================================
+
+@admin.register(AcademicAnnouncement)
+class AcademicAnnouncementAdmin(admin.ModelAdmin):
+    list_display = (
+        "title",
+        "announcement_type",
+        "audience",
+        "department_code",
+        "status",
+        "priority",
+        "is_urgent",
+        "publish_date",
+        "expiry_date",
+        "view_count",
+        "allow_comment",
+        "creator",
+    )
+    list_display_links = ("title",)
+    list_filter = (
+        "announcement_type",
+        "audience",
+        "status",
+        "priority",
+        "is_urgent",
+        "allow_comment",
+        "publish_date",
+        "expiry_date",
+        "creator",
+    )
+    search_fields = (
+        "title",
+        "body",
+        "summary",
+        "contact_email",
+        "department_code",
+        "creator__username",
+        "creator__full_name",
+        "audience__caption",
+    )
+    search_help_text = "جستجو در عنوان، متن، ایمیل، دپارتمان و سازنده"
+    list_select_related = (
+        "announcement_type",
+        "audience",
+        "status",
+        "creator",
+    )
+    autocomplete_fields = ("announcement_type", "audience", "status", "creator")
+    readonly_fields = ("publish_date", "view_count")
+    ordering = ("-publish_date",)
+    list_per_page = 50
+    save_on_top = True
+
+    actions = (
+        "make_urgent",
+        "make_normal",
+        "activate_comments",
+        "deactivate_comments",
+    )
+
+    fieldsets = (
+        (
+            "اطلاعات اصلی",
+            {
+                "fields": (
+                    "title",
+                    "summary",
+                    "body",
+                )
+            },
+        ),
+        (
+            "دسته‌بندی",
+            {
+                "fields": (
+                    "announcement_type",
+                    "audience",
+                    "department_code",
+                    "status",
+                )
+            },
+        ),
+        (
+            "زمان‌بندی",
+            {
+                "fields": (
+                    "publish_date",
+                    "expiry_date",
+                )
+            },
+        ),
+        (
+            "تنظیمات",
+            {
+                "fields": (
+                    "priority",
+                    "is_urgent",
+                    "allow_comment",
+                )
+            },
+        ),
+        (
+            "اطلاعات سیستم",
+            {
+                "fields": (
+                    "creator",
+                    "contact_email",
+                    "view_count",
+                )
+            },
+        ),
+    )
+
+    @admin.action(description="فوری کردن اعلان‌ها")
+    def make_urgent(self, request, queryset):
+        updated = queryset.update(is_urgent=True)
+        self.message_user(request, f"{updated} اعلان فوری شد.")
+
+    @admin.action(description="حذف حالت فوری")
+    def make_normal(self, request, queryset):
+        updated = queryset.update(is_urgent=False)
+        self.message_user(request, f"{updated} اعلان عادی شد.")
+
+    @admin.action(description="فعال‌سازی کامنت‌ها")
+    def activate_comments(self, request, queryset):
+        updated = queryset.update(allow_comment=True)
+        self.message_user(request, f"{updated} اعلان قابل کامنت شد.")
+
+    @admin.action(description="غیرفعال‌سازی کامنت‌ها")
+    def deactivate_comments(self, request, queryset):
+        updated = queryset.update(allow_comment=False)
+        self.message_user(request, f"{updated} کامنت‌ها بسته شد.")
+
+    def get_queryset(self, request):
+        return (
+            super()
+            .get_queryset(request)
+            .select_related(
+                "announcement_type",
+                "audience",
+                "status",
+                "creator",
             )
         )

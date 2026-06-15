@@ -41,6 +41,8 @@ Server: `http://127.0.0.1:8000/`
 | Username | `admin` |
 | Password | `root@!123` |
 
+Registered in Django admin (Core app): lookup and academic basics (ConstValue, Lesson, Class, Term, Student, …), plus **Books**, **Library book lendings**, **Library resources**, **Academic events**, and **Academic announcements**. Student records include an inline transcript editor.
+
 Demo API user (after `seed_api_demo`):
 
 | Username | Password |
