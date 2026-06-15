@@ -1,0 +1,698 @@
+/* ============================================
+   تنظیمات پایه و ریشه (Root Variables)
+   ============================================ */
+:root {
+    --primary-color: #215bd6;
+    --secondary-color: #60A5FA;
+    --bg-white: #FFFFFF;
+    --bg-light: #F3F4F6;
+    --text-primary: #111827;
+    --text-secondary: #6B7280;
+    --success-color: #10B981;
+    --warning-color: #F59E0B;
+    --danger-color: #EF4444;
+    --border-color: #E5E7EB;
+    --hover-bg: #F9FAFB;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'IRANSansX', 'Segoe UI', 'Tahoma', 'Vazirmatn', system-ui, -apple-system, sans-serif;
+    background-color: var(--bg-light);
+    display: flex;
+    flex-direction: row;
+    height: 100vh;
+    overflow: hidden;
+    color: var(--text-primary);
+}
+
+
+.sidebar {
+    width: 280px;
+    background-color: var(--bg-white);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border-radius: 54px 54px 30px 0px;  /* گردی گوشه‌ها */
+    margin: 18px;  /* حاشیه از همه طرف */
+    height: calc(100% - 30px);  /* 18px بالا + 18px پایین = 36px */
+    z-index: 10;
+    overflow: hidden;
+}
+
+.menu {
+    flex: 1;
+    padding: 16px;
+}
+
+.menu ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.menu li {
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.menu li a {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.menu li a i {
+    margin-left: 12px;
+    width: 22px;
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    transition: all 0.2s ease;
+}
+
+.menu li a span {
+    flex: 1;
+}
+
+.menu li:hover {
+    background-color: var(--hover-bg);
+}
+
+.menu li:hover a,
+.menu li:hover a i {
+    color: white;
+    background-color: #215bd6;
+}
+
+.menu .active {
+    background-color: rgba(14, 87, 245, 0.1);
+}
+
+.menu .active a,
+.menu .active a i {
+    color: white;
+    background-color: #215bd6;
+    font-weight : bold;
+}
+
+.logout {
+    padding: 16px;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+}
+
+.logout a {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    color: var(--danger-color);
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+.logout a i {
+    margin-left: 12px;
+    width: 22px;
+}
+
+.logout a span {
+    flex: 1;
+}
+
+.logout a:hover {
+    background-color: #e041411a;
+}
+
+/* ============================================
+   بخش اصلی
+   ============================================ */
+.main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    background-color: var(--bg-light);
+    padding: 12px 12px 12px 0;
+}
+
+.main-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.main-content::-webkit-scrollbar-track {
+    background: var(--bg-light);
+}
+
+.main-content::-webkit-scrollbar-thumb {
+    background: var(--text-secondary);
+    border-radius: 3px;
+}
+
+.header {
+    background-color: var(--bg-white);
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    border-radius: 43px 35px 35px 0px;
+    margin-bottom: 24px;
+    margin-left: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.notification-icon {
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-icon i {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    transition: color 0.2s;
+}
+
+.notification-icon:hover i {
+    color: var(--primary-color);
+}
+
+
+.cancel-icon{
+    margin-left: 4rem;
+}
+
+.icon-box{
+    margin: 40px 20px ;
+    
+}
+
+.notification-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background-color: var(--danger-color);
+    color: rgb(157, 155, 155);
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 2px 5px;
+    border-radius: 10px;
+    min-width: 18px;
+    text-align: center;
+}
+
+/* سمت راست هدر - آواتار + اطلاعات کاربر */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-direction: row;
+}
+
+.user-avatar {
+    width: 55px;
+    height: 55px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.user-avatar i {
+    font-size: 1.8rem;
+    color: white;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.student-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 4px;
+}
+
+.user-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.student-id {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.role {
+    background-color: var(--primary-color);
+    color: white;
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    font-weight: 600;
+}
+
+/* ============================================
+   Responsive Design
+   ============================================ */
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 260px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        flex-direction: column;
+    }
+    
+    .sidebar {
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        flex-wrap: wrap;
+        border-radius: 12px;
+        margin: 12px;
+        height: auto;
+    }
+    
+    .menu {
+        padding: 12px;
+        width: 100%;
+    }
+    
+    .menu ul {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        flex-direction: row;
+    }
+    
+    .menu li {
+        flex: 1 0 auto;
+        margin-bottom: 0;
+    }
+    
+    .menu li a {
+        justify-content: center;
+        font-size: 0.75rem;
+        padding: 8px 12px;
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .menu li a i {
+        margin-left: 0;
+        margin-bottom: 4px;
+        font-size: 1rem;
+    }
+    
+    .menu li a span {
+        font-size: 0.7rem;
+    }
+    
+    .logout {
+        display: none;
+    }
+    
+    .main-content {
+        padding: 12px;
+        margin-bottom: 80px;
+    }
+    
+    .header {
+        padding: 12px 16px;
+        margin-bottom: 16px;
+    }
+    
+    .student-name {
+        font-size: 0.9rem;
+    }
+    
+    .user-avatar {
+        width: 42px;
+        height: 42px;
+    }
+    
+    .user-avatar i {
+        font-size: 1.3rem;
+    }
+    
+    .user-meta {
+        gap: 8px;
+    }
+    
+    .student-id {
+        font-size: 0.65rem;
+    }
+    
+    .role {
+        font-size: 0.6rem;
+        padding: 3px 8px;
+    }
+    
+    .notification-icon i {
+        font-size: 1.1rem;
+    }
+}
+
+
+
+:root {
+    --bg-page: #f5f6fa;
+    --bg-card: #ffffff;
+    --bg-avatar: #e8e4f8;
+    --color-primary: #7c6fe0;
+    --color-primary-light: #ede9fb;
+    --color-text-dark: #1a1a2e;
+    --color-text-mid: #555575;
+    --color-text-light: #9898b0;
+    --color-star: #f59e0b;
+    --color-border: #ebebf2;
+    --color-btn-bg: #f5f5fa;
+    --color-btn-hover: #ede9fb;
+    --shadow-card: 0 2px 12px rgba(120, 110, 200, 0.07);
+    --shadow-card-hover: 0 8px 28px rgba(120, 110, 200, 0.16);
+    --radius-card: 18px;
+    --radius-btn: 10px;
+    --radius-avatar: 50%;
+    --font-fa: 'Vazirmatn', 'Tahoma', 'Arial', sans-serif;
+    --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+/* === Reset & Base === */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-fa);
+  background-color: var(--bg-page);
+  color: var(--color-text-dark);
+  min-height: 100vh;
+  direction: rtl;
+}
+
+/* === Section === */
+.instructors-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px 60px;
+}
+
+/* === Header === */
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-text {
+  text-align: right;
+}
+
+.section-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin-bottom: 4px;
+  letter-spacing: -0.3px;
+  text-align: right;
+}
+
+.section-subtitle {
+  font-size: 0.88rem;
+  color: var(--color-text-light);
+  font-weight: 400;
+}
+
+/* === Filter Button === */
+.filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--bg-card);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-btn);
+  padding: 10px 20px;
+  font-family: var(--font-fa);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-mid);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.05);
+}
+
+.filter-btn:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* === Cards Grid === */
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* === Instructor Card === */
+.instructor-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-card);
+  padding: 24px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1.5px solid var(--color-border);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition);
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.instructors-section {
+    max-width: 100%;
+    margin: 0;
+    padding: 0 16px 60px;
+}
+
+
+.instructor-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--color-primary), #a78bfa);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.instructor-card:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+  border-color: transparent;
+}
+
+.instructor-card:hover::before {
+  opacity: 1;
+}
+
+/* === Avatar === */
+.card-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-avatar);
+  background: var(--bg-avatar);
+  overflow: hidden;
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 3px solid var(--color-primary-light);
+  transition: var(--transition);
+}
+
+.instructor-card:hover .card-avatar {
+  border-color: var(--color-primary);
+}
+
+.card-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* === Card Text === */
+.card-name {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--color-text-dark);
+  margin-bottom: 6px;
+  line-height: 1.3;
+}
+
+.card-field {
+  font-size: 0.8rem;
+  color: var(--color-text-mid);
+  margin-bottom: 4px;
+  font-weight: 400;
+}
+
+.card-tag {
+  font-size: 0.78rem;
+  color: var(--color-text-light);
+  margin-bottom: 14px;
+}
+
+/* === Stats Row === */
+.card-stats {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 10px 4px;
+  border-top: 1px solid var(--color-border);
+  border-bottom: 1px solid var(--color-border);
+  margin-bottom: 14px;
+  gap: 8px;
+}
+
+.students-count {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: var(--color-text-mid);
+  font-weight: 500;
+}
+
+.students-count svg {
+  color: var(--color-primary);
+  flex-shrink: 0;
+}
+
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--color-text-dark);
+}
+
+/* === Action Buttons === */
+.card-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.action-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: var(--color-btn-bg);
+  border: 1.5px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--color-text-mid);
+  transition: var(--transition);
+  flex-shrink: 0;
+}
+
+.action-btn:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+  transform: scale(1.08);
+}
+
+/* === Animation on load === */
+.instructor-card {
+  animation: fadeUp 0.4s ease both;
+}
+
+.instructor-card:nth-child(1) { animation-delay: 0.05s; }
+.instructor-card:nth-child(2) { animation-delay: 0.10s; }
+.instructor-card:nth-child(3) { animation-delay: 0.15s; }
+.instructor-card:nth-child(4) { animation-delay: 0.20s; }
+.instructor-card:nth-child(5) { animation-delay: 0.25s; }
+.instructor-card:nth-child(6) { animation-delay: 0.30s; }
+.instructor-card:nth-child(7) { animation-delay: 0.35s; }
+.instructor-card:nth-child(8) { animation-delay: 0.40s; }
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
