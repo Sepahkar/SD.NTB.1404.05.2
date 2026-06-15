@@ -1,0 +1,12 @@
+"""OpenAPI tag constants for drf-spectacular grouping."""
+
+TAG_HEALTH = "Health"
+TAG_AUTHENTICATION = "Authentication"
+TAG_AUTH_ENTITIES = "Auth Entities"
+TAG_LOOKUP = "Lookup"
+TAG_PERSON = "Person & Contact"
+TAG_PROFILES = "Profiles"
+TAG_ACADEMIC = "Academic"
+TAG_FINANCE = "Finance & Requests"
+TAG_LIBRARY_MISC = "Library & Misc"
+TAG_COMPOSITE_PAGES = "Composite Pages"
