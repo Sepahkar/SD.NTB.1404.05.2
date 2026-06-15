@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد آموزشیار | سامانه دانشجویی</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+</head>
+<body class="bg-light">
+
+        <!-- سایدبار (سمت چپ) -->
+        <div class="sidebar">
+            <nav class="menu">
+                <div class="icon-box">
+                    <img src="./assets/images/لوگو.png" alt="آموزشیار">
+                    <img src="./assets/images/آمورشیار.png">
+                </div>
+
+                <ul>
+                    <li class="active"><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i><span>داشبورد</span></a></li>
+                    <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i><span>معرفی اساتید</span></a></li>
+                    <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
+                    <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
+                    <li><a href="/course-selection/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
+                    <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
+                    <li><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کل</span></a></li>
+                    <li><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
+                    <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
+                </ul>
+            </nav>
+
+            <div class="logout">
+                <a href="/logout/"><i class="fas fa-sign-out-alt"></i> <span>خروج از سیستم</span></a>
+            </div>
+    </div>
+
+
+
+        <div class="main-content">
+            <header class="header position-sticky">
+                <!-- سمت چپ هدر: نوتیفیکیشن (خاکستری) -->
+                <div class="header-left">
+                    <div class="cancel-icon">
+                        <img src="./assets/images/cancel.png">
+                    </div>
+                    <div class="notification-icon">
+                        <img src="./assets/images/bell-notification.png">
+                    </div>
+                </div>
+
+                <!-- سمت راست هدر: آواتار + اطلاعات کاربر -->
+                <div class="header-right">
+                    <div class="user-details">
+                        <h3 class="student-name">نام دانشجو</h3>
+                        <div class="user-meta">
+                            <p class="student-id">شماره دانشجویی: 123456789</p>
+                        </div>
+                    </div>
+                    <div class="user-avatar">
+                        <img src="./assets/images/Avatar.png">
+                    </div>
+                </div>
+            </header>
+
+            <article class="">
+                <section class="">
+                    <div class="d-flex justify-content-between mt-3">
+                        <div class="pe-4">
+                            <p class="fw-bold fs-5 mt-2">داشبورد دانشجویی</p>
+                            <p>به سامانه آموزشیار خوش آمدید</p>
+                        </div>
+                        <div class="time-box bg-white ms-4 rounded-4 shadow text-center pt-2">
+                            <p>زمان باقی مانده تا امتحانات</p>
+                            <p class="text-primary ">75 روز و 1 ساعت</p>
+                        </div>
+                    </div>
+
+                </section>
+                <section>
+                    <div class="gap-2 d-flex justify-content-evenly mt-2 mb-3">
+                        <div class="card bg-white px-4 py-4 rounded-4 me-3">
+                            <div class="d-flex">
+                                <div class="status-icon pt-4 ">
+                                    <i class=" text-success far fa-check-circle fa-2x"></i>
+                                </div>
+                                <div class="pe-2">
+                                    <p class="fw-bold">وضعیت واحدهای پاس شده</p>
+                                    <p class="text-secondary">تعداد واحدات در یک نگاه:</p>
+                                </div>
+
+                            </div>
+                            <div class="status-count">
+                                <span>75</span>
+                                <span>/ 144</span>
+                            </div>
+
+                            <div class="progress">
+                                <div class="progress-fill bg-success"></div>
+                            </div>
+                        </div>
+                        <div class="card bg-white px-4 py-4 rounded-4">
+                            <div class="d-flex">
+                                <div class="status-icon">
+                                    <i class=" text-primary fas fa-graduation-cap fa-2x pt-4"></i>
+                                </div>
+                                <div class="pe-2" >
+                                    <p class="fw-bold">معدل کل</p>
+                                    <p class="text-secondary">وضعیت نمره هات به این شکله:</p>
+                                </div>
+
+                            </div>
+                            <div class="status-count">
+                                <span>16.60</span>
+                                <span>/ 20</span>
+                            </div>
+
+                            <div class="progress">
+                                <div class="progress-fill bg-primary"></div>
+                            </div>
+                        </div>
+                        <div class="card bg-white px-4 py-4 rounded-4">
+                            <div class="d-flex">
+                                <div class="status-icon">
+                                    <i class=" text-info far fa-list-alt fa-2x pt-4"></i>
+                                </div>
+                                <div class="pe-2 px-5" >
+                                    <p class="fw-bold">واحدهای ترم جاری</p>
+                                    <p class="text-secondary">چقدر واحد برداشتی:</p>
+                                </div>
+
+                            </div>
+                            <div class="status-count">
+                                <span>16</span>
+                                <span>/ 24</span>
+                            </div>
+
+                            <div class="progress">
+                                <div class="progress-fill bg-info"></div>
+                            </div>
+                        </div>
+                        <div class="card bg-white px-4 py-4 rounded-4 ms-3">
+                            <div class="d-flex">
+                                <div class="status-icon">
+                                    <i class=" text-warning far  fa-hourglass-half fa-2x pt-4"></i>
+                                </div>
+                                <div class="pe-2" >
+                                    <p class="fw-bold">روزهای باقی مانده ترم</p>
+                                    <p class="text-secondary">چقدر روزهای سختی سپری کردی:</p>
+                                </div>
+
+                            </div>
+                            <div class="status-count">
+                                <span>75</span>
+                                <span>/ 120</span>
+                            </div>
+
+                            <div class="progress">
+                                <div class="progress-fill bg-warning"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
+                <section>
+                    <div class="d-flex justify-content-evenly mx-3 gap-2 align-items-start">
+                        <div class="bg-white mx-auto shadow rounded-4 p-4">
+                            <div class="d-flex justify-content-between">
+                                <p class="mx-3 fw-bold">برنامه هفتگی امروز</p>
+                                <p class="text-center text-primary mx-3 ">
+                                    <a href="#" class="text-decoration-none">مشاهده همه</a></p>
+                            </div>
+
+                            <table class="table align-items-center text-center mt-3">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <td class="text-secondary">ردیف</td>
+                                        <td class="text-secondary">نام درس</td>
+                                        <td class="text-secondary">نام استاد</td>
+                                        <td class="text-secondary">ساعت کلاس</td>
+                                        <td class="text-secondary">مکان کلاس</td>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        <th class="text-secondary" scope="row">1</th>
+                                        <td class="px-3">توسعه نرم افزار</td>
+                                        <td class="px-4">محمد سپه کار</td>
+                                        <td class="px-4">سه شنبه ها 10:15 الی 13</td>
+                                        <td class="px-5">A125</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-secondary" scope="row">2</th>
+                                        <td>آزمون نرم افزار</td>
+                                        <td>محمد سپه کار</td>
+                                        <td>سه شنبه ها 7:30 الی 10</td>
+                                        <td>A126</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-secondary" scope="row">3</th>
+                                        <td>پایگاه داده</td>
+                                        <td>علی رضایی</td>
+                                        <td>یکشنبه ها 7:30 الی 10</td>
+                                        <td>A127</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-secondary" scope="row">4</th>
+                                        <td>بازی سازی</td>
+                                        <td>یاسین اکبری</td>
+                                        <td>یکشنبه ها 13 الی 16</td>
+                                        <td>A128</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-secondary" scope="row">5</th>
+                                        <td>مهندسی اینترنت</td>
+                                        <td>نازنین ملکی</td>
+                                        <td>شنبه ها 7:30 الی 10</td>
+                                        <td>A129</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-secondary" scope="row">6</th>
+                                        <td>ریاضیات گسسته</td>
+                                        <td>زینب خانی</td>
+                                        <td>دوشنبه ها 14:40 الی 17</td>
+                                        <td>A130</td>
+                                    </tr>
+                                    <tr>
+                                        <th class="text-secondary" scope="row">7</th>
+                                        <td>اندیشه اسلامی 1</td>
+                                        <td>قاسم رستمی</td>
+                                        <td>شنبه ها 10 الی 12</td>
+                                        <td>A131</td>
+                                    </tr>
+                                    </tbody>
+                            </table>
+                        </div>
+
+                        <div class=" mx-auto text-center payment-box ">
+                            <div class="payment-card px-5 rounded-4">
+                                <div class="text-white">
+                                    <p class="fw-bold fs-5">امور مالی</p>
+                                    <p class="fs-6 ">مبلغ علی الحساب شهریه را از اینجا پرداخت کنید:</p>
+                                    <div class="d-flex mx-auto rounded-4 justify-content-between price-box">
+                                        <div class="pe-2">
+                                            <p class="">بدهی فعلی</p>
+                                            <p class="fw-bold fs-5">12.500.000 تومان</p>
+                                        </div>
+                                        <div class="ps-2">
+                                            <p class="">شهریه ترم جاری</p>
+                                            <p class="fw-bold fs-5">25.000.000 تومان</p>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <a href="#online-payment" class="btn btn-light rounded-4 text-primary
+                                          fw-bold fs-6 px-5 my-3" >
+                                                پرداخت آنلاین
+                                        </a>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="history-card">
+                                <div class="pt-4 pb-3 bg-secondary-subtle rounded-4 ">
+                                    <p class="text-black fw-bold fs-5 s">سوابق پرداختی</p>
+                                    <p class="text-primary fs-6">
+                                        <a href="#" class="text-decoration-none">مشاهده همه</a></p>
+
+                                    <table class=" align-items-center text-center mx-2">
+                                        <tbody>
+                                            <tr>
+                                                <td class="px-2"><i class="far fa-calendar"></i> 1405/02/15</td>
+                                                <td class="px-2 ">پرداختی ترم بهار1405</td>
+                                                <td class="px-2 ">12.500.000</td>
+                                                <td class="px-2 bg-success-subtle text-success price-status">
+                                                    <i class="fas fa-caret-left fa-1x"></i>موفق</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="px-2"><i class="far fa-calendar"></i> 1405/02/15</td>
+                                                <td class="px-2">پرداختی ترم بهار1405</td>
+                                                <td class="px-2">12.500.000</td>
+                                                <td class="px-2 bg-danger-subtle text-danger price-status">
+                                                    <i class="fas fa-caret-left fa-1x"></i>ناموفق</td>
+                                            </tr>
+
+                                        </tbody>
+                                    </table>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </article>
+        </div>
+
+
+
+
+
+<script src="/static/amoozeshyar/auth.js"></script>
+<script>initProtectedPage();</script>
+
+</body>
+</html>
