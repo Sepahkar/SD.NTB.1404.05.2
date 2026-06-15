@@ -1,19 +1,19 @@
-# Amoozeshyar Panel (NTBIAU)
+# پنل آموزشیار (NTBIAU)
 
-Welcome to the **Amoozeshyar** university management panel. This project is built with Django and exposes a full REST API documented via OpenAPI (Swagger UI and ReDoc).
+به **پنل مدیریت آموزشیار** خوش آمدید. این پروژه با فریم‌ورک Django ساخته شده و یک REST API کامل با مستندات OpenAPI (Swagger UI و ReDoc) در اختیار قرار می‌دهد.
 
 ---
 
-## Getting Started
+## شروع سریع
 
-### 1. Clone the Repository
+### ۱. کلون کردن مخزن
 
 ```bash
 git clone https://github.com/Sepahkar/SD.NTB.1404.05.2.git
 cd SD.NTB.1404.05.2
 ```
 
-### 2. Virtual Environment
+### ۲. محیط مجازی
 
 ```bash
 python -m venv .venv
@@ -21,51 +21,51 @@ source .venv/bin/activate   # macOS/Linux
 pip install -r requirements.txt
 ```
 
-### 3. Database & Server
+### ۳. پایگاه داده و اجرای سرور
 
 ```bash
 python manage.py migrate
-python manage.py seed_api_demo   # optional demo user
+python manage.py seed_api_demo   # کاربر دمو (اختیاری)
 python manage.py runserver
 ```
 
-Server: `http://127.0.0.1:8000/`
+آدرس سرور: `http://127.0.0.1:8000/`
 
 ---
 
-## Administrative Access
+## دسترسی مدیریتی
 
-| Item | Value |
+| مورد | مقدار |
 |------|-------|
-| Admin URL | `http://127.0.0.1:8000/admin/` |
-| Username | `admin` |
-| Password | `root@!123` |
+| آدرس پنل ادمین | `http://127.0.0.1:8000/admin/` |
+| نام کاربری | `admin` |
+| رمز عبور | `root@!123` |
 
-Registered in Django admin (Core app): lookup and academic basics (ConstValue, Lesson, Class, Term, Student, …), plus **Books**, **Library book lendings**, **Library resources**, **Academic events**, and **Academic announcements**. Student records include an inline transcript editor.
+**مدل‌های ثبت‌شده در Django Admin (اپ core):** داده‌های پایه و آموزشی (ConstValue، Lesson، Class، Term، Student و …)، به‌علاوه **کتاب‌ها**، **امانت کتاب**، **رزرو منابع کتابخانه**، **رویدادهای آموزشی** و **اطلاعیه‌های آموزشی**. در صفحهٔ هر دانشجو، ویرایش inline کارنامه (Transcript) نیز در دسترس است.
 
-Demo API user (after `seed_api_demo`):
+کاربر دمو API (پس از اجرای `seed_api_demo`):
 
-| Username | Password |
-|----------|----------|
+| نام کاربری | رمز عبور |
+|------------|----------|
 | `demo_student` | `demo1234` |
 
 ---
 
-## API Documentation
+## مستندات API
 
-We use **drf-spectacular** to auto-generate OpenAPI 3 schemas. The DRF browsable API is disabled — use Swagger or ReDoc only.
+برای تولید خودکار schemaهای OpenAPI 3 از **drf-spectacular** استفاده می‌شود. Browsable API در DRF غیرفعال است — فقط از Swagger یا ReDoc استفاده کنید.
 
-| Path | Description |
-|------|-------------|
-| [`/api/schema/`](http://127.0.0.1:8000/api/schema/) | Raw OpenAPI JSON schema |
-| [`/api/docs/`](http://127.0.0.1:8000/api/docs/) | **Swagger UI** — interactive explorer |
-| [`/api/redoc/`](http://127.0.0.1:8000/api/redoc/) | **ReDoc** — Persian docs with tag groups |
+| مسیر | توضیح |
+|------|--------|
+| [`/api/schema/`](http://127.0.0.1:8000/api/schema/) | schema خام JSON (OpenAPI) |
+| [`/api/docs/`](http://127.0.0.1:8000/api/docs/) | **Swagger UI** — مرورگر تعاملی |
+| [`/api/redoc/`](http://127.0.0.1:8000/api/redoc/) | **ReDoc** — مستندات فارسی با گروه‌بندی tag |
 
-### Health Check
+### بررسی سلامت سرویس
 
-`GET /api/ping/` — no authentication required.
+`GET /api/ping/` — بدون نیاز به احراز هویت.
 
-### Authentication
+### احراز هویت
 
 ```http
 POST /api/v1/auth/login/
@@ -74,55 +74,70 @@ Content-Type: application/json
 {"username": "demo_student", "password": "demo1234"}
 ```
 
-Use the returned `token` in subsequent requests:
+توکن برگشتی را در درخواست‌های بعدی ارسال کنید:
 
 ```http
 Authorization: Token <session_key>
 ```
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/api/v1/auth/login/` | POST | Login |
-| `/api/v1/auth/logout/` | POST | Logout |
-| `/api/v1/auth/me/` | GET | Current user profile |
-| `/api/v1/auth/password/reset/` | POST | Password reset |
+| Endpoint | متد | توضیح |
+|----------|-----|--------|
+| `/api/v1/auth/login/` | POST | ورود |
+| `/api/v1/auth/logout/` | POST | خروج |
+| `/api/v1/auth/me/` | GET | پروفایل کاربر جاری |
+| `/api/v1/auth/password/reset/` | POST | بازیابی رمز عبور |
 
-### API Domains (v1)
+### دامنه‌های API (نسخه v1)
 
-All CRUD resources are under `/api/v1/` with pagination (20/page), search, ordering, and filters.
+تمام منابع CRUD زیر `/api/v1/` قرار دارند و از pagination (۲۰ مورد در صفحه)، جستجو، مرتب‌سازی و فیلتر پشتیبانی می‌کنند.
 
-| Tag | Resources |
-|-----|-----------|
-| **Authentication** | login, logout, me, password reset |
-| **Auth Entities** | auth-roles, auth-accounts, auth-sessions, auth-account-roles |
-| **Lookup** | const-values, departments, education-branches, tendencies, terms |
-| **Person & Contact** | persons, phone-numbers, email-addresses, person-skills, postal-addresses |
-| **Profiles** | teachers, students, employees, teacher-research-interests |
-| **Academic** | lessons, classes, class-offers, exams, exam-results, attendances, transcripts, … |
-| **Finance & Requests** | student-payments, student-requests, loans, scholarships, dormitory-requests, … |
-| **Library & Misc** | books, library-book-lendings, internships, academic-events, … |
-| **Composite Pages** | `/api/v1/pages/dashboard/`, `grades/`, `financial/`, … (one call per screen) |
+| Tag | منابع |
+|-----|--------|
+| **Authentication** | login، logout، me، password reset |
+| **Auth Entities** | auth-roles، auth-accounts، auth-sessions، auth-account-roles |
+| **Lookup** | const-values، departments، education-branches، tendencies، terms |
+| **Person & Contact** | persons، phone-numbers، email-addresses، person-skills، postal-addresses |
+| **Profiles** | teachers، students، employees، teacher-research-interests |
+| **Academic** | lessons، classes، class-offers، exams، exam-results، attendances، transcripts و … |
+| **Finance & Requests** | student-payments، student-requests، loans، scholarships، dormitory-requests و … |
+| **Library & Misc** | books، library-book-lendings، internships، academic-events و … |
+| **Composite Pages** | `/api/v1/pages/dashboard/`، `grades/`، `financial/` و … (یک درخواست برای هر صفحه) |
 
 ---
 
-## API Architecture
+## معماری API
 
 ```
 core/api/
-├── authentication.py    # Token + Session auth
-├── permissions.py       # Role-based access (student, admin, …)
-├── pagination.py        # Standard pagination (20/page)
-├── mixins.py            # Student-scoped queryset filtering
-├── urls.py              # All v1 routes
-├── openapi/             # Tag groups, decorators, auth schema extension
-├── serializers/         # 7 serializer modules (41 entities)
-├── views/               # ViewSets + auth + composite page APIs
-└── tests.py             # API smoke tests
+├── authentication.py    # احراز هویت Token + Session
+├── permissions.py       # دسترسی مبتنی بر نقش (student، admin و …)
+├── pagination.py        # صفحه‌بندی استاندارد (۲۰ مورد)
+├── mixins.py            # فیلتر queryset محدود به دانشجو
+├── urls.py              # تمام مسیرهای v1
+├── openapi/             # گروه tag، decoratorها، extension احراز هویت
+├── serializers/         # ۷ ماژول serializer (۴۱ موجودیت)
+├── views/               # ViewSetها + auth + APIهای ترکیبی صفحات
+└── tests.py             # تست‌های smoke API
 ```
 
 ---
 
-## Useful Commands
+## پنل دانشجویی (Frontend)
+
+صفحات HTML دانشجویی از طریق Django با slugهای انگلیسی سرو می‌شوند:
+
+| مسیر | صفحه |
+|------|------|
+| `/` یا `/login/` | ورود |
+| `/dashboard/` | داشبورد |
+| `/logout/` | خروج (پاک‌سازی session و token) |
+| `/teachers/`، `/financial/`، `/grades/` و … | سایر صفحات |
+
+فونت **یکان بخ** در تمام صفحات از مسیر `/static/amoozeshyar/yekan-bakh.css` بارگذاری می‌شود.
+
+---
+
+## دستورات پرکاربرد
 
 ```bash
 python manage.py runserver
@@ -136,10 +151,10 @@ python manage.py check
 
 ---
 
-## HTML Guides
+## راهنماهای HTML
 
-| URL | Content |
-|-----|---------|
-| `/docs/` | Run & admin guide |
-| `/docs/setup-theme/` | Setup and theme guide |
-| `/docs/django-admin/` | Django admin complete guide |
+| URL | محتوا |
+|-----|--------|
+| `/docs/` | راهنمای اجرا و پنل ادمین |
+| `/docs/setup-theme/` | راهنمای نصب و تم |
+| `/docs/django-admin/` | راهنمای کامل Django Admin |
