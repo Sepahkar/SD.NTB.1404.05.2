@@ -25,6 +25,7 @@ from drf_spectacular.views import (
     SpectacularRedocView,
 )
 from core.views import PingAPIView
+from core.page_views import FrontendSiteView, LogoutPageView
 
 admin.site.site_header = "پنل مدیریت آموزشیار"
 admin.site.site_title = "آموزشیار"
@@ -58,7 +59,17 @@ urlpatterns = [
         TemplateView.as_view(template_name='DJANGO_ADMIN_COMPLETE_GUIDE.html'),
         name='django-admin-guide',
     ),
+
+    # Frontend (student panel) — catch-all slug routes must stay last
+    path('logout/', LogoutPageView.as_view(), name='frontend-logout'),
+    path('', FrontendSiteView.as_view(slug='login'), name='frontend-root'),
+    path('login/', FrontendSiteView.as_view(slug='login'), name='frontend-login'),
+    path('<slug:slug>/', FrontendSiteView.as_view(), name='frontend-page'),
+    path('<slug:slug>/<path:asset_path>', FrontendSiteView.as_view(), name='frontend-asset'),
 ]
 
 if settings.DEBUG:
+    from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+    urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
