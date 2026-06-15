@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>داشبورد آموزشیار | سامانه دانشجویی</title>
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+</head>
+<body>
+    <!-- سایدبار (سمت چپ) -->
+    <div class="sidebar">
+        <nav class="menu">
+            <div class="icon-box">
+                <img src="./assets/images/لوگو.png" alt="آموزشیار">
+                <img src="./assets/images/آمورشیار.png">
+            </div>
+            
+            <ul>
+                <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
+                <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
+                <li class="active"><a href="./index.html"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
+                <li><a href="/add-drop/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
+                <li><a href="./index.html"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a></li>
+                <li><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
+                <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
+            </ul>
+        </nav>
+        
+        <div class="logout">
+            <a href="/logout/"><i class="fas fa-sign-out-alt"></i> <span>خروج از سیستم</span></a>
+        </div>
+    </div>
+
+    <!-- محتوای اصلی -->
+    <div class="main-content">
+        <header class="header">
+            <!-- سمت چپ هدر: نوتیفیکیشن (خاکستری) -->
+            <div class="header-left">
+                <div class="cancel-icon">
+                    <img src="./assets/images/cancel.png">
+                </div>
+                <div class="notification-icon">
+                    <img src="./assets/images/bell-notification.png">
+                </div>
+              
+
+            </div>
+
+            <!-- سمت راست هدر: آواتار + اطلاعات کاربر -->
+            <div class="header-right">
+                <div class="user-details">
+                    <h3 class="student-name">نام دانشجو</h3>
+                    <div class="user-meta">
+                        <p class="student-id">شماره دانشجویی: 123456789</p>
+                    </div>
+                </div>
+                <div class="user-avatar">
+                    <img src="./assets/images/Avatar.png">
+                </div>
+            </div>
+        </header>
+        <div class="main-content-wrapper">
+            <!-- بنر اطلاع‌رسانی بالا -->
+            <div class="info-banner">
+                <div class="banner-right-side">
+                    <div class="green-check-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="banner-info-text">
+                        <p class="text-bold"><span class="title">دوره حذف و اضافه فعال است</span></p>
+                        <p class="text-bold"><span class="subtitle">شما می‌توانید دروس خود را حذف یا اضافه فرمایید</span></p>
+                    </div>
+                </div>
+                <div class="banner-left-side">
+                    <div class="date-container">
+                        <p class="text-bold"><span class="label">تاریخ پایان دوره</span></p>
+                        <span class="value">1403/03/25</span>
+                    </div>
+                    <div class="calendar-icon-bg">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                </div>
+            </div>
+        
+            <!-- کارت تایید مرکزی -->
+            <div class="confirmation-card-large">
+                <div class="warning-circle-container">
+                    <div class="orange-warning-icon">
+                        <i class="fas fa-exclamation"></i>
+                    </div>
+                </div>
+                
+                <h2 class="card-question">آیا از انجام تغییرات در دروس خود مطمئن هستید؟</h2>
+                <p class="card-instruction">
+                    توجه داشته باشید که پس از تایید، امکان بازگشت<br>
+                    به حالت قبلی در این لحظه وجود ندارد.
+                </p>
+        
+                <div class="card-button-group">
+                    <button class="btn-confirm-blue" id="final-submit">بله، تایید و ثبت نهایی</button>
+                    <button class="btn-back-outline" id="back-action">خیر، بازگشت</button>
+                </div>
+            </div>
+        
+            <!-- ناوبری پایین صفحه (Quick Navigation) -->
+            <div class="bottom-quick-nav">
+                <div class="nav-track">
+                    <a href="add-delete.html" class="nav-item active">
+                        <i class="far fa-edit"></i>
+                        <span>حذف و اضافه</span>
+                    </a>
+                    <a href="selection-panel.html" class="nav-item">
+                        <i class="far fa-window-maximize"></i>
+                        <span>پنل انتخاب واحد</span>
+                    </a>
+                    <a href="search-courses.html" class="nav-item">
+                        <i class="fas fa-search"></i>
+                        <span>جستجوی دروس</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    // عملکرد دکمه تایید
+    document.getElementById('final-submit')?.addEventListener('click', () => {
+        alert('درخواست شما با موفقیت در سیستم ثبت شد.');
+    });
+
+    // عملکرد دکمه بازگشت
+    document.getElementById('back-action')?.addEventListener('click', () => {
+        window.history.back();
+    });
+});
+
+    </script>
+
+<script src="/static/amoozeshyar/auth.js"></script>
+<script>initProtectedPage();</script>
+
+</body>
+</html>
