@@ -1,6 +1,6 @@
 from rest_framework import viewsets
 
-from core.api.mixins import StudentScopedQuerysetMixin
+from core.api.mixins import BorrowerScopedQuerysetMixin, StudentScopedQuerysetMixin
 from core.api.openapi.decorators import tagged_viewset
 from core.api.openapi.tags import TAG_FINANCE
 from core.api.permissions import AdminWriteAuthenticatedRead, IsOwnerStudentOrStaff
@@ -65,7 +65,7 @@ class DormitoryRequestViewSet(StudentScopedQuerysetMixin, viewsets.ModelViewSet)
 
 
 @tagged_viewset(TAG_FINANCE, "وام‌ها")
-class LoanViewSet(viewsets.ModelViewSet):
+class LoanViewSet(BorrowerScopedQuerysetMixin, viewsets.ModelViewSet):
     queryset = Loan.objects.select_related("borrower").all()
     serializer_class = LoanSerializer
     permission_classes = [AdminWriteAuthenticatedRead]

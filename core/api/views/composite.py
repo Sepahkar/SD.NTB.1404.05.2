@@ -58,6 +58,17 @@ def _get_current_student(request):
     return person.student_profile
 
 
+def _require_student_response(request):
+    """Return 404 Response if the current user has no student profile."""
+    student = _get_current_student(request)
+    if not student:
+        return None, Response(
+            {"detail": "پروفایل دانشجو یافت نشد."},
+            status=status.HTTP_404_NOT_FOUND,
+        )
+    return student, None
+
+
 class DashboardPageAPIView(APIView):
     permission_classes = [IsAuthenticatedAccount]
 
@@ -71,7 +82,10 @@ class DashboardPageAPIView(APIView):
         responses={200: DashboardPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
+        student, error = _require_student_response(request)
+        if error:
+            return error
+
         current_term = Term.objects.filter(is_current=True).first()
 
         announcements = AcademicAnnouncement.objects.filter(
@@ -79,7 +93,7 @@ class DashboardPageAPIView(APIView):
         ).order_by("-is_urgent", "-publish_date")[:10]
 
         data = {
-            "student": StudentBriefSerializer(student).data if student else None,
+            "student": StudentBriefSerializer(student).data,
             "current_term": TermSerializer(current_term).data if current_term else None,
             "announcements": AcademicAnnouncementSerializer(announcements, many=True).data,
             "debt_summary": self._debt_summary(student),
@@ -88,8 +102,6 @@ class DashboardPageAPIView(APIView):
         return Response(data)
 
     def _debt_summary(self, student):
-        if not student:
-            return {"total_paid": 0, "pending_payments": 0}
         confirmed = StudentPayments.objects.filter(student=student, is_confirmed=True).aggregate(
             total=Sum("amount")
         )["total"] or 0
@@ -97,7 +109,7 @@ class DashboardPageAPIView(APIView):
         return {"total_paid": confirmed, "pending_payments": pending}
 
     def _enrolled_courses(self, student, term):
-        if not student or not term:
+        if not term:
             return []
         transcripts = Transcript.objects.filter(
             student=student, class_offer__term=term
@@ -115,9 +127,9 @@ class SemesterTranscriptPageAPIView(APIView):
         responses={200: SemesterTranscriptPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         current_term = Term.objects.filter(is_current=True).first()
         transcripts = Transcript.objects.filter(student=student)
@@ -147,9 +159,9 @@ class FullTranscriptPageAPIView(APIView):
         responses={200: FullTranscriptPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         transcripts = Transcript.objects.filter(student=student).select_related(
             "class_offer", "class_offer__term", "class_offer__class_group__lesson"
@@ -175,9 +187,9 @@ class GradesPageAPIView(APIView):
         responses={200: GradesPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         exam_results = ExamResult.objects.filter(student=student).select_related("exam", "exam__class_offer")
         transcripts = Transcript.objects.filter(student=student).select_related("class_offer")
@@ -201,7 +213,10 @@ class CourseSelectionPageAPIView(APIView):
         responses={200: CourseSelectionPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
+        student, error = _require_student_response(request)
+        if error:
+            return error
+
         current_term = Term.objects.filter(is_current=True).first()
         if not current_term:
             return Response({"detail": "ترم جاری تعریف نشده."}, status=status.HTTP_404_NOT_FOUND)
@@ -209,15 +224,15 @@ class CourseSelectionPageAPIView(APIView):
         offers = ClassOffer.objects.filter(term=current_term).select_related(
             "class_group", "class_group__lesson", "teacher"
         )
-        if student and student.tendency_id:
+        if student.tendency_id:
             offers = offers.filter(class_group__tendency=student.tendency)
 
         return Response(
             {
-                "student": StudentBriefSerializer(student).data if student else None,
+                "student": StudentBriefSerializer(student).data,
                 "term": TermSerializer(current_term).data,
                 "available_offers": ClassOfferSerializer(offers, many=True).data,
-                "taken_units": student.taken_units if student else 0,
+                "taken_units": student.taken_units,
             }
         )
 
@@ -232,9 +247,9 @@ class AddDropPageAPIView(APIView):
         responses={200: AddDropPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         current_term = Term.objects.filter(is_current=True).first()
         transcripts = Transcript.objects.filter(student=student)
@@ -262,9 +277,9 @@ class FinancialPageAPIView(APIView):
         responses={200: FinancialPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         payments = StudentPayments.objects.filter(student=student).order_by("-payment_datetime")
         total_paid = payments.filter(is_confirmed=True).aggregate(total=Sum("amount"))["total"] or 0
@@ -291,9 +306,9 @@ class PaymentHistoryPageAPIView(APIView):
         responses={200: PaymentHistoryPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         payments = StudentPayments.objects.filter(student=student).order_by("-payment_datetime")
         return Response(
@@ -347,9 +362,9 @@ class StudentRequestsPageAPIView(APIView):
         responses={200: StudentRequestsPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         requests_qs = StudentRequest.objects.filter(student=student).order_by("-request_date")
         return Response(
@@ -367,9 +382,9 @@ class StudentRequestsPageAPIView(APIView):
         responses={201: StudentRequestSerializer},
     )
     def post(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         data = request.data.copy()
         data["student"] = student.pk
@@ -389,9 +404,9 @@ class LeaveRequestPageAPIView(APIView):
         responses={200: LeaveRequestPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         leaves = AcademicLeaveRequest.objects.filter(student=student).order_by("-request_date")
         return Response(
@@ -409,9 +424,9 @@ class LeaveRequestPageAPIView(APIView):
         responses={201: AcademicLeaveRequestSerializer},
     )
     def post(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         data = request.data.copy()
         data["student"] = student.pk
@@ -456,9 +471,9 @@ class GradeObjectionPageAPIView(APIView):
         responses={200: GradeObjectionPageResponseSerializer},
     )
     def get(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         exam_results = ExamResult.objects.filter(student=student).select_related("exam")
         objections = StudentRequest.objects.filter(
@@ -480,9 +495,9 @@ class GradeObjectionPageAPIView(APIView):
         responses={201: StudentRequestSerializer},
     )
     def post(self, request):
-        student = _get_current_student(request)
-        if not student:
-            return Response({"detail": "پروفایل دانشجو یافت نشد."}, status=status.HTTP_404_NOT_FOUND)
+        student, error = _require_student_response(request)
+        if error:
+            return error
 
         data = request.data.copy()
         data["student"] = student.pk
