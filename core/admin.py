@@ -1739,6 +1739,7 @@ class LibraryResourceAdmin(admin.ModelAdmin):
     ordering = ("-reserve_date",)
     list_per_page = 50
     save_on_top = True
+    readonly_fields = ("reserve_date",)
 
     fieldsets = (
         (
@@ -1747,13 +1748,30 @@ class LibraryResourceAdmin(admin.ModelAdmin):
                 "fields": (
                     "person",
                     "resource_name",
-                    "reserve_date",
                     "is_returned",
                     "lost_status",
                 )
             },
         ),
     )
+
+    def get_fieldsets(self, request, obj=None):
+        if obj:
+            return (
+                (
+                    "اطلاعات رزرو",
+                    {
+                        "fields": (
+                            "person",
+                            "resource_name",
+                            "reserve_date",
+                            "is_returned",
+                            "lost_status",
+                        )
+                    },
+                ),
+            )
+        return self.fieldsets
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related("person")
