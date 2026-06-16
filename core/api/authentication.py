@@ -39,12 +39,17 @@ class AuthSessionTokenAuthentication(BaseAuthentication):
 
     def authenticate(self, request):
         auth_header = request.META.get("HTTP_AUTHORIZATION", "")
-        if not auth_header.startswith(f"{self.keyword} "):
+        if not auth_header:
             return None
+
+        if not auth_header.startswith(f"{self.keyword} "):
+            raise AuthenticationFailed(
+                "فرمت هدر Authorization نامعتبر است. از «Token <session_key>» استفاده کنید."
+            )
 
         token = auth_header[len(self.keyword) + 1 :].strip()
         if not token:
-            return None
+            raise AuthenticationFailed("توکن خالی است.")
 
         session = (
             AuthSession.objects.filter(session_key=token, expires_at__gt=timezone.now())
@@ -58,9 +63,13 @@ class AuthSessionTokenAuthentication(BaseAuthentication):
 
 
 class AuthSessionAuthentication(SessionAuthentication):
-    """Session auth that reads auth_account_id from Django session."""
+    """Session auth via Django cookie — only when no Authorization header is sent."""
 
     def authenticate(self, request):
+        # If client sends Authorization, token auth must handle it — do not fall back to cookie.
+        if request.META.get("HTTP_AUTHORIZATION"):
+            return None
+
         account_id = request.session.get("auth_account_id")
         if not account_id:
             return None

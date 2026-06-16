@@ -80,3 +80,34 @@ class APISmokeTests(TestCase):
     def test_const_values_list_requires_auth(self):
         response = self.client.get("/api/v1/const-values/")
         self.assertEqual(response.status_code, 403)
+
+    def test_me_rejects_invalid_authorization_header_with_session_cookie(self):
+        login = self.client.post(
+            "/api/v1/auth/login/",
+            {"username": "test_student", "password": "test1234"},
+            format="json",
+        )
+        self.assertEqual(login.status_code, 200)
+
+        self.client.credentials(HTTP_AUTHORIZATION="fake_key")
+        me = self.client.get("/api/v1/auth/me/")
+        self.assertIn(me.status_code, (401, 403))
+        self.assertIn("detail", me.data)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {login.data['token'][:-1]}x")
+        me = self.client.get("/api/v1/auth/me/")
+        self.assertIn(me.status_code, (401, 403))
+        self.assertIn("detail", me.data)
+
+    def test_me_accepts_token_without_session_cookie(self):
+        login = self.client.post(
+            "/api/v1/auth/login/",
+            {"username": "test_student", "password": "test1234"},
+            format="json",
+        )
+        token = login.data["token"]
+
+        client = APIClient()
+        client.credentials(HTTP_AUTHORIZATION=f"Token {token}")
+        me = client.get("/api/v1/auth/me/")
+        self.assertEqual(me.status_code, 200)

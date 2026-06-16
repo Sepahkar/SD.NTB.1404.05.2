@@ -158,3 +158,4 @@ python manage.py check
 | `/docs/` | راهنمای اجرا و پنل ادمین |
 | `/docs/setup-theme/` | راهنمای نصب و تم |
 | `/docs/django-admin/` | راهنمای کامل Django Admin |
+| [`docs/AUTH_GUIDE.md`](docs/AUTH_GUIDE.md) | راهنمای احراز هویت API (Postman، Token، مثال‌ها) |
