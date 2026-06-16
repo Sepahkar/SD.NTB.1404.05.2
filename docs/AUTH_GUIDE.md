@@ -67,7 +67,9 @@ sequenceDiagram
 | [`config/settings.py`](../config/settings.py) | `REST_FRAMEWORK` default auth & permissions |
 | [`core/static/amoozeshyar/auth.js`](../core/static/amoozeshyar/auth.js) | Frontend login/logout (localStorage token) |
 | [`core/page_views.py`](../core/page_views.py) | `/logout/` page (clears session + calls API) |
-| [`core/management/commands/seed_api_demo.py`](../core/management/commands/seed_api_demo.py) | Creates demo user for testing |
+| [`core/management/commands/seed_api_demo.py`](../core/management/commands/seed_api_demo.py) | Management command — seeds full demo dataset |
+| [`core/seed/demo_data.py`](../core/seed/demo_data.py) | Idempotent demo data for all API models |
+| [`scripts/smoke_test_api.sh`](../scripts/smoke_test_api.sh) | curl smoke tests for all endpoints |
 | [`core/api/tests.py`](../core/api/tests.py) | Automated login/me tests |
 
 OpenAPI docs (interactive): [Swagger](http://127.0.0.1:8000/api/docs/) · [ReDoc](http://127.0.0.1:8000/api/redoc/)
@@ -98,25 +100,48 @@ Admin-only CRUD (separate from login flow):
 
 ## Demo credentials
 
-Create the demo user first:
+Create the demo dataset first (safe to re-run — idempotent):
 
 ```bash
 python manage.py migrate
 python manage.py seed_api_demo
 ```
 
+All demo API accounts use password **`demo1234`**. Security answer for password reset: **`tehran`**.
+
+| Username | Role(s) | Profile | Purpose |
+|----------|---------|---------|---------|
+| `demo_student` | student | Student | Primary student API + composite pages |
+| `demo_teacher` | teacher | Teacher | Class offers, teacher evaluations |
+| `demo_staff` | staff, employee | Employee | Staff writes, exam invigilator |
+| `demo_admin` | admin | — | Auth entities, persons CRUD |
+
+Key seeded IDs:
+
 | Field | Value |
 |-------|-------|
-| Username | `demo_student` |
-| Password | `demo1234` |
-| Role | `student` |
 | Student number | `1400123456` |
+| Current term | `14041` |
+| Payment tracking code | `DEMO00000001` |
+| Loan file number | `DEMO-LOAN-001` |
 
 Django admin (separate from API auth):
 
 | Username | Password |
 |----------|----------|
 | `admin` | `root@!123` |
+
+### Smoke-test all endpoints (curl)
+
+With the server running:
+
+```bash
+./scripts/smoke_test_api.sh
+# or
+python manage.py smoke_test_api --seed
+```
+
+The script tests public endpoints, auth enforcement, role matrix, all 41 CRUD lists, and error cases. Use `Authorization: Token <key>` **without** session cookies when testing token auth manually.
 
 ---
 
@@ -270,7 +295,11 @@ GET {{base_url}}/api/v1/auth/me/
 }
 ```
 
-**Without token → `403 Forbidden`**
+**Without token → `401 Unauthorized`**
+
+**Wrong token format or invalid token → `401 Unauthorized`** (with Persian `detail` message)
+
+**Authenticated but wrong role (e.g. student on `/persons/`) → `403 Forbidden`**
 
 ---
 
@@ -356,7 +385,7 @@ GET {{base_url}}/api/v1/const-values/
 Authorization: Token {{token}}
 ```
 
-Without token → `403`.
+Without token → `401`.
 
 ---
 
@@ -443,29 +472,34 @@ curl -X POST http://127.0.0.1:8000/api/v1/auth/logout/ \
 
 ## Troubleshooting
 
+| HTTP | Meaning | Example |
+|------|---------|---------|
+| **401** | Authentication failed — missing, malformed, expired, or invalid token | No `Authorization` header; `Authorization: fake_key`; `Token <expired>` |
+| **403** | Authenticated but not allowed for this action/role | Student calling `GET /persons/`; student `POST /departments/` |
+| **400** | Validation error in request body | Login missing password; wrong security answer on password reset |
+| **404** | Resource not found | Unknown student ID; student-only composite page for admin user |
+
 | Problem | Solution |
 |---------|----------|
-| `403` on all endpoints | Missing or wrong `Authorization` header. Format must be **`Token <key>`** (capital T, one space, then the key). |
-| `403` with raw token (no `Token ` prefix) | Add the `Token ` prefix before the session key. |
-| `403` / invalid token message | Token expired (7 days) or logged out. Login again. |
-| `401` wrong password | Run `seed_api_demo` or check username in Django admin → Auth accounts. |
+| `401` on protected endpoints | Send `Authorization: Token <session_key>` (capital T, one space, then the key). |
+| `401` with raw token (no `Token ` prefix) | Add the `Token ` prefix before the session key. |
+| `401` invalid/expired token | Token expired (7 days) or logged out. Login again. |
+| `403` on admin endpoints | Your role lacks permission. Use `demo_admin` for auth-entity CRUD. |
+| `404` on composite pages | Page requires a student profile. Use `demo_student`, not `demo_admin`. |
+| `401` wrong password on login | Run `seed_api_demo` or check username in Django admin → Auth accounts. |
 | `demo_student` not found | Run `python manage.py seed_api_demo` |
 | CSRF errors in browser only | API uses token auth; CSRF applies to session forms, not Token header requests. |
 | Password reset fails | Set `security_question` / `security_answer` on the Person record first. |
 
 ---
 
-## Run automated auth tests
-
-```bash
-python manage.py test core.api.tests.APISmokeTests.test_login_and_me
-```
-
-Or all API tests:
+## Run automated tests
 
 ```bash
 python manage.py test core.api
 ```
+
+Includes `APISmokeTests`, `DemoSeedIntegrationTests`, and `HTTPErrorLogicTests` (exact 401/403/404 semantics).
 
 ---
 

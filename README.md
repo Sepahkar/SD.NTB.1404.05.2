@@ -43,11 +43,27 @@ python manage.py runserver
 
 **مدل‌های ثبت‌شده در Django Admin (اپ core):** داده‌های پایه و آموزشی (ConstValue، Lesson، Class، Term، Student و …)، به‌علاوه **کتاب‌ها**، **امانت کتاب**، **رزرو منابع کتابخانه**، **رویدادهای آموزشی** و **اطلاعیه‌های آموزشی**. در صفحهٔ هر دانشجو، ویرایش inline کارنامه (Transcript) نیز در دسترس است.
 
-کاربر دمو API (پس از اجرای `seed_api_demo`):
+کاربران دمو API (پس از اجرای `seed_api_demo` — رمز همه: `demo1234`):
 
-| نام کاربری | رمز عبور |
-|------------|----------|
-| `demo_student` | `demo1234` |
+| نام کاربری | نقش | کاربرد |
+|------------|-----|--------|
+| `demo_student` | student | تست API دانشجو و صفحات composite |
+| `demo_teacher` | teacher | تست API اساتید |
+| `demo_staff` | staff + employee | تست عملیات staff و مراقب آزمون |
+| `demo_admin` | admin | تست auth-entities و persons |
+
+پاسخ امنیتی (password reset): `tehran`
+
+### تست smoke API
+
+با سرور در حال اجرا:
+
+```bash
+python manage.py seed_api_demo          # داده نمونه (idempotent)
+./scripts/smoke_test_api.sh             # تست curl همه endpointها
+python manage.py smoke_test_api --seed  # seeder + smoke test
+python manage.py test core.api          # تست‌های Django
+```
 
 ---
 
@@ -143,6 +159,7 @@ core/api/
 python manage.py runserver
 python manage.py migrate
 python manage.py seed_api_demo
+python manage.py smoke_test_api --seed
 python manage.py test core.api
 python manage.py spectacular --file schema.yaml --validate
 python manage.py createsuperuser
