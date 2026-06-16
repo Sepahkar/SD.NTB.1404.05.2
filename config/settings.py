@@ -144,6 +144,7 @@ REST_FRAMEWORK = {
         'rest_framework.filters.SearchFilter',
         'rest_framework.filters.OrderingFilter',
     ],
+    'EXCEPTION_HANDLER': 'core.api.exceptions.api_exception_handler',
 }
 
 # DRF Spectacular Configuration

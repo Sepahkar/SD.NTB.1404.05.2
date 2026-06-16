@@ -61,6 +61,9 @@ class AuthSessionTokenAuthentication(BaseAuthentication):
 
         return AuthUser(session.account), token
 
+    def authenticate_header(self, request):
+        return self.keyword
+
 
 class AuthSessionAuthentication(SessionAuthentication):
     """Session auth via Django cookie — only when no Authorization header is sent."""
