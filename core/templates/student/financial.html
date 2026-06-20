@@ -1,0 +1,24 @@
+{% extends "student/base.html" %}
+{% block title %}امور مالی | آموزشیار{% endblock %}
+{% block content %}
+<div class="page-content" style="padding:1.5rem;">
+    <h1>امور مالی</h1>
+    <p>پرداخت‌شده: {{ page_data.total_paid|default:0 }} تومان | معوق: {{ page_data.total_pending|default:0 }} تومان</p>
+    <table class="table">
+        <thead><tr><th>تاریخ</th><th>مبلغ</th><th>بانک</th><th>کد پیگیری</th><th>وضعیت</th></tr></thead>
+        <tbody>
+        {% for p in page_data.payments %}
+        <tr>
+            <td>{{ p.payment_datetime|date:"Y/m/d" }}</td>
+            <td>{{ p.amount }}</td>
+            <td>{{ p.reference_bank|default:"—" }}</td>
+            <td>{{ p.tracking_code|default:"—" }}</td>
+            <td>{% if p.is_confirmed %}موفق{% else %}در انتظار{% endif %}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">پرداختی یافت نشد.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

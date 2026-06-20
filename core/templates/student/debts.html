@@ -1,0 +1,24 @@
+{% extends "student/base.html" %}
+{% block title %}بدهی‌ها | آموزشیار{% endblock %}
+{% block content %}
+<div class="page-content" style="padding:1.5rem;">
+    <h1>بدهی‌ها</h1>
+    <p class="fw-bold">مجموع بدهی معوق: {{ page_data.total_pending|default:0 }} تومان</p>
+    <table class="table">
+        <thead><tr><th>تاریخ</th><th>مبلغ</th><th>وضعیت</th></tr></thead>
+        <tbody>
+        {% for p in page_data.payments %}
+        {% if not p.is_confirmed %}
+        <tr>
+            <td>{{ p.payment_datetime|date:"Y/m/d" }}</td>
+            <td>{{ p.amount }}</td>
+            <td>معوق</td>
+        </tr>
+        {% endif %}
+        {% empty %}
+        <tr><td colspan="3">بدهی یافت نشد.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

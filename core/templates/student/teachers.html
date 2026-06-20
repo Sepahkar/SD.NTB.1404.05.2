@@ -1,0 +1,26 @@
+{% extends "student/base.html" %}
+{% block title %}معرفی اساتید | آموزشیار{% endblock %}
+{% block content %}
+<div class="page-content" style="padding:1.5rem;">
+    <h1 class="page-title">معرفی اساتید</h1>
+    <div class="teachers-grid">
+        {% for teacher in page_data.teachers %}
+        <div class="teacher-card" style="background:#fff;border-radius:12px;padding:1rem;margin-bottom:1rem;">
+            <h3>{{ teacher.person_name|default:teacher.full_name }}</h3>
+            {% if teacher.research_interests %}
+            <p><strong>علایق پژوهشی:</strong> {{ teacher.research_interests|join:", " }}</p>
+            {% endif %}
+            {% if teacher.recent_classes %}
+            <ul>
+                {% for cls in teacher.recent_classes %}
+                <li>{{ cls.lesson_title }} — {{ cls.term_title|default:"" }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        {% empty %}
+        <p>استادی یافت نشد.</p>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

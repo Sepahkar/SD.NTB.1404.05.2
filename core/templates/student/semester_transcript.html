@@ -1,0 +1,22 @@
+{% extends "student/base.html" %}
+{% block title %}کارنامه نیمسال | آموزشیار{% endblock %}
+{% block content %}
+<div class="page-content" style="padding:1.5rem;">
+    <h1>کارنامه نیمسال جاری</h1>
+    <p>ترم: {{ page_data.term.term_title|default:"—" }} | معدل نیمسال: {{ page_data.current_term_gpa|default:"—" }}</p>
+    <table class="table">
+        <thead><tr><th>درس</th><th>کد</th><th>نمره</th></tr></thead>
+        <tbody>
+        {% for t in page_data.transcripts %}
+        <tr>
+            <td>{{ t.lesson_title|default:"—" }}</td>
+            <td>{{ t.lesson_code|default:"—" }}</td>
+            <td>{{ t.final_grade|default:"—" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="3">رکوردی یافت نشد.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "student/base.html" %}
+{% block title %}کارنامه کل | آموزشیار{% endblock %}
+{% block content %}
+<div class="page-content" style="padding:1.5rem;">
+    <h1>کارنامه کل</h1>
+    <p>معدل کل: {{ page_data.gpa|default:"—" }} | واحدهای گذرانده: {{ page_data.taken_units|default:"0" }}</p>
+    <table class="table">
+        <thead><tr><th>ترم</th><th>درس</th><th>کد</th><th>نمره</th><th>وضعیت</th></tr></thead>
+        <tbody>
+        {% for t in page_data.transcripts %}
+        <tr>
+            <td>{{ t.term_title|default:"—" }}</td>
+            <td>{{ t.lesson_title|default:"—" }}</td>
+            <td>{{ t.lesson_code|default:"—" }}</td>
+            <td>{{ t.final_grade|default:"—" }}</td>
+            <td>{% if t.pass_status %}قبول{% else %}—{% endif %}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5">رکوردی یافت نشد.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
