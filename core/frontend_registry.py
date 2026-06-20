@@ -31,8 +31,7 @@ FRONTEND_PAGES: dict[str, FrontendPage] = {
     "teachers": FrontendPage(
         directory="معرفی اساتید/dashbord",
         html_file="index.html",
-        render_mode="template",
-        template_name="student/teachers.html",
+        render_mode="api",
     ),
     "course-selection": FrontendPage(
         directory="پنل انتخاب واحد",
@@ -41,6 +40,11 @@ FRONTEND_PAGES: dict[str, FrontendPage] = {
     ),
     "add-drop": FrontendPage(
         directory="حذف و اضافه/dashbord",
+        html_file="index.html",
+        render_mode="api",
+    ),
+    "course-search": FrontendPage(
+        directory="جستجوی دروس",
         html_file="index.html",
         render_mode="api",
     ),
@@ -57,38 +61,32 @@ FRONTEND_PAGES: dict[str, FrontendPage] = {
     "full-transcript": FrontendPage(
         directory="کارنامه کل/کارنامه کل-ElaheHashemabadi",
         html_file="index.html",
-        render_mode="template",
-        template_name="student/full_transcript.html",
+        render_mode="api",
     ),
     "semester-transcript": FrontendPage(
         directory="کارنامه نیمسال جاری",
         html_file="semester-report.html",
-        render_mode="template",
-        template_name="student/semester_transcript.html",
+        render_mode="api",
     ),
     "grades": FrontendPage(
         directory="کارنامه و نمرات",
         html_file="index.html",
-        render_mode="template",
-        template_name="student/grades.html",
+        render_mode="api",
     ),
     "financial": FrontendPage(
         directory="امور مالی/financial-dashboard",
         html_file="index.html",
-        render_mode="template",
-        template_name="student/financial.html",
+        render_mode="api",
     ),
     "debts": FrontendPage(
         directory="بدهی ها/Debt-dashboard",
         html_file="index.html",
-        render_mode="template",
-        template_name="student/debts.html",
+        render_mode="api",
     ),
     "payment-history": FrontendPage(
         directory="تاریخچه پرداختها",
         html_file="index.html",
-        render_mode="template",
-        template_name="student/payment_history.html",
+        render_mode="api",
     ),
     "loan-request": FrontendPage(
         directory="درخواست وام",
@@ -134,7 +132,7 @@ NAV_LINKS: dict[str, str] = {
     "معرفی اساتید": "teachers",
     "انتخاب واحد": "course-selection",
     "حذف و اضافه": "add-drop",
-    "جستجوی دروس": "course-selection",
+    "جستجوی دروس": "course-search",
     "حذف اضطراری": "emergency-removal",
     "کارنامه کل": "full-transcript",
     "کارنامه کلی": "full-transcript",

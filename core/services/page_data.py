@@ -63,12 +63,19 @@ def get_dashboard_data(student):
     announcements = AcademicAnnouncement.objects.filter(status__is_active=True).order_by(
         "-is_urgent", "-publish_date"
     )[:10]
+    payments = StudentPayments.objects.filter(student=student).order_by("-payment_datetime")
+    pending_amount = payments.filter(is_confirmed=False).aggregate(total=Sum("amount"))["total"] or 0
     return {
         "student": StudentBriefSerializer(student).data,
         "current_term": TermSerializer(current_term).data if current_term else None,
         "announcements": AcademicAnnouncementSerializer(announcements, many=True).data,
-        "debt_summary": debt_summary(student),
+        "debt_summary": {
+            **debt_summary(student),
+            "total_pending_amount": pending_amount,
+            "term_tuition": 25_000_000,
+        },
         "enrolled_courses": enrolled_courses(student, current_term),
+        "recent_payments": StudentPaymentsSerializer(payments[:5], many=True).data,
     }
 
 

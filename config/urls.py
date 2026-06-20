@@ -29,13 +29,6 @@ from core.page_views import FrontendSiteView, LogoutPageView
 from core.student_views import (
     AddDrop2RedirectView,
     AdminFinancialPageView,
-    DebtsPageView,
-    FinancialPageView,
-    FullTranscriptPageView,
-    GradesPageView,
-    PaymentHistoryPageView,
-    SemesterTranscriptPageView,
-    TeachersPageView,
 )
 
 admin.site.site_header = "پنل مدیریت آموزشیار"
@@ -71,16 +64,9 @@ urlpatterns = [
         name='django-admin-guide',
     ),
 
-    # Frontend (student panel) — template pages before catch-all slug routes
+    # Frontend (student panel)
     path('logout/', LogoutPageView.as_view(), name='frontend-logout'),
     path('add-drop-2/', AddDrop2RedirectView.as_view(), name='frontend-add-drop-2'),
-    path('teachers/', TeachersPageView.as_view(), name='frontend-teachers'),
-    path('full-transcript/', FullTranscriptPageView.as_view(), name='frontend-full-transcript'),
-    path('semester-transcript/', SemesterTranscriptPageView.as_view(), name='frontend-semester-transcript'),
-    path('grades/', GradesPageView.as_view(), name='frontend-grades'),
-    path('financial/', FinancialPageView.as_view(), name='frontend-financial'),
-    path('debts/', DebtsPageView.as_view(), name='frontend-debts'),
-    path('payment-history/', PaymentHistoryPageView.as_view(), name='frontend-payment-history'),
     path('admin-financial/', AdminFinancialPageView.as_view(), name='frontend-admin-financial'),
     path('', FrontendSiteView.as_view(slug='login'), name='frontend-root'),
     path('login/', FrontendSiteView.as_view(slug='login'), name='frontend-login'),
