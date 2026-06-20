@@ -94,6 +94,11 @@ class TranscriptSerializer(serializers.ModelSerializer):
     lesson_title = serializers.CharField(source="class_offer.class_group.lesson.title", read_only=True)
     lesson_code = serializers.CharField(source="class_offer.class_group.lesson.lesson_code", read_only=True)
     term_title = serializers.CharField(source="class_offer.term.term_title", read_only=True)
+    teacher_name = serializers.CharField(source="class_offer.teacher.full_name", read_only=True, allow_null=True)
+    class_day = serializers.CharField(source="class_offer.class_group.class_day", read_only=True, allow_null=True)
+    class_location = serializers.CharField(source="class_offer.class_group.class_location", read_only=True, allow_null=True)
+    class_time = serializers.TimeField(source="class_offer.class_group.class_time", read_only=True, allow_null=True)
+    lesson_units = serializers.IntegerField(source="class_offer.class_group.lesson.units", read_only=True, allow_null=True)
 
     class Meta:
         model = Transcript

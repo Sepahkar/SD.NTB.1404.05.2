@@ -560,6 +560,24 @@ def seed_demo_data(stdout=None):
         },
     )
 
+    from core.seed.demo_rich_data import enrich_demo_student
+
+    ctx = {
+        "student": student,
+        "dept": dept,
+        "branch": branch,
+        "tendency": tendency,
+        "current_term": current_term,
+        "past_term": past_term,
+        "cv_class_type": cv_class_type,
+        "cv_lesson_lang": cv_lesson_lang,
+        "cv_ann_type": cv_ann_type,
+        "cv_ann_audience": cv_ann_audience,
+        "cv_ann_status": cv_ann_status,
+        "admin_person": admin_person,
+    }
+    enrich_demo_student(ctx, write=write)
+
     write("")
     write("=" * 60)
     write("Demo data seeded successfully (idempotent).")
@@ -587,5 +605,7 @@ def seed_demo_data(stdout=None):
         "student_account": student_account,
         "student": student,
         "current_term": current_term,
+        "past_term": past_term,
         "dept": dept,
+        "branch": branch,
     }
