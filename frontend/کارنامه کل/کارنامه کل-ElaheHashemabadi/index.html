@@ -8,8 +8,9 @@
     <link rel="stylesheet" href="bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+    <link rel="stylesheet" href="/static/amoozeshyar/student-panel.css">
 </head>
-<body class="bg-light">
+<body class="bg-light student-panel">
 
         <!-- سایدبار (سمت چپ) -->
         <div class="sidebar">
@@ -19,17 +20,17 @@
                     <img src="./assets/images/آمورشیار.png">
                 </div>
 
-                <ul>
-                    <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i><span>داشبورد</span></a></li>
-                    <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i><span>معرفی اساتید</span></a></li>
-                    <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
-                    <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
-                    <li><a href="/course-selection/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
-                    <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
-                    <li class="active"><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کل</span></a></li>
-                    <li><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
-                    <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
-                </ul>
+                            <ul>
+                <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
+                <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
+                <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
+                <li><a href="/course-search/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
+                <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
+                <li><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a></li>
+                <li><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
+                <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
+            </ul>
             </nav>
 
             <div class="logout">
@@ -65,12 +66,26 @@
             </header>
 
             <article class="">
-                <section class="">
-                    <div class="mt-3">
-                        <div class="pe-4">
-                            <p class="fw-bold fs-5">کارنامه تحصیلی دانشجویی</p>
+                <section class="transcript-section">
+                    <div class="section-header">
+                        <div class="header-text">
+                            <h2 class="section-title">کارنامه تحصیلی دانشجویی</h2>
+                            <p class="section-subtitle">مشاهده مشخصات دانشجویی و سوابق تحصیلی</p>
                         </div>
-                        <p class="fw-light fs-6 pe-5 ">(مشخصات دانشجویی)</p>
+                    </div>
+                        <div class="transcript-profile-card" id="transcript-profile">
+                            <div class="transcript-profile-avatar">
+                                <img src="./assets/images/Avatar.png" alt="تصویر دانشجو" id="profile-avatar">
+                            </div>
+                            <div class="transcript-profile-body">
+                                <h2 class="transcript-profile-name" id="profile-name">—</h2>
+                                <p class="transcript-profile-meta" id="profile-student-number">شماره دانشجویی: —</p>
+                                <div class="profile-stat-grid">
+                                    <span class="profile-stat-chip highlight" id="profile-gpa">معدل کل: —</span>
+                                    <span class="profile-stat-chip" id="profile-units">واحد گذرانده: —</span>
+                                </div>
+                            </div>
+                        </div>
                         <div>
                             <div class="d-flex justify-content-around ms-5 me-4 shadow report-box">
                                 <table>
@@ -79,40 +94,40 @@
                                         <td class="pt-3">تصویر : <img src="./assets/images/Avatar.png"> </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">نام و نام خانوادگی : .................</td>
+                                        <td class="pt-3" data-field="full-name">نام و نام خانوادگی : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">کدملی : 0000000000</td>
+                                        <td class="pt-3" data-field="national-id">کدملی : 0000000000</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">شماره شناسنامه : 0 </td>
+                                        <td class="pt-3" data-field="birth-cert">شماره شناسنامه : 0 </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">تاریخ تولد : 0000/00/00 </td>
+                                        <td class="pt-3" data-field="birth-date">تاریخ تولد : 0000/00/00 </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">جنسیت : .................</td>
+                                        <td class="pt-3" data-field="gender">جنسیت : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">نام پدر : .................</td>
+                                        <td class="pt-3" data-field="father-name">نام پدر : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">وضعیت نظام وظیفه : .................</td>
+                                        <td class="pt-3" data-field="military">وضعیت نظام وظیفه : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">وضعیت جسمانی : .................</td>
+                                        <td class="pt-3" data-field="health">وضعیت جسمانی : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">سهمیه : .................</td>
+                                        <td class="pt-3" data-field="quota">سهمیه : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">كل تعداد واحد موثر : .................</td>
+                                        <td class="pt-3" data-field="effective-units">كل تعداد واحد موثر : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">كل تعداد گذرانده شده : .................</td>
+                                        <td class="pt-3" data-field="passed-units">كل تعداد گذرانده شده : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="py-3">معدل کل : 00.00 </td>
+                                        <td class="py-3" data-field="gpa">معدل کل : 00.00 </td>
                                     </tr>
                                     </tbody>
                             </table>
@@ -120,57 +135,51 @@
                                 <table>
                                     <tbody>
                                     <tr>
-                                        <td class="pt-3">شماره دانشجویی : ................. </td>
+                                        <td class="pt-3" data-field="student-number">شماره دانشجویی : ................. </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">رشته تحصیلی : ................. </td>
+                                        <td class="pt-3" data-field="field">رشته تحصیلی : ................. </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">مقطع تحصیلی : ................. </td>
+                                        <td class="pt-3" data-field="degree">مقطع تحصیلی : ................. </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">دانشکده : ................. </td>
+                                        <td class="pt-3" data-field="faculty">دانشکده : ................. </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">نیمسال پذیرش : ................. </td>
+                                        <td class="pt-3" data-field="admission-term">نیمسال پذیرش : ................. </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">نوع پذیرش : ................. </td>
+                                        <td class="pt-3" data-field="admission-type">نوع پذیرش : ................. </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">شیوه آموزش : ................. </td>
+                                        <td class="pt-3" data-field="education-mode">شیوه آموزش : ................. </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">مانده سنوات : ................. </td>
+                                        <td class="pt-3" data-field="remaining-terms">مانده سنوات : ................. </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">آخرین وضعیت تحصیل: ................. </td>
+                                        <td class="pt-3" data-field="study-status">آخرین وضعیت تحصیل: ................. </td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">تاریخ شروع تحصیل : .................</td>
+                                        <td class="pt-3" data-field="start-date">تاریخ شروع تحصیل : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">كل تعداد واحد اخذ شده : .................</td>
+                                        <td class="pt-3" data-field="taken-units">كل تعداد واحد اخذ شده : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="pt-3">كل تعداد رد شده : .................</td>
+                                        <td class="pt-3" data-field="failed-units">كل تعداد رد شده : .................</td>
                                     </tr>
                                     <tr>
-                                        <td class="py-3">سنوات(ترم)گذرانده : 0 </td>
+                                        <td class="py-3" data-field="terms-passed">سنوات(ترم)گذرانده : 0 </td>
                                     </tr>
                                     </tbody>
                             </table>
                             </div>
                             <div class="text-center">
-                                <a href="#report-print"
-                                   class="btn btn-outline-primary rounded-4 fs-5 px-5 my-3 " >
-                                چاپ کارنامه
-                                </a>
+                                <a href="#report-print" class="btn btn-outline-primary rounded-4 fs-5 px-5 my-3">چاپ کارنامه</a>
                             </div>
                         </div>
-
-
-                    </div>
 
                 </section>
                 <section>
@@ -299,8 +308,13 @@
 
 
 
+<script src="/static/amoozeshyar/api-client.js"></script>
+<script src="/static/amoozeshyar/utils.js"></script>
+<script src="/static/amoozeshyar/nav.js"></script>
+<script src="/static/amoozeshyar/notifications.js"></script>
 <script src="/static/amoozeshyar/auth.js"></script>
-<script>initProtectedPage();</script>
+<script src="/static/amoozeshyar/pages/display-pages.js"></script>
+<script>initProtectedPage(); initFullTranscriptPage();</script>
 
 </body>
 </html>
