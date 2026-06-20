@@ -205,7 +205,7 @@ body {
 }
 
 .icon-box{
-    margin: 40px 20px ;
+    margin: 20px 20px ;
     
 }
 
@@ -406,7 +406,7 @@ body {
     --radius-card: 18px;
     --radius-btn: 10px;
     --radius-avatar: 50%;
-    --font-fa: 'Vazirmatn', 'Tahoma', 'Arial', sans-serif;
+    --font-fa: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
     --transition: 0.22s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -485,6 +485,15 @@ body {
   background: var(--color-primary-light);
   border-color: var(--color-primary);
   color: var(--color-primary);
+}
+
+.instructors-section .filter-panel {
+  display: none;
+  margin-bottom: 24px;
+}
+
+.instructors-section .filter-panel.is-open {
+  display: block !important;
 }
 
 /* === Cards Grid === */

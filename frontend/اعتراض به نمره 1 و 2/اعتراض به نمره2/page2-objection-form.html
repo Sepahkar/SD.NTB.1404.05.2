@@ -7,11 +7,10 @@
 
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003/Vazirmatn-font-face.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+<link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+<link rel="stylesheet" href="/static/amoozeshyar/student-panel.css">
 </head>
-<body>
+<body class="student-panel">
 
 <div class="sidebar">
     <nav class="menu">
@@ -19,17 +18,17 @@
             <img src="./assets/images/لوگو.png" alt="آموزشیار">
             <img src="./assets/images/آمورشیار.png">
         </div>
-        <ul>
-            <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
-            <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
-            <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
-            <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
-            <li><a href="/course-selection/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
-            <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
-            <li><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a></li>
-            <li class="active"><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
-            <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
-        </ul>
+                    <ul>
+                <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
+                <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
+                <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
+                <li><a href="/course-search/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
+                <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
+                <li><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a></li>
+                <li><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
+                <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
+            </ul>
     </nav>
     <div class="logout">
         <a href="/logout/"><i class="fas fa-sign-out-alt"></i> <span>خروج از سیستم</span></a>
@@ -67,7 +66,7 @@
                   <div class="form-field">
                       <label>درس :</label>
                       <div class="field-input">
-                          <div class="display-box">توسعه نرم افزار</div>
+                          <select id="objection-course"></select>
                       </div>
                   </div>
                   <div class="form-field">
@@ -77,38 +76,21 @@
                       </div>
                   </div>
               </div>
+              <div id="form-error" style="display:none;color:#dc2626;text-align:center;margin-top:0.5rem;"></div>
               <div class="form-actions">
-                  <button class="btn-accent" onclick="submitForm()">ثبت اعتراض</button>
-                  <a href="page1-grade-objection.html" class="btn-ghost">انصراف</a>
+                  <button type="button" class="btn-accent" id="objection-submit-btn">ثبت اعتراض</button>
+                  <a href="/grade-objection/" class="btn-ghost">انصراف</a>
               </div>
           </div>
       </main>
 </div>
 
-<div id="toast" class="toast">✅ اعتراض شما با موفقیت ثبت شد</div>
-
-<script>
-    function submitForm() {
-        const textarea = document.getElementById('objectionText');
-        const text = textarea.value.trim();
-        if (!text) {
-            textarea.style.borderColor = '#DC2626';
-            textarea.focus();
-            return;
-        }
-        textarea.style.borderColor = '';
-        const toast = document.getElementById('toast');
-        toast.classList.add('show');
-        setTimeout(() => {
-            toast.classList.remove('show');
-            window.location = 'page1-grade-objection.html';
-        }, 2000);
-    }
-</script>
-
+<div id="toast" class="toast">اعتراض شما با موفقیت ثبت شد</div>
 
 <script src="/static/amoozeshyar/api-client.js"></script>
 <script src="/static/amoozeshyar/utils.js"></script>
+<script src="/static/amoozeshyar/nav.js"></script>
+<script src="/static/amoozeshyar/notifications.js"></script>
 <script src="/static/amoozeshyar/auth.js"></script>
 <script src="/static/amoozeshyar/pages/forms.js"></script>
 <script>initProtectedPage(); initGradeObjectionFormPage();</script>
