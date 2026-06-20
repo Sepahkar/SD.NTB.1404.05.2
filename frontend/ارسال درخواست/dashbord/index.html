@@ -59,8 +59,8 @@
             </div>
         </header>
 
-        <!-- بخش ارسال درخواست -->
         <div class="send-request-section">
+        <div id="form-error" style="display:none;color:red;margin:1rem;"></div>
 
             <div class="send-request-header">
                 <h2 class="send-request-title">ارسال درخواست</h2>
@@ -140,8 +140,11 @@
 
     </div>
 
+<script src="/static/amoozeshyar/api-client.js"></script>
+<script src="/static/amoozeshyar/utils.js"></script>
 <script src="/static/amoozeshyar/auth.js"></script>
-<script>initProtectedPage();</script>
+<script src="/static/amoozeshyar/pages/forms.js"></script>
+<script>initProtectedPage(); initStudentRequestsPage();</script>
 
 </body>
 </html>
