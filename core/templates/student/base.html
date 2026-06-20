@@ -8,9 +8,10 @@
     <link rel="stylesheet" href="{{ page_css }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{% static 'amoozeshyar/yekan-bakh.css' %}">
+    <link rel="stylesheet" href="{% static 'amoozeshyar/student-panel.css' %}">
     {% block extra_css %}{% endblock %}
 </head>
-<body>
+<body class="student-panel bg-light">
     <div class="sidebar">
         <nav class="menu">
             <div class="icon-box">
@@ -22,8 +23,10 @@
                 <li class="{% if active_slug == 'teachers' %}active{% endif %}"><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i><span>معرفی اساتید</span></a></li>
                 <li class="{% if active_slug == 'course-selection' %}active{% endif %}"><a href="/course-selection/"><i class="fas fa-book-open"></i><span>انتخاب واحد</span></a></li>
                 <li class="{% if active_slug == 'add-drop' %}active{% endif %}"><a href="/add-drop/"><i class="fas fa-plus-minus"></i><span>حذف و اضافه</span></a></li>
+                <li class="{% if active_slug == 'course-search' %}active{% endif %}"><a href="/course-search/"><i class="fas fa-search"></i><span>جستجوی دروس</span></a></li>
+                <li class="{% if active_slug == 'emergency-removal' %}active{% endif %}"><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i><span>حذف اضطراری</span></a></li>
                 <li class="{% if active_slug == 'full-transcript' %}active{% endif %}"><a href="/full-transcript/"><i class="fas fa-chart-line"></i><span>کارنامه کل</span></a></li>
-                <li class="{% if active_slug == 'grades' %}active{% endif %}"><a href="/grades/"><i class="fas fa-list-alt"></i><span>کارنامه و نمرات</span></a></li>
+                <li class="{% if active_slug == 'grade-objection' %}active{% endif %}"><a href="/grade-objection/"><i class="fas fa-comment-dots"></i><span>اعتراض به نمره</span></a></li>
                 <li class="{% if active_slug == 'financial' or active_slug == 'debts' %}active{% endif %}"><a href="/financial/"><i class="fas fa-coins"></i><span>امور مالی</span></a></li>
                 <li class="{% if active_slug == 'payment-history' %}active{% endif %}"><a href="/payment-history/"><i class="fas fa-history"></i><span>تاریخچه پرداخت</span></a></li>
             </ul>
@@ -36,8 +39,8 @@
     <div class="main-content">
         <header class="header">
             <div class="header-left">
-                <div class="cancel-icon"><img src="/{{ slug }}/assets/images/cancel.png"></div>
-                <div class="notification-icon"><img src="/{{ slug }}/assets/images/bell-notification.png"></div>
+                <div class="cancel-icon"><img src="/{{ slug }}/assets/images/cancel.png" alt="بستن"></div>
+                <div class="notification-icon"><img src="/{{ slug }}/assets/images/bell-notification.png" alt="اطلاعیه‌ها"></div>
             </div>
             <div class="header-right">
                 <div class="user-details">
@@ -50,11 +53,21 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="user-avatar"><img src="/{{ slug }}/assets/images/Avatar.png"></div>
+                <div class="user-avatar"><img src="/{{ slug }}/assets/images/Avatar.png" alt=""></div>
             </div>
         </header>
 
-        {% block content %}{% endblock %}
+        <div class="page-content">
+            {% block content %}{% endblock %}
+        </div>
     </div>
+
+    <script src="{% static 'amoozeshyar/api-client.js' %}"></script>
+    <script src="{% static 'amoozeshyar/utils.js' %}"></script>
+    <script src="{% static 'amoozeshyar/nav.js' %}"></script>
+    <script src="{% static 'amoozeshyar/notifications.js' %}"></script>
+    <script src="{% static 'amoozeshyar/auth.js' %}"></script>
+    {% block extra_js %}{% endblock %}
+    <script>initProtectedPage();</script>
 </body>
 </html>
