@@ -9,18 +9,18 @@
     return localStorage.getItem(TOKEN_KEY);
   }
 
+  window.clearSession = function () {
+    localStorage.removeItem(TOKEN_KEY);
+    localStorage.removeItem(EXPIRES_KEY);
+    localStorage.removeItem(ACCOUNT_KEY);
+  };
+
   function setSession(data) {
     localStorage.setItem(TOKEN_KEY, data.token);
     localStorage.setItem(EXPIRES_KEY, data.expires_at || "");
     if (data.account) {
       localStorage.setItem(ACCOUNT_KEY, JSON.stringify(data.account));
     }
-  }
-
-  function clearSession() {
-    localStorage.removeItem(TOKEN_KEY);
-    localStorage.removeItem(EXPIRES_KEY);
-    localStorage.removeItem(ACCOUNT_KEY);
   }
 
   function authHeaders() {
@@ -30,20 +30,7 @@
   }
 
   window.login = async function (username, password) {
-    var response = await fetch("/api/v1/auth/login/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ username: username, password: password }),
-    });
-
-    var data = await response.json().catch(function () {
-      return {};
-    });
-
-    if (!response.ok) {
-      throw new Error(data.detail || "نام کاربری یا رمز عبور اشتباه است.");
-    }
-
+    var data = await apiPost(API.auth.login, { username: username, password: password });
     setSession(data);
     return data;
   };
@@ -52,13 +39,13 @@
     var token = getToken();
     if (token) {
       try {
-        await fetch("/api/v1/auth/logout/", {
+        await apiFetch(API.auth.logout, {
           method: "POST",
-          headers: Object.assign({ "Content-Type": "application/json" }, authHeaders()),
+          headers: { "Content-Type": "application/json" },
           credentials: "same-origin",
         });
       } catch (e) {
-        /* ignore network errors on logout */
+        /* ignore */
       }
     }
     clearSession();
@@ -74,18 +61,13 @@
   window.getMe = async function () {
     var token = getToken();
     if (!token) return null;
-
-    var response = await fetch("/api/v1/auth/me/", {
-      headers: authHeaders(),
-    });
-
-    if (!response.ok) {
+    try {
+      return await apiGet(API.auth.me);
+    } catch (e) {
       clearSession();
       window.location.href = "/";
       return null;
     }
-
-    return response.json();
   };
 
   window.populateUserHeader = async function () {
@@ -116,42 +98,58 @@
     var usernameInput = document.getElementById("student-id");
     var passwordInput = document.getElementById("password");
     var errorBox = document.getElementById("login-error");
-
-    if (!loginBtn || !usernameInput || !passwordInput) return;
+    var resetBtn = document.querySelector("#page-forgot .btn-primary");
 
     if (getToken()) {
       window.location.href = "/dashboard/";
       return;
     }
 
-    loginBtn.addEventListener("click", async function (e) {
-      e.preventDefault();
-      if (errorBox) {
-        errorBox.textContent = "";
-        errorBox.style.display = "none";
-      }
-
-      loginBtn.disabled = true;
-      loginBtn.textContent = "در حال ورود...";
-
-      try {
-        await window.login(usernameInput.value.trim(), passwordInput.value);
-        window.location.href = "/dashboard/";
-      } catch (err) {
-        if (errorBox) {
-          errorBox.textContent = err.message;
-          errorBox.style.display = "block";
-        } else {
-          alert(err.message);
+    if (loginBtn && usernameInput && passwordInput) {
+      loginBtn.addEventListener("click", async function (e) {
+        e.preventDefault();
+        showFormError(errorBox, "");
+        loginBtn.disabled = true;
+        loginBtn.textContent = "در حال ورود...";
+        try {
+          await window.login(usernameInput.value.trim(), passwordInput.value);
+          window.location.href = "/dashboard/";
+        } catch (err) {
+          showFormError(errorBox, err.message);
+          loginBtn.disabled = false;
+          loginBtn.textContent = "ورود به سیستم";
         }
-        loginBtn.disabled = false;
-        loginBtn.textContent = "ورود به سیستم";
-      }
-    });
+      });
 
-    passwordInput.addEventListener("keydown", function (e) {
-      if (e.key === "Enter") loginBtn.click();
-    });
+      passwordInput.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") loginBtn.click();
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener("click", async function (e) {
+        e.preventDefault();
+        var userInput = document.querySelector("#page-forgot input[type=\"text\"]");
+        var answerInput = document.querySelector("#page-forgot input[placeholder*=\"پاسخ\"]");
+        var newPassInput = document.querySelector("#page-forgot input[type=\"password\"]");
+        var resetError = document.getElementById("reset-error") || errorBox;
+        if (!userInput || !answerInput || !newPassInput) return;
+        resetBtn.disabled = true;
+        try {
+          await apiPost(API.auth.passwordReset, {
+            username: userInput.value.trim(),
+            security_answer: answerInput.value.trim(),
+            new_password: newPassInput.value,
+          });
+          alert("رمز عبور با موفقیت تغییر کرد.");
+          if (typeof showPage === "function") showPage("page-login");
+        } catch (err) {
+          showFormError(resetError, err.message);
+        } finally {
+          resetBtn.disabled = false;
+        }
+      });
+    }
   };
 
   window.initProtectedPage = function () {
