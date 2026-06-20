@@ -22,7 +22,7 @@
 }
 
 body {
-    font-family: 'IRANSansX', 'Segoe UI', 'Tahoma', 'Vazirmatn', system-ui, -apple-system, sans-serif;
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
     background-color: var(--bg-light);
     display: flex;
     flex-direction: row;
@@ -418,22 +418,30 @@ body {
     flex-shrink: 0;
 }
 
-.page-heading h1 {
-    font-size: 18px;
-    font-weight: 700;
+.page-heading h1,
+.page-heading .section-title,
+.section-heading .section-title {
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
+    font-size: 1.55rem;
+    font-weight: 800;
     color: var(--text-primary);
+    margin: 0 0 0.25rem;
 }
 
 .section-heading h2 {
-    font-size: 16px;
-    font-weight: 600;
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
+    font-size: 1.55rem;
+    font-weight: 800;
     color: var(--text-primary);
+    margin: 0 0 0.25rem;
 }
 
-.page-subtitle {
-    font-size: 13px;
+.page-subtitle,
+.section-subtitle {
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
+    font-size: 0.88rem;
     color: var(--text-secondary);
-    margin-top: 2px;
+    margin: 0;
 }
 
 .loan-card {
@@ -477,6 +485,7 @@ body {
     gap: 7px;
     font-weight: 600;
     padding-right: 2px;
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
 }
 
 .field label i {
@@ -542,7 +551,7 @@ body {
     background: #fff;
     color: var(--text-primary);
     font-size: 14px;
-    font-family: 'IRANSansX', 'Segoe UI', 'Tahoma', 'Vazirmatn', sans-serif;
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
     text-align: right;
     appearance: none;
     outline: none;
@@ -636,7 +645,7 @@ body {
     border-radius: 10px;
     font-size: 15px;
     font-weight: 600;
-    font-family: 'IRANSansX', 'Segoe UI', 'Tahoma', 'Vazirmatn', sans-serif;
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
     cursor: pointer;
     transition: background 0.15s, transform 0.1s;
 }
@@ -657,7 +666,7 @@ body {
     width: 100%;
     border-collapse: collapse;
     font-size: 13.5px;
-    font-family: 'IRANSansX', 'Segoe UI', 'Tahoma', 'Vazirmatn', sans-serif;
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
 }
 
 .loan-table thead th {
@@ -739,7 +748,7 @@ body {
     background: transparent;
     font-size: 12px;
     color: var(--text-secondary);
-    font-family: 'IRANSansX', 'Segoe UI', 'Tahoma', 'Vazirmatn', sans-serif;
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
     cursor: pointer;
     transition: all 0.15s;
 }
@@ -765,7 +774,7 @@ body {
     cursor: pointer;
     border-top: 1px solid var(--border-color);
     transition: background 0.15s;
-    font-family: 'IRANSansX', 'Segoe UI', 'Tahoma', 'Vazirmatn', sans-serif;
+    font-family: "Yekan Bakh", "Segoe UI", Tahoma, sans-serif;
     font-weight: 500;
 }
 
