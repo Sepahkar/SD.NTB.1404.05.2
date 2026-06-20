@@ -156,11 +156,19 @@
     requireAuth();
     populateUserHeader();
 
+    if (typeof setActiveNav === "function") {
+      setActiveNav();
+    }
+
     document.querySelectorAll(".logout a, .logout").forEach(function (el) {
       el.addEventListener("click", function (e) {
         e.preventDefault();
         window.location.href = "/logout/";
       });
     });
+
+    if (typeof initNotifications === "function") {
+      initNotifications();
+    }
   };
 })();

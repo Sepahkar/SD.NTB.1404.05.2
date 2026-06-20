@@ -7,11 +7,10 @@
 
 <link rel="stylesheet" href="style.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="https://cdn.jsdelivr.net/npm/vazirmatn@33.003/Vazirmatn-font-face.css" rel="stylesheet" />
-
-    <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+<link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+<link rel="stylesheet" href="/static/amoozeshyar/student-panel.css">
 </head>
-<body>
+<body class="student-panel">
 
 
 <div class="sidebar">
@@ -21,17 +20,17 @@
             <img src="./assets/images/آمورشیار.png">
         </div>
 
-        <ul>
-            <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
-            <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
-            <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
-            <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
-            <li><a href="/course-selection/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
-            <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
-            <li><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a></li>
-            <li class="active"><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
-            <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
-        </ul>
+                    <ul>
+                <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
+                <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
+                <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
+                <li><a href="/course-search/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
+                <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
+                <li><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a></li>
+                <li><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
+                <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
+            </ul>
     </nav>
 
     <div class="logout">
@@ -69,26 +68,20 @@
 
       <h1 class="page-title">اعتراض به نمره</h1>
 
-      <div class="card">
+      <div class="card objection-card">
         <div class="table-wrap">
-          <table>
+          <table class="objection-table">
             <thead>
               <tr>
                 <th></th>
                 <th>کد ارائه</th>
                 <th>نام درس</th>
                 <th>کد درس</th>
-                <th>تعداد واحد</th>
+                <th>واحد</th>
                 <th>نمره</th>
-                <th>نوع درس</th>
-                <th>نوع درس رشته</th>
-                <th>وضعیت درس دانشجو</th>
-                <th>وضعیت درس در رشته</th>
-                <th>وضعیت اخذ درس</th>
-                <th>وضعیت حذف</th>
-                <th>نمره با ضریب</th>
-                <th>وضعیت قبولی</th>
-                <th>توضیحات</th>
+                <th>استاد</th>
+                <th>ترم</th>
+                <th>وضعیت</th>
               </tr>
             </thead>
             <tbody id="tableBody"></tbody>
@@ -97,47 +90,17 @@
       </div>
 
       <div class="actions-row">
-        <a class="btn-accent" href="page2-objection-form.html">درخواست اعتراض به نمره</a>
+        <a class="btn-accent" href="/grade-objection-form/">درخواست اعتراض به نمره</a>
       </div>
     
 </main>
 
 </div>
 
-<script>
-    const rows = Array(8).fill({
-      code: '6582', name: 'توسعه نرم افزار', courseCode: '6974854415',
-      units: 3, grade: 20, type: 'نظری', courseType: 'تخصصی',
-      studentStatus: 'عادی', fieldStatus: 'عادی', takeStatus: 'عادی',
-      removeStatus: '-', weightedGrade: 60, passStatus: 'غیر نهایی'
-    });
-
-    const tbody = document.getElementById('tableBody');
-    rows.forEach(r => {
-      tbody.innerHTML += `
-        <tr>
-          <td><input type="radio" name="selectedRow" class="row-radio" /></td>
-          <td>${r.code}</td>
-          <td>${r.name}</td>
-          <td>${r.courseCode}</td>
-          <td>${r.units}</td>
-          <td>${r.grade}</td>
-          <td>${r.type}</td>
-          <td>${r.courseType}</td>
-          <td>${r.studentStatus}</td>
-          <td>${r.fieldStatus}</td>
-          <td>${r.takeStatus}</td>
-          <td>${r.removeStatus}</td>
-          <td>${r.weightedGrade}</td>
-          <td>${r.passStatus}</td>
-          <td><button style="background:none;border:none;cursor:pointer;color:#B9B2F3;font-size:16px;">📋</button></td>
-        </tr>`;
-    });
-  </script>
-
-
 <script src="/static/amoozeshyar/api-client.js"></script>
 <script src="/static/amoozeshyar/utils.js"></script>
+<script src="/static/amoozeshyar/nav.js"></script>
+<script src="/static/amoozeshyar/notifications.js"></script>
 <script src="/static/amoozeshyar/auth.js"></script>
 <script src="/static/amoozeshyar/pages/forms.js"></script>
 <script>initProtectedPage(); initGradeObjectionPage();</script>

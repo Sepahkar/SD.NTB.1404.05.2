@@ -7,44 +7,37 @@
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
+    <link rel="stylesheet" href="/static/amoozeshyar/student-panel.css">
 </head>
-<body>
-    <!-- سایدبار (سمت چپ) -->
+<body class="student-panel">
     <div class="sidebar">
         <nav class="menu">
             <div class="icon-box">
                 <img src="./assets/images/لوگو.png" alt="آموزشیار">
                 <img src="./assets/images/آمورشیار.png">
             </div>
-            
             <ul>
                 <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
                 <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
-                <li class="active"><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
+                <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
                 <li><a href="/add-drop/"><i class="fas fa-plus-minus"></i> <span>حذف و اضافه</span></a></li>
-                <li><a href="/course-selection/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
+                <li><a href="/course-search/"><i class="fas fa-search"></i> <span>جستجوی دروس</span></a></li>
                 <li><a href="/emergency-removal/"><i class="fas fa-trash-alt"></i> <span>حذف اضطراری</span></a></li>
                 <li><a href="/full-transcript/"><i class="fas fa-chart-line"></i> <span>کارنامه کلی</span></a></li>
                 <li><a href="/grade-objection/"><i class="fas fa-comment-dots"></i> <span>اعتراض به نمره</span></a></li>
                 <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
             </ul>
         </nav>
-        
         <div class="logout">
             <a href="/logout/"><i class="fas fa-sign-out-alt"></i> <span>خروج از سیستم</span></a>
         </div>
     </div>
 
-    <!-- محتوای اصلی -->
     <div class="main-content">
         <header class="header">
             <div class="header-left">
-                <div class="cancel-icon">
-                    <img src="./assets/images/cancel.png">
-                </div>
-                <div class="notification-icon">
-                    <img src="./assets/images/bell-notification.png">
-                </div>
+                <div class="cancel-icon"><img src="./assets/images/cancel.png" alt=""></div>
+                <div class="notification-icon"><img src="./assets/images/bell-notification.png" alt=""></div>
             </div>
             <div class="header-right">
                 <div class="user-details">
@@ -54,70 +47,27 @@
                     </div>
                 </div>
                 <div class="user-avatar">
-                    <img src="./assets/images/Avatar.png">
+                    <img src="./assets/images/Avatar.png" alt="">
                 </div>
             </div>
         </header>
 
-        <!-- بخش انتخاب واحد -->
         <div class="unit-selection">
-
             <h1 class="page-title">پنل انتخاب واحد</h1>
-
+            <div id="form-error" class="hub-error"></div>
             <div class="unit-grid">
-
-                <!-- کارت افزودن درس جدید -->
-                <div class="unit-card">
+                <div class="unit-card" id="course-available-card">
                     <div class="unit-card-title">
-                        <span>افزودن درس جدید</span>
+                        <span>دروس قابل اخذ</span>
                         <i class="fas fa-plus-circle"></i>
                     </div>
-
-                    <div class="form-group">
-                        <label>کد درس</label>
-                        <input type="text" placeholder="کد درس را وارد کنید">
-                    </div>
-
-                    <div class="form-group">
-                        <label>عنوان درس</label>
-                        <input type="text" placeholder="عنوان درس را وارد کنید">
-                    </div>
-
-                    <div class="form-group">
-                        <label>روز</label>
-                        <select>
-                            <option selected disabled>انتخاب روز</option>
-                            <option>شنبه</option>
-                            <option>یکشنبه</option>
-                            <option>دوشنبه</option>
-                            <option>سه شنبه</option>
-                            <option>چهارشنبه</option>
-                            <option>پنجشنبه</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label>ساعت</label>
-                        <select>
-                            <option selected disabled>انتخاب ساعت</option>
-                            <option>08:00 - 10:00</option>
-                            <option>10:00 - 12:00</option>
-                            <option>12:00 - 14:00</option>
-                            <option>14:00 - 16:00</option>
-                            <option>16:00 - 18:00</option>
-                        </select>
-                    </div>
-
-                    <button class="add-btn">افزودن</button>
+                    <div id="available-offers-list"></div>
                 </div>
-
-                <!-- کارت دروس انتخاب شده -->
-                <div class="unit-card">
+                <div class="unit-card" id="course-enrolled-card">
                     <div class="unit-card-title">
                         <span>دروس انتخاب شده</span>
                         <i class="fas fa-list"></i>
                     </div>
-
                     <table class="unit-table">
                         <thead>
                             <tr>
@@ -125,58 +75,26 @@
                                 <th>عنوان درس</th>
                                 <th>استاد</th>
                                 <th>زمان</th>
-                                <th>حذف</th>
+                                <th>واحد</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>1201</td>
-                                <td>ریاضی عمومی 1</td>
-                                <td>دکتر احمدی</td>
-                                <td>شنبه 8:00-10:00</td>
-                                <td><i class="fas fa-trash-alt delete-icon"></i></td>
-                            </tr>
-                            <tr>
-                                <td>1201</td>
-                                <td>ریاضی عمومی 1</td>
-                                <td>دکتر احمدی</td>
-                                <td>شنبه 8:00-10:00</td>
-                                <td><i class="fas fa-trash-alt delete-icon"></i></td>
-                            </tr>
-                            <tr>
-                                <td>1201</td>
-                                <td>ریاضی عمومی 1</td>
-                                <td>دکتر احمدی</td>
-                                <td>شنبه 8:00-10:00</td>
-                                <td><i class="fas fa-trash-alt delete-icon"></i></td>
-                            </tr>
-                            <tr>
-                                <td>1201</td>
-                                <td>ریاضی عمومی 1</td>
-                                <td>دکتر احمدی</td>
-                                <td>شنبه 8:00-10:00</td>
-                                <td><i class="fas fa-trash-alt delete-icon"></i></td>
-                            </tr>
-                        </tbody>
+                        <tbody id="enrolled-offers-body"></tbody>
                     </table>
-
                     <div class="unit-footer">
-                        <span>تعداد کل دروس: <strong>4</strong></span>
-                        <span>تعداد واحد ها: <strong>12</strong></span>
+                        <span>تعداد کل دروس: <strong id="enrolled-count">0</strong></span>
+                        <span>ترم: <strong id="enrolled-term">—</strong></span>
                     </div>
                 </div>
-
             </div>
         </div>
-
     </div>
-
 
 <script src="/static/amoozeshyar/api-client.js"></script>
 <script src="/static/amoozeshyar/utils.js"></script>
+<script src="/static/amoozeshyar/nav.js"></script>
+<script src="/static/amoozeshyar/notifications.js"></script>
 <script src="/static/amoozeshyar/auth.js"></script>
 <script src="/static/amoozeshyar/pages/forms.js"></script>
 <script>initProtectedPage(); initCourseSelectionPage();</script>
-
 </body>
 </html>

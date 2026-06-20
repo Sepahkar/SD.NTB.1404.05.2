@@ -3,22 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>داشبورد آموزشیار | سامانه دانشجویی</title>
+    <title>جستجوی دروس | آموزشیار</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/static/amoozeshyar/yekan-bakh.css">
     <link rel="stylesheet" href="/static/amoozeshyar/student-panel.css">
 </head>
 <body class="student-panel">
-    <!-- سایدبار (سمت چپ) -->
     <div class="sidebar">
         <nav class="menu">
             <div class="icon-box">
                 <img src="./assets/images/لوگو.png" alt="آموزشیار">
                 <img src="./assets/images/آمورشیار.png">
             </div>
-            
-                        <ul>
+            <ul>
                 <li><a href="/dashboard/"><i class="fas fa-tachometer-alt"></i> <span>داشبورد</span></a></li>
                 <li><a href="/teachers/"><i class="fas fa-chalkboard-teacher"></i> <span>معرفی اساتید</span></a></li>
                 <li><a href="/course-selection/"><i class="fas fa-book-open"></i> <span>انتخاب واحد</span></a></li>
@@ -30,28 +28,17 @@
                 <li><a href="/financial/"><i class="fas fa-coins"></i> <span>امور مالی</span></a></li>
             </ul>
         </nav>
-        
         <div class="logout">
             <a href="/logout/"><i class="fas fa-sign-out-alt"></i> <span>خروج از سیستم</span></a>
         </div>
     </div>
 
-    <!-- محتوای اصلی -->
     <div class="main-content">
         <header class="header">
-            <!-- سمت چپ هدر: نوتیفیکیشن (خاکستری) -->
             <div class="header-left">
-                <div class="cancel-icon">
-                    <img src="./assets/images/cancel.png">
-                </div>
-                <div class="notification-icon">
-                    <img src="./assets/images/bell-notification.png">
-                </div>
-              
-
+                <div class="cancel-icon"><img src="./assets/images/cancel.png" alt=""></div>
+                <div class="notification-icon"><img src="./assets/images/bell-notification.png" alt=""></div>
             </div>
-
-            <!-- سمت راست هدر: آواتار + اطلاعات کاربر -->
             <div class="header-right">
                 <div class="user-details">
                     <h3 class="student-name">نام دانشجو</h3>
@@ -60,121 +47,68 @@
                     </div>
                 </div>
                 <div class="user-avatar">
-                    <img src="./assets/images/Avatar.png">
+                    <img src="./assets/images/Avatar.png" alt="">
                 </div>
             </div>
         </header>
-        <h1 class="page-title">حذف و اضافه</h1>
-        <div class="title-line"></div>
 
+        <h1 class="page-title">جستجوی دروس</h1>
+        <div class="title-line"></div>
         <div id="form-error" class="hub-error"></div>
 
-        <div class="alert-box">
-            ✔ بازه حذف و اضافه فعال است
+        <div class="alert-box alert-box--info">
+            <i class="fas fa-search"></i> دروس قابل اخذ ترم جاری را جستجو و مستقیماً اخذ کنید
         </div>
 
-        <div class="cards">
-
-            <!-- افزودن درس -->
-
+        <div class="cards cards--single">
             <div class="card">
-
-                <div class="card-header">
-                    <span class="plus">⊕</span>
-                    <h2 class="card-title">افزودن درس جدید</h2>
-                   
-                </div>
-
-                <div class="form-row">
-
-                    <div class="group">
-                        <label>کد درس</label>
-                        <input type="text" id="adddrop-code" placeholder="کد درس را وارد کنید">
-                    </div>
-
-                    <div class="group">
-                        <label>عنوان درس</label>
-                        <input type="text" id="adddrop-title" placeholder="عنوان درس را وارد کنید">
-                    </div>
-
-                </div>
-
-                <div class="form-row">
-
-                    <div class="group">
-                        <label>روز</label>
-                        <select>
-                            <option>انتخاب روز</option>
-                        </select>
-                    </div>
-
-                    <div class="group">
-                        <label>ساعت</label>
-                        <select>
-                            <option>انتخاب ساعت</option>
-                        </select>
-                    </div>
-
-                </div>
-
-                <button type="button" class="add-btn" id="adddrop-enroll-btn">
-                    افزودن
-                </button>
-
-                <table class="mini-table">
-                    <thead>
-                        <tr>
-                            <th>کد درس</th>
-                            <th>عنوان درس</th>
-                            <th>نام استاد</th>
-                            <th>تعداد واحد</th>
-                            <th>عملیات</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adddrop-available-body"></tbody>
-                </table>
-
-            </div>
-
-            <!-- دروس انتخاب شده -->
-
-            <div class="card">
-
                 <div class="card-header">
                     <span class="search">⌕</span>
-                    <h2 class="card-title" style="font-size:22px">
-                        دروس انتخاب شده
-                    </h2>
+                    <h2 class="card-title">فیلتر جستجو</h2>
                 </div>
-
-                <table class="selected-table">
-
-                    <thead>
-                        <tr>
-                            <th>کد درس</th>
-                            <th>عنوان درس</th>
-                            <th>استاد</th>
-                            <th>زمان</th>
-                            <th>حذف</th>
-                        </tr>
-                    </thead>
-
-                    <tbody id="adddrop-enrolled-body">
-                    </tbody>
-
-                </table>
-
-                <button class="save-btn">
-                    ثبت تغییرات
-                </button>
-
+                <div class="form-row">
+                    <div class="group">
+                        <label for="search-code">کد درس</label>
+                        <input type="text" id="search-code" placeholder="مثلاً 1201">
+                    </div>
+                    <div class="group">
+                        <label for="search-title">عنوان درس</label>
+                        <input type="text" id="search-title" placeholder="نام درس را وارد کنید">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="group">
+                        <label for="search-teacher">نام استاد</label>
+                        <input type="text" id="search-teacher" placeholder="نام استاد">
+                    </div>
+                    <div class="group">
+                        <label for="search-term">ترم</label>
+                        <input type="text" id="search-term" readonly placeholder="ترم جاری">
+                    </div>
+                </div>
+                <button type="button" class="add-btn" id="search-run-btn">جستجو</button>
             </div>
-
         </div>
 
-
-
-        
+        <div class="card card--full">
+            <div class="card-header">
+                <span class="search">⌕</span>
+                <h2 class="card-title">نتایج جستجو <span id="search-count" class="result-count"></span></h2>
+            </div>
+            <table class="mini-table">
+                <thead>
+                    <tr>
+                        <th>کد درس</th>
+                        <th>عنوان درس</th>
+                        <th>استاد</th>
+                        <th>واحد</th>
+                        <th>وضعیت</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody id="search-results-body"></tbody>
+            </table>
+        </div>
     </div>
 
 <script src="/static/amoozeshyar/api-client.js"></script>
@@ -183,7 +117,6 @@
 <script src="/static/amoozeshyar/notifications.js"></script>
 <script src="/static/amoozeshyar/auth.js"></script>
 <script src="/static/amoozeshyar/pages/forms.js"></script>
-<script>initProtectedPage(); initAddDropPage();</script>
-
+<script>initProtectedPage(); initCourseSearchPage();</script>
 </body>
 </html>
