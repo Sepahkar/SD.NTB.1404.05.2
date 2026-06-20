@@ -5,6 +5,7 @@ from django.http import FileResponse, Http404, HttpResponse
 from django.views import View
 
 from core.frontend_registry import FRONTEND_PAGES, MIME_TYPES, get_page_directory, get_page_html_path
+from core.frontend_shell import enrich_frontend_html
 
 
 class LogoutPageView(View):
@@ -51,7 +52,9 @@ class FrontendSiteView(View):
         if html_path is None:
             raise Http404
 
-        return FileResponse(open(html_path, "rb"), content_type="text/html; charset=utf-8")
+        html = html_path.read_text(encoding="utf-8")
+        html = enrich_frontend_html(html, slug)
+        return HttpResponse(html, content_type="text/html; charset=utf-8")
 
     def _serve_asset(self, page_dir: Path, asset_path: str) -> FileResponse:
         safe_path = Path(asset_path)
